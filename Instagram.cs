@@ -50,7 +50,7 @@ namespace madamin.unfollow
                 case InstaLoginResult.ChallengeRequired:
                     throw new ChallengeException();
                 default:
-                    throw new Exception(result.Value.ToString());
+                    throw result.Info.Exception;
             }
         }
 

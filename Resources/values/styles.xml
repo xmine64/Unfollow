@@ -15,6 +15,9 @@
 
 		<item name="android:navigationBarColor">@android:color/transparent</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
+
+		<item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+		<item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 		
 		<item name="toolbarStyle">@style/AppTheme.Widget.MaterialComponents.Toolbar</item>
 		<item name="bottomNavigationStyle">@style/AppTheme.Widget.MaterialComponents.BottomNavigationView</item>
