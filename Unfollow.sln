@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unfollow", "Unfollow.csproj", "{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DDC858B4-0680-424A-9EDC-0EE1832B63D5}
+	EndGlobalSection
+EndGlobal

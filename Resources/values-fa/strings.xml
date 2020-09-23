@@ -1,0 +1,33 @@
+<resources>
+	<string name="app_name">آنفالویاب</string>
+
+	<string name="home">خانه</string>
+	<string name="unfollows">آنفالورها</string>
+	<string name="settings">تنظیمات</string>
+
+	<string name="login">ورود به حساب</string>
+	<string name="username">نام کاربری</string>
+	<string name="password">کلمه عبور</string>
+
+	<string name="error">خطا</string>
+
+	<string name="err_password">کلمه عبور نامعتبر</string>
+	<string name="err_login">خطا هنگام ورود</string>
+
+	<string name="msg_welcome">خوش آمدید {0}!</string>
+
+	<string name="menu_about">درباره..</string>
+	<string name="menu_exit">خروج</string>
+
+	<string name="msg_about">آنفالویاب ساده\nتوسط محمدامین ملازاده؛ حق کپی محفوظ است.</string>
+
+	<string name="descript_profile">تصویر نمایه</string>
+
+	<string name="refresh">بروزرسانی</string>
+	<string name="logout">خروج از حساب</string>
+	
+	<string name="unfollow">آنفالو</string>
+	<string name="openprofile">بازکردن</string>
+
+	<string name="msg_ffnumber">{0} فالویینگ | {1} فالور</string>
+</resources>
