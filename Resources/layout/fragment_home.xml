@@ -87,14 +87,6 @@
                             android:orientation="horizontal"
                     >
                             <com.google.android.material.button.MaterialButton
-                                android:id="@+id/home_button_refresh"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/refresh"
-                                style="@style/Widget.MaterialComponents.Button.TextButton"
-                                android:padding="2dp"
-                    />
-                            <com.google.android.material.button.MaterialButton
                                 android:id="@+id/home_button_logout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

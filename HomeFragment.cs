@@ -29,11 +29,24 @@ namespace madamin.unfollow
         {
             base.OnViewCreated(view, savedInstanceState);
 
+            var ig = (IInstagramActivity)Activity;
+
             var appbar = view.FindViewById<MaterialToolbar>(Resource.Id.home_appbar);
-            appbar.MenuItemClick += (sender, args) =>
+            appbar.MenuItemClick += async (sender, args) =>
             {
                 switch (args.Item.ItemId)
                 {
+                    case Resource.Id.appmenu_item_refresh:
+                        try
+                        {
+                            await ig.RefreshCache();
+                        }
+                        catch
+                        {
+                            Toast.MakeText(Activity, Resource.String.error, ToastLength.Long).Show();
+                        }
+                        ((INavigationHost)Activity).NavigateTo(new HomeFragment(), false);
+                        break;
                     case Resource.Id.appmenu_item_about:
                         new MaterialAlertDialogBuilder(Activity)
                         .SetTitle(Resource.String.menu_about)
@@ -47,40 +60,22 @@ namespace madamin.unfollow
                 }
             };
 
-            var ig = (IInstagramActivity)Activity;
-
-            view.FindViewById<MaterialTextView>(Resource.Id.home_fullname).Text = 
+            view.FindViewById<MaterialTextView>(Resource.Id.home_fullname).Text =
                 ig.Instagram.Data.User.Fullname;
 
-            view.FindViewById<MaterialTextView>(Resource.Id.home_username).Text = 
+            view.FindViewById<MaterialTextView>(Resource.Id.home_username).Text =
                 "@" + ig.Instagram.Data.User.Username;
 
             view.FindViewById<MaterialTextView>(Resource.Id.home_ffnumbers).Text =
                 string.Format(GetString(Resource.String.msg_ffnumber),
                 ig.Instagram.Data.Followings.Count, ig.Instagram.Data.Followers.Count);
 
-            var refresh = view.FindViewById<MaterialButton>(Resource.Id.home_button_refresh);
-            refresh.Click += async (button, args) =>
-            {
-                refresh.Enabled = false;
-                try
-                {
-                    await ig.RefreshCache();
-                }
-                catch
-                {
-                    refresh.Enabled = true;
-                    Toast.MakeText(Activity, Resource.String.error, ToastLength.Long).Show();
-                }
-                ((INavigationHost)Activity).NavigateTo(new HomeFragment(), false);
-            };
-
             var logout = view.FindViewById<MaterialButton>(Resource.Id.home_button_logout);
             logout.Click += (button, args) =>
             {
                 logout.Enabled = false;
                 try
-                { 
+                {
                     ig.Logout();
                 }
                 catch
