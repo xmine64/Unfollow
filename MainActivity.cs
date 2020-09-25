@@ -29,9 +29,6 @@ namespace madamin.unfollow
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
     public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity
     {
-        private MaterialToolbar _appbar;
-        private BottomNavigationView _navbar;
-
         private string _session_data_path;
         private string _cache_data_path;
 
@@ -55,13 +52,8 @@ namespace madamin.unfollow
 
             SetContentView(Resource.Layout.activity_main);
 
-            _appbar = FindViewById<MaterialToolbar>(Resource.Id.main_appbar);
-            _navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
-
-            SetSupportActionBar(_appbar);
-
-            _appbar.MenuItemClick += AppBar_MenuItemClick;
-            _navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
+            var navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);            
+            navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
 
             _cache_data_path = Path.Combine(CacheDir.AbsolutePath, "cache_data");
             if (File.Exists(_cache_data_path))
@@ -101,23 +93,6 @@ namespace madamin.unfollow
                     break;
                 case Resource.Id.navbar_item_settings:
                     NavigateTo(_fragment_settings, false);
-                    break;
-            }
-        }
-
-        private void AppBar_MenuItemClick(object sender, AndroidX.AppCompat.Widget.Toolbar.MenuItemClickEventArgs e)
-        {
-            switch (e.Item.ItemId)
-            {
-                case Resource.Id.appmenu_item_about:
-                    new MaterialAlertDialogBuilder(this)
-                    .SetTitle(Resource.String.menu_about)
-                    .SetNeutralButton(Android.Resource.String.Ok, (dialog, args) => { })
-                    .SetMessage(Resource.String.msg_about)
-                    .Show();
-                    break;
-                case Resource.Id.appmenu_item_exit:
-                    Finish();
                     break;
             }
         }

@@ -11,7 +11,9 @@ using Android.Views;
 using Android.Widget;
 
 using AndroidX.Fragment.App;
+using Google.Android.Material.AppBar;
 using Google.Android.Material.Button;
+using Google.Android.Material.Dialog;
 using Google.Android.Material.TextView;
 
 namespace madamin.unfollow
@@ -26,6 +28,24 @@ namespace madamin.unfollow
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
+
+            var appbar = view.FindViewById<MaterialToolbar>(Resource.Id.home_appbar);
+            appbar.MenuItemClick += (sender, args) =>
+            {
+                switch (args.Item.ItemId)
+                {
+                    case Resource.Id.appmenu_item_about:
+                        new MaterialAlertDialogBuilder(Activity)
+                        .SetTitle(Resource.String.menu_about)
+                        .SetNeutralButton(Android.Resource.String.Ok, (dialog, Activity) => { })
+                        .SetMessage(Resource.String.msg_about)
+                        .Show();
+                        break;
+                    case Resource.Id.appmenu_item_exit:
+                        Activity.Finish();
+                        break;
+                }
+            };
 
             var ig = (IInstagramActivity)Activity;
 
@@ -66,7 +86,7 @@ namespace madamin.unfollow
                 catch
                 {
                     logout.Enabled = true;
-                    // TODO: Show Error
+                    Toast.MakeText(Activity, Resource.String.error, ToastLength.Long);
                 }
             };
         }
