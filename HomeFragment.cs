@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 
 using AndroidX.Fragment.App;
+using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.Button;
 using Google.Android.Material.Dialog;
@@ -60,30 +61,60 @@ namespace madamin.unfollow
                 }
             };
 
-            view.FindViewById<MaterialTextView>(Resource.Id.home_fullname).Text =
-                ig.Instagram.Data.User.Fullname;
+            var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
+            
+            var layout_manager = new LinearLayoutManager(Activity);
+            recycler.SetLayoutManager(layout_manager);
 
-            view.FindViewById<MaterialTextView>(Resource.Id.home_username).Text =
-                "@" + ig.Instagram.Data.User.Username;
-
-            view.FindViewById<MaterialTextView>(Resource.Id.home_ffnumbers).Text =
-                string.Format(GetString(Resource.String.msg_ffnumber),
-                ig.Instagram.Data.Followings.Count, ig.Instagram.Data.Followers.Count);
-
-            var logout = view.FindViewById<MaterialButton>(Resource.Id.home_button_logout);
-            logout.Click += (button, args) =>
-            {
-                logout.Enabled = false;
-                try
-                {
-                    ig.Logout();
-                }
-                catch
-                {
-                    logout.Enabled = true;
-                    Toast.MakeText(Activity, Resource.String.error, ToastLength.Long);
-                }
-            };
+            var adapter = new AccountAdapter(ig.Instagram.Data);
+            recycler.SetAdapter(adapter);
         }
+    }
+
+    class AccountViewHolder : RecyclerView.ViewHolder
+    {
+        private MaterialTextView _tv_fullname;
+        private MaterialTextView _tv_username;
+        private MaterialTextView _tv_followers;
+        private MaterialButton _btn_logout;
+
+        public AccountViewHolder(View item) : base(item)
+        {
+            _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_account_fullname);
+            _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_account_username);
+            _tv_followers = item.FindViewById<MaterialTextView>(Resource.Id.item_account_followers);
+            _btn_logout = item.FindViewById<MaterialButton>(Resource.Id.item_account_logout);
+        }
+
+        public void SetData(InstagramData data)
+        {
+            _tv_fullname.Text = data.User.Fullname;
+            _tv_username.Text = "@" + data.User.Username;
+            _tv_followers.Text = string.Format(_tv_followers.Text, data.Followings.Count, data.Followers.Count);
+        }
+    }
+
+    class AccountAdapter : RecyclerView.Adapter
+    {
+        public AccountAdapter(InstagramData data)
+        {
+            _account_data = data;
+        }
+
+        public override int ItemCount => 1;
+
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        {
+            (holder as AccountViewHolder).SetData(_account_data);
+        }
+
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            var view_item = LayoutInflater.From(parent.Context)
+                .Inflate(Resource.Layout.item_account, parent, false);
+            return new AccountViewHolder(view_item);
+        }
+
+        private InstagramData _account_data;
     }
 }
