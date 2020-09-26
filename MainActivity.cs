@@ -47,6 +47,14 @@ namespace madamin.unfollow
                 return;
             }
 
+            // TODO: Load Preferences Settings
+            // if (theme == adaptive)
+            //  Theme.ApplyStyle(Resource.Style.AppTheme, true);
+            // else if (theme == light)
+            //  Theme.ApplyStyle(Resource.Style.AppTheme_Light, true);
+            // else if (theme == dark)
+            //  Theme.ApplyStyle(Resource.Style.AppTheme_Dark, true);
+
             Instagram = new Instagram(_session_data_path);
             Instagram.Load();
 

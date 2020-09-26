@@ -1,8 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-	<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+	<!-- Adaptive Theme -->
+	<style name="AppTheme" parent="AppTheme.Light">
+	</style>
+	
+	<!-- Light Theme -->
+	<style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
 		<item name="android:colorBackground">@color/backgroundColor</item>
 		<item name="android:windowBackground">?android:attr/colorBackground</item>
 		<item name="android:textColor">@color/foregroundColor</item>
+		
+		<item name="colorSurface">?android:attr/colorBackground</item>
 
 		<item name="colorPrimary">@color/primaryColor</item>
 		<item name="colorPrimaryDark">@color/primaryDarkColor</item>
@@ -19,12 +26,43 @@
 		<item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
 		<item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 		
-		<item name="toolbarStyle">@style/AppTheme.Widget.MaterialComponents.Toolbar</item>
-		<item name="bottomNavigationStyle">@style/AppTheme.Widget.MaterialComponents.BottomNavigationView</item>
+		<item name="toolbarStyle">@style/AppTheme.Light.Widget.MaterialComponents.Toolbar</item>
+		<item name="bottomNavigationStyle">@style/AppTheme.Light.Widget.MaterialComponents.BottomNavigationView</item>
 	</style>
 	
-	<style name="AppTheme.Widget.MaterialComponents.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+	<style name="AppTheme.Light.Widget.MaterialComponents.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
 	</style>
-	<style name="AppTheme.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+	
+	<style name="AppTheme.Light.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+	</style>
+
+	<!-- Dark Theme -->
+	<style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+		<item name="android:colorBackground">@color/backgroundColor</item>
+		<item name="android:windowBackground">?android:attr/colorBackground</item>
+		<item name="android:textColor">@color/foregroundColor</item>
+		
+		<item name="colorSurface">?android:attr/colorBackground</item>
+
+		<item name="colorPrimary">@color/primaryColor</item>
+		<item name="colorPrimaryDark">@color/primaryDarkColor</item>
+		<item name="colorOnPrimary">@color/primaryTextColor</item>
+
+		<item name="colorSecondary">@color/secondaryColor</item>
+		<item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+		<item name="colorOnSecondary">@color/secondaryTextColor</item>
+		<item name="colorAccent">@color/accentColor</item>
+
+		<item name="android:navigationBarColor">@android:color/transparent</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+
+		<item name="toolbarStyle">@style/AppTheme.Dark.Widget.MaterialComponents.Toolbar</item>
+		<item name="bottomNavigationStyle">@style/AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView</item>
+	</style>
+
+	<style name="AppTheme.Dark.Widget.MaterialComponents.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+	</style>
+	
+	<style name="AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
 	</style>
 </resources>
