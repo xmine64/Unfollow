@@ -10,14 +10,15 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Fragment.App;
+using AndroidX.Preference;
 
 namespace madamin.unfollow
 {
-    public class SettingsFragment : Fragment
+    public class SettingsFragment : PreferenceFragmentCompat
     {
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)
         {
-            return inflater.Inflate(Resource.Layout.fragment_settings, container, false);
+            SetPreferencesFromResource(Resource.Xml.settings, rootKey);
         }
     }
 }

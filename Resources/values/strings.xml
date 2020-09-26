@@ -30,4 +30,7 @@
 	<string name="openprofile">Open</string>
 
 	<string name="msg_ffnumber">{0} Followings | {1} Followers</string>
+
+	<string name="themes">Themes</string>
+	<string name="settings_theme">Prefered Theme</string>
 </resources>

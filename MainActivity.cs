@@ -13,6 +13,7 @@ using Android.Content;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Dialog;
+using AndroidX.Preference;
 
 namespace madamin.unfollow
 {
@@ -27,7 +28,8 @@ namespace madamin.unfollow
 
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
-    public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity
+    public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity, 
+        ISharedPreferencesOnSharedPreferenceChangeListener
     {
         private string _session_data_path;
         private string _cache_data_path;
@@ -47,13 +49,13 @@ namespace madamin.unfollow
                 return;
             }
 
-            // TODO: Load Preferences Settings
-            // if (theme == adaptive)
-            //  Theme.ApplyStyle(Resource.Style.AppTheme, true);
-            // else if (theme == light)
-            //  Theme.ApplyStyle(Resource.Style.AppTheme_Light, true);
-            // else if (theme == dark)
-            //  Theme.ApplyStyle(Resource.Style.AppTheme_Dark, true);
+            var pref = PreferenceManager.GetDefaultSharedPreferences(this);
+            var apptheme = pref.GetString("theme", "Adaptive");
+            if (apptheme == "Light")
+                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+            else if (apptheme == "Dark")
+                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
+            pref.RegisterOnSharedPreferenceChangeListener(this);
 
             Instagram = new Instagram(_session_data_path);
             Instagram.Load();
@@ -79,6 +81,20 @@ namespace madamin.unfollow
 
             if (savedInstanceState != null) return;
             SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
+        }
+
+        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        {
+            if (key == "theme")
+            {
+                var apptheme = sharedPreferences.GetString("theme", "Adapative");
+                if (apptheme == "Adaptive")
+                    AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightFollowSystem;
+                else if (apptheme == "Light")
+                    AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+                else if (apptheme == "Dark")
+                    AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
+            }
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
