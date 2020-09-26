@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
+	<string-array name="settings_themes_values">
+		<item>adaptive</item>
+		<item>light</item>
+		<item>dark</item>
+	</string-array>
+	
 	<string-array name="settings_themes">
 		<item>Adaptive</item>
 		<item>Light</item>

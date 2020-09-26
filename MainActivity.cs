@@ -50,9 +50,9 @@ namespace madamin.unfollow
 
             var apptheme = PreferenceManager.GetDefaultSharedPreferences(this)
                 .GetString("theme", "");
-            if (apptheme == "Light")
+            if (apptheme == "light")
                 AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
-            else if (apptheme == "Dark")
+            else if (apptheme == "dark")
                 AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
 
             Instagram = new Instagram(_session_data_path);

@@ -28,12 +28,12 @@ namespace madamin.unfollow
         {
             if (key == "theme")
             {
-                var apptheme = sharedPreferences.GetString("theme", "Adapative");
-                if (apptheme == "Adaptive")
+                var apptheme = sharedPreferences.GetString("theme", "adaptive");
+                if (apptheme == "adaptive")
                     AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightFollowSystem;
-                else if (apptheme == "Light")
+                else if (apptheme == "light")
                     AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
-                else if (apptheme == "Dark")
+                else if (apptheme == "dark")
                     AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
             }
         }

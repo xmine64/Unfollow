@@ -9,6 +9,6 @@
 			app:title="@string/settings_theme"
 			app:useSimpleSummaryProvider="true"
 			app:entries="@array/settings_themes"
-			app:entryValues="@array/settings_themes"/>
+			app:entryValues="@array/settings_themes_values"/>
 	</PreferenceCategory>
 </PreferenceScreen>

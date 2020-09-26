@@ -440,6 +440,9 @@ namespace madamin.unfollow
 			// aapt resource value: 0x7F030000
 			public const int settings_themes = 2130903040;
 			
+			// aapt resource value: 0x7F030001
+			public const int settings_themes_values = 2130903041;
+			
 			static Array()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
