@@ -7,5 +7,6 @@
 		  app:showAsAction="always" />
 	<item android:id="@+id/appbar_home_item_addaccount"
 		  android:title="@string/menu_addaccount"
+		  android:icon="@drawable/ic_add_black_24dp"
 		  app:showAsAction="ifRoom"/>
 </menu>

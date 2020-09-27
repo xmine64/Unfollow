@@ -5,9 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
-using Android.OS;
 using InstagramApiSharp.Classes;
-using InstagramApiSharp.Classes.SessionHandlers;
 using IInstaApi = InstagramApiSharp.API.IInstaApi;
 using InstaApiBuilder = InstagramApiSharp.API.Builder.InstaApiBuilder;
 

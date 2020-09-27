@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
+﻿using Android.OS;
 using Android.Views;
-using Android.Widget;
-
 using AndroidX.Fragment.App;
 using AndroidX.RecyclerView.Widget;
-using Google.Android.Material.AppBar;
 using Google.Android.Material.Button;
-using Google.Android.Material.Dialog;
 using Google.Android.Material.TextView;
+using System;
 
 namespace madamin.unfollow
 {
@@ -23,6 +12,7 @@ namespace madamin.unfollow
     {
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            HasOptionsMenu = true;
             return inflater.Inflate(Resource.Layout.fragment_home, container, false);
         }
 
@@ -30,22 +20,10 @@ namespace madamin.unfollow
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            var ig = (IInstagramActivity)Activity;
-
+            _adapter = new AccountAdapter((IInstagramActivity)Activity);
             var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
-
-            var layout_manager = new LinearLayoutManager(Activity);
-            recycler.SetLayoutManager(layout_manager);
-
-            var adapter = new AccountAdapter(ig);
-            recycler.SetAdapter(adapter);
-
-            case Resource.Id.appmenu_item_addaccount:
-                    break;
-                case Resource.Id.appmenu_item_refresh:
-                    await Instagram.RefreshAll();
-            NavigateTo(_fragment_home, false);
-            break;
+            recycler.SetLayoutManager(new LinearLayoutManager(Activity));
+            recycler.SetAdapter(_adapter);
         }
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
@@ -53,6 +31,27 @@ namespace madamin.unfollow
             inflater.Inflate(Resource.Menu.appbar_menu_home, menu);
             base.OnCreateOptionsMenu(menu, inflater);
         }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.appbar_home_item_addaccount:
+                    ((INavigationHost)Activity).NavigateTo(new LoginFragment(), true);
+                    _adapter.NotifyDataSetChanged();
+                    return true;
+                case Resource.Id.appbar_home_item_refresh:
+                    new Action(async () => 
+                    { 
+                        await ((IInstagramActivity)Activity).Instagram.RefreshAll(); 
+                    }).Invoke();
+                    _adapter.NotifyDataSetChanged();
+                    return true;
+            }
+            return false;
+        }
+
+        private AccountAdapter _adapter;
     }
 
     class AccountViewHolder : RecyclerView.ViewHolder

@@ -43,8 +43,8 @@ namespace madamin.unfollow
             var navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
             navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
 
-            var appbar = FindViewById<MaterialToolbar>(Resource.Id.main_appbar);
-            appbar.MenuItemClick += Appbar_MenuItemClick;
+            SetSupportActionBar(
+                FindViewById<MaterialToolbar>(Resource.Id.main_appbar));
 
             Instagram = new Instagram
             {
@@ -68,9 +68,15 @@ namespace madamin.unfollow
             SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
         }
 
-        private void Appbar_MenuItemClick(object sender, AndroidX.AppCompat.Widget.Toolbar.MenuItemClickEventArgs args)
+        public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            switch (args.Item.ItemId)
+            MenuInflater.Inflate(Resource.Menu.appbar_menu_main, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
             {
                 case Resource.Id.appbar_main_item_about:
                     new MaterialAlertDialogBuilder(this)
@@ -78,21 +84,14 @@ namespace madamin.unfollow
                         .SetMessage(Resource.String.msg_about)
                         .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
                         .Show();
-                    break;
+                    return true;
                 case Resource.Id.appbar_main_item_exit:
                     Finish();
-                    break;
+                    return true;
 
             }
+            return false;
         }
-
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(Resource.Menu.appbar_menu_main, menu);
-            return base.OnCreateOptionsMenu(menu);
-        }
-
-        private Fragment _fragment_home, _fragment_unfollow, _fragment_settings;
 
         private void NavBar_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
@@ -133,6 +132,8 @@ namespace madamin.unfollow
         }
 
         public Instagram Instagram { get; private set; }
+
+        private Fragment _fragment_home, _fragment_unfollow, _fragment_settings;
     }
 }
 
