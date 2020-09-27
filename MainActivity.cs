@@ -1,19 +1,16 @@
-﻿using Android.App;
+﻿using System;
+using System.IO;
+using Android.App;
 using Android.OS;
 using Android.Runtime;
-using Android.Widget;
 using Android.Views;
-using Xamarin.Essentials;
 using AndroidX.AppCompat.App;
-
-using Fragment = AndroidX.Fragment.App.Fragment;
-using System.IO;
-using System.Threading.Tasks;
-using Android.Content;
+using AndroidX.Preference;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Dialog;
-using AndroidX.Preference;
+using Xamarin.Essentials;
+using Fragment = AndroidX.Fragment.App.Fragment;
 
 namespace madamin.unfollow
 {
@@ -40,8 +37,8 @@ namespace madamin.unfollow
 
             SetContentView(Resource.Layout.activity_main);
 
-            var navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
-            navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
+            _navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
+            _navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
 
             SetSupportActionBar(
                 FindViewById<MaterialToolbar>(Resource.Id.main_appbar));
@@ -57,12 +54,9 @@ namespace madamin.unfollow
             _fragment_home = new HomeFragment();
             _fragment_settings = new SettingsFragment();
 
+            SupportFragmentManager.BackStackChanged += OnBackStackChanged;
+
             if (savedInstanceState != null) return;
-            
-            if (Instagram.Count < 1)
-            {
-                // TODO: Show Login Fragment
-            }
             SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
         }
 
@@ -120,14 +114,35 @@ namespace madamin.unfollow
         public void NavigateTo(Fragment fragment, bool add_to_back_stack)
         {
             var tx = SupportFragmentManager.BeginTransaction().Replace(Resource.Id.main_container, fragment);
-            if (add_to_back_stack)
+            if (add_to_back_stack) 
                 tx.AddToBackStack(null);
             tx.Commit();
+        }
+
+        public override bool OnSupportNavigateUp()
+        {
+            SupportFragmentManager.PopBackStack();
+            return true;
+        }
+
+        private void OnBackStackChanged(object sender, EventArgs args)
+        {
+            if (SupportFragmentManager.BackStackEntryCount > 0)
+            {
+                SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+                _navbar.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                SupportActionBar.SetDisplayHomeAsUpEnabled(false);
+                _navbar.Visibility = ViewStates.Visible;
+            }
         }
 
         public Instagram Instagram { get; private set; }
 
         private Fragment _fragment_home, _fragment_settings;
+        private BottomNavigationView _navbar;
     }
 }
 

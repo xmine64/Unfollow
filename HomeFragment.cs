@@ -1,5 +1,6 @@
 ﻿using Android.OS;
 using Android.Views;
+using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.Button;
@@ -19,7 +20,7 @@ namespace madamin.unfollow
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-
+            
             _adapter = new AccountAdapter((IInstagramActivity)Activity, (INavigationHost)Activity);
             var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
             recycler.SetLayoutManager(new LinearLayoutManager(Activity));
