@@ -32,6 +32,14 @@ namespace madamin.unfollow
 
             var ig = (IInstagramActivity)Activity;
 
+            var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
+
+            var layout_manager = new LinearLayoutManager(Activity);
+            recycler.SetLayoutManager(layout_manager);
+
+            var adapter = new AccountAdapter(ig);
+            recycler.SetAdapter(adapter);
+
             var appbar = view.FindViewById<MaterialToolbar>(Resource.Id.home_appbar);
             appbar.MenuItemClick += async (sender, args) =>
             {
@@ -40,7 +48,8 @@ namespace madamin.unfollow
                     case Resource.Id.appmenu_item_refresh:
                         try
                         {
-                            await ig.RefreshCache();
+                            await ig.Instagram.RefreshAll();
+                            adapter.NotifyDataSetChanged();
                         }
                         catch
                         {
@@ -60,61 +69,64 @@ namespace madamin.unfollow
                         break;
                 }
             };
-
-            var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
-            
-            var layout_manager = new LinearLayoutManager(Activity);
-            recycler.SetLayoutManager(layout_manager);
-
-            var adapter = new AccountAdapter(ig.Instagram.Data);
-            recycler.SetAdapter(adapter);
         }
     }
 
     class AccountViewHolder : RecyclerView.ViewHolder
     {
+        private RecyclerView.Adapter _adapter;
         private MaterialTextView _tv_fullname;
         private MaterialTextView _tv_username;
         private MaterialTextView _tv_followers;
         private MaterialButton _btn_logout;
 
-        public AccountViewHolder(View item) : base(item)
+        public AccountViewHolder(View item, RecyclerView.Adapter adapter) : base(item)
         {
+            _adapter = adapter;
             _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_account_fullname);
             _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_account_username);
             _tv_followers = item.FindViewById<MaterialTextView>(Resource.Id.item_account_followers);
             _btn_logout = item.FindViewById<MaterialButton>(Resource.Id.item_account_logout);
         }
 
-        public void SetData(InstagramData data)
+        public void SetData(Instagram instagram, int position)
         {
-            _tv_fullname.Text = data.User.Fullname;
-            _tv_username.Text = "@" + data.User.Username;
-            _tv_followers.Text = string.Format(_tv_followers.Text, data.Followings.Count, data.Followers.Count);
+            _tv_fullname.Text = instagram[position].Data.User.Fullname;
+            _tv_username.Text = "@" + instagram[position].Data.User.Username;
+            _tv_followers.Text = string.Format(
+                _tv_followers.Text,
+                instagram[position].Data.Followings.Count,
+                instagram[position].Data.Followers.Count);
+            _btn_logout.Click += async (sender, args) =>
+            {
+                await instagram.LogoutAccountAt(position);
+                _adapter.NotifyDataSetChanged();
+            };
         }
     }
 
     class AccountAdapter : RecyclerView.Adapter
     {
-        public AccountAdapter(InstagramData data)
+        public AccountAdapter(IInstagramActivity instagram)
         {
-            _account_data = data;
+            _instagram = instagram;
         }
 
-        public override int ItemCount => 1;
+        public override int ItemCount => _instagram.Instagram.Count;
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            (holder as AccountViewHolder).SetData(_account_data);
+            (holder as AccountViewHolder).
+                SetData(_instagram.Instagram, position);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             var view_item = LayoutInflater.From(parent.Context)
                 .Inflate(Resource.Layout.item_account, parent, false);
-            return new AccountViewHolder(view_item);
+            return new AccountViewHolder(view_item, this);
         }
 
-        private InstagramData _account_data;
+        private IInstagramActivity _instagram;
     }
 }

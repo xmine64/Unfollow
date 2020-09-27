@@ -76,7 +76,6 @@
     <Compile Include="HomeFragment.cs" />
     <Compile Include="INavigationHost.cs" />
     <Compile Include="Instagram.cs" />
-    <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

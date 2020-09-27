@@ -37,7 +37,8 @@ namespace madamin.unfollow
             var layout_manager = new LinearLayoutManager(Activity);
             recycler.SetLayoutManager(layout_manager);
 
-            var adapter = new UnfollowerAdapter((MainActivity)Activity);
+            var adapter = new UnfollowerAdapter((MainActivity)Activity, 
+                ((IInstagramActivity)Activity).Instagram.FirstOrDefault()); // TODO: Add multiple accounts support to UI
             recycler.SetAdapter(adapter);
         }
     }
@@ -62,7 +63,7 @@ namespace madamin.unfollow
             _btn_open = item.FindViewById<MaterialButton>(Resource.Id.item_unfollower_open_button);
         }
 
-        public void SetData(InstagramUser user)
+        public void SetData(InstagramAccount account, InstagramUser user)
         {
             _tv_fullname.Text = user.Fullname;
             _tv_username.Text = "@" + user.Username;
@@ -84,11 +85,9 @@ namespace madamin.unfollow
                 _btn_unfollow.Enabled = false;
                 try
                 {
-                    await _context.Instagram.Unfollow(user);
+                    await account.Unfollow(user);
                     _adapter.Remove(user);
                     _adapter.NotifyDataSetChanged();
-
-                    await _context.RefreshCache();
                 }
                 catch
                 {
@@ -101,20 +100,22 @@ namespace madamin.unfollow
 
     public class UnfollowerAdapter : RecyclerView.Adapter
     {
-        private List<InstagramUser> _unfollowers;
         private MainActivity _context;
+        private InstagramAccount _account;
+        private List<InstagramUser> _unfollowers;
 
-        public UnfollowerAdapter(MainActivity context)
+        public UnfollowerAdapter(MainActivity context, InstagramAccount account)
         {
             _context = context;
-            _unfollowers = context.Instagram.Data.Unfollowers.ToList();
+            _account = account;
+            _unfollowers = _account.Data.Unfollowers.ToList();
         }
 
         public override int ItemCount => _unfollowers.Count;
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            (holder as UnfollowerViewHolder)?.SetData(_unfollowers[position]);
+            (holder as UnfollowerViewHolder)?.SetData(_account, _unfollowers[position]);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

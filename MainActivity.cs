@@ -17,36 +17,19 @@ using AndroidX.Preference;
 
 namespace madamin.unfollow
 {
-    public interface IInstagramActivity
+    interface IInstagramActivity
     {
         Instagram Instagram { get; }
-
-        void Logout();
-
-        Task RefreshCache();
     }
 
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
     public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity
     {
-        private string _session_data_path;
-        private string _cache_data_path;
-
-        protected override async void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Platform.Init(this, savedInstanceState);
-
-            _session_data_path = Path.Combine(DataDir.AbsolutePath, "session_data");
-            if (!File.Exists(_session_data_path))
-            {
-                var login_intent = new Intent(this, typeof(LoginActivity));
-                login_intent.PutExtra("session_data_path", _session_data_path);
-                StartActivity(login_intent);
-                Finish();
-                return;
-            }
 
             var apptheme = PreferenceManager.GetDefaultSharedPreferences(this)
                 .GetString("theme", "");
@@ -55,29 +38,30 @@ namespace madamin.unfollow
             else if (apptheme == "dark")
                 AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
 
-            Instagram = new Instagram(_session_data_path);
-            Instagram.Load();
-
             SetContentView(Resource.Layout.activity_main);
 
-            var navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);            
+            var navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
             navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
 
-            _cache_data_path = Path.Combine(CacheDir.AbsolutePath, "cache_data");
-            if (File.Exists(_cache_data_path))
+            Instagram = new Instagram
             {
-                Instagram.LoadCache(_cache_data_path);
-            }
-            else
-            {
-                await RefreshCache();
-            }
+                DataDir = Path.Combine(Environment.DataDirectory.AbsolutePath),
+                CacheDir = CacheDir.AbsolutePath
+            };
+
+            Instagram.LoadData();
+            Instagram.LoadCache();
 
             _fragment_home = new HomeFragment();
             _fragment_unfollow = new UnfollowFragment();
             _fragment_settings = new SettingsFragment();
 
             if (savedInstanceState != null) return;
+            
+            if (Instagram.Count < 1)
+            {
+                // TODO: Show Login Fragment
+            }
             SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
         }
 
@@ -108,8 +92,8 @@ namespace madamin.unfollow
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            Instagram?.Save();
-            Instagram?.SaveCache(_cache_data_path);
+            Instagram.SaveData();
+            Instagram.SaveCache();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -125,21 +109,6 @@ namespace madamin.unfollow
             if (add_to_back_stack)
                 tx.AddToBackStack(null);
             tx.Commit();
-        }
-
-        public async void Logout()
-        {
-            await Instagram.Logout();
-            File.Delete(_session_data_path);
-            File.Delete(_cache_data_path);
-            StartActivity(typeof(MainActivity));
-            Finish();
-        }
-
-        public async Task RefreshCache()
-        {
-            await Instagram.Refresh();
-            Instagram.SaveCache(_cache_data_path);
         }
 
         public Instagram Instagram { get; private set; }

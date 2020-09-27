@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,27 +16,91 @@ namespace madamin.unfollow
     public class WrongPasswordException : Exception { }
     public class ChallengeException : Exception { }
 
-    public class Instagram
+    public class Instagram : IEnumerable<InstagramAccount>
     {
-        private IInstaApi _api;
-        
-        public InstagramData Data { get; private set; }
-
-        public Instagram(string session_file)
+        public async Task AddAccount(string username, string password)
         {
+            var account = new InstagramAccount(username);
+            await account.Login(password);
+            await account.Refresh();
+            _accounts.Add(account);
+        }
+
+        public Task LogoutAccount(string username)
+        {
+            return LogoutAccountAt(_accounts.FindIndex(a => a.UserName == username));
+        }
+
+        public async Task LogoutAccountAt(int i)
+        {
+            await _accounts[i].Logout();
+            _accounts.RemoveAt(i);
+        }
+
+        public async Task RefreshAll()
+        {
+            foreach (var account in _accounts)
+            {
+                await account.Refresh();
+            }
+        }
+
+        public void SaveData()
+        {
+
+        }
+
+        public void LoadData()
+        {
+
+        }
+
+        public void SaveCache()
+        {
+
+        }
+
+        public void LoadCache()
+        {
+
+        }
+
+        public InstagramAccount this[int i] => _accounts[i];
+
+        public IEnumerator<InstagramAccount> GetEnumerator()
+        {
+            return _accounts.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _accounts.GetEnumerator();
+        }
+
+        private List<InstagramAccount> _accounts = new List<InstagramAccount>();
+
+        public string DataDir { get; set; }
+        public string CacheDir { get; set; }
+        public int Count => _accounts.Count;
+    }
+
+    public class InstagramAccount
+    {
+        public InstagramAccount(string username)
+        {
+            UserName = username;
             _api = InstaApiBuilder.CreateBuilder()
                 .SetUser(UserSessionData.Empty)
-                .SetSessionHandler(new FileSessionHandler { FilePath = session_file })
                 .SetRequestDelay(RequestDelay.FromSeconds(0, 1))
                 .Build();
             _api.SetApiVersion(InstagramApiSharp.Enums.InstaApiVersionType.Version126);
         }
 
-        public async Task Login(string username, string password)
+        internal async Task Login(string password)
         {
             if (_api.IsUserAuthenticated) return;
 
-            _api.SetUser(username, password);
+            _api.SetUser(UserName, password);
 
             await _api.SendRequestsBeforeLoginAsync();
             await Task.Delay(5000);
@@ -54,22 +119,30 @@ namespace madamin.unfollow
             }
         }
 
-        public void Save()
+        internal async Task Logout()
+        {
+            var result = await _api.LogoutAsync();
+            if (!result.Succeeded)
+                throw result.Info.Exception;
+        }
+
+        public void Save(string path)
         {
             if (_api?.IsUserAuthenticated ?? false)
-                _api.SessionHandler.Save();
-        }
-
-        public void Load()
-        {
-            _api.SessionHandler.Load();
-        }
-
-        public void LoadCache(string path)
-        {
-            using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                Data = (InstagramData)new BinaryFormatter().Deserialize(file);
+                using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    _api.LoadStateDataFromObject(
+                        (StateData)new BinaryFormatter().Deserialize(file));
+                }
+            }
+        }
+
+        public void Load(string path)
+        {
+            using (var file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                new BinaryFormatter().Serialize(file, _api.GetStateDataAsObject());
             }
         }
 
@@ -81,12 +154,20 @@ namespace madamin.unfollow
             }
         }
 
+        public void LoadCache(string path)
+        {
+            using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                Data = (InstagramData)new BinaryFormatter().Deserialize(file);
+            }
+        }
+
         public async Task Refresh()
         {
             var account = await _api.AccountProcessor.GetRequestForEditProfileAsync();
             if (!account.Succeeded)
                 throw account.Info.Exception;
-            var account_user = new InstagramUser(account.Value.Pk, 
+            var account_user = new InstagramUser(account.Value.Pk,
                 account.Value.Username, account.Value.FullName);
             var followers = await _api.UserProcessor.GetCurrentUserFollowersAsync(
                 InstagramApiSharp.PaginationParameters.Empty);
@@ -104,22 +185,19 @@ namespace madamin.unfollow
             Data = new InstagramData(account_user, followers_users, followings_users);
         }
 
-        public async Task Logout()
-        {
-            if ((await _api.LogoutAsync()).Value)
-                return;
-            throw new Exception("Logout Error");
-        }
-
         public async Task Unfollow(InstagramUser user)
         {
             var result = await _api.UserProcessor.UnFollowUserAsync(user.Id);
-            if (result.Succeeded)
-                return;
-            throw result.Info.Exception;
+            if (!result.Succeeded)
+                throw result.Info.Exception;
+            Data.Followings.Remove(user);
         }
 
+        public string UserName { get; }
+        public InstagramData Data { get; private set; }
         public bool IsUserAuthenticated => _api.IsUserAuthenticated;
+
+        private IInstaApi _api;
     }
 
     [Serializable]
