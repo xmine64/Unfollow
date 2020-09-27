@@ -43,6 +43,9 @@ namespace madamin.unfollow
             var navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
             navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
 
+            var appbar = FindViewById<MaterialToolbar>(Resource.Id.main_appbar);
+            appbar.MenuItemClick += Appbar_MenuItemClick;
+
             Instagram = new Instagram
             {
                 DataDir = Path.Combine(Environment.DataDirectory.AbsolutePath),
@@ -63,6 +66,28 @@ namespace madamin.unfollow
                 // TODO: Show Login Fragment
             }
             SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
+        }
+
+        private async void Appbar_MenuItemClick(object sender, AndroidX.AppCompat.Widget.Toolbar.MenuItemClickEventArgs args)
+        {
+            switch (args.Item.ItemId)
+            {
+                case Resource.Id.appmenu_item_refresh:
+                    await Instagram.RefreshAll();
+                    NavigateTo(_fragment_home, false);
+                    break;
+                case Resource.Id.appmenu_item_about:
+                    new MaterialAlertDialogBuilder(this)
+                        .SetTitle(Resource.String.menu_about)
+                        .SetMessage(Resource.String.msg_about)
+                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
+                        .Show();
+                    break;
+                case Resource.Id.appmenu_item_exit:
+                    Finish();
+                    break;
+
+            }
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)

@@ -39,36 +39,6 @@ namespace madamin.unfollow
 
             var adapter = new AccountAdapter(ig);
             recycler.SetAdapter(adapter);
-
-            var appbar = view.FindViewById<MaterialToolbar>(Resource.Id.home_appbar);
-            appbar.MenuItemClick += async (sender, args) =>
-            {
-                switch (args.Item.ItemId)
-                {
-                    case Resource.Id.appmenu_item_refresh:
-                        try
-                        {
-                            await ig.Instagram.RefreshAll();
-                            adapter.NotifyDataSetChanged();
-                        }
-                        catch
-                        {
-                            Toast.MakeText(Activity, Resource.String.error, ToastLength.Long).Show();
-                        }
-                        ((INavigationHost)Activity).NavigateTo(new HomeFragment(), false);
-                        break;
-                    case Resource.Id.appmenu_item_about:
-                        new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.menu_about)
-                        .SetNeutralButton(Android.Resource.String.Ok, (dialog, Activity) => { })
-                        .SetMessage(Resource.String.msg_about)
-                        .Show();
-                        break;
-                    case Resource.Id.appmenu_item_exit:
-                        Activity.Finish();
-                        break;
-                }
-            };
         }
     }
 
