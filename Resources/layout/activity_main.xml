@@ -12,8 +12,7 @@
             android:id="@+id/main_appbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            app:title="@string/app_name"
-            app:menu="@menu/appmenu" />
+            app:title="@string/app_name" />
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_container"
@@ -27,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:menu="@menu/navigationbar"
+        app:menu="@menu/main_navigationbar"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         />
 

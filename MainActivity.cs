@@ -68,22 +68,18 @@ namespace madamin.unfollow
             SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
         }
 
-        private async void Appbar_MenuItemClick(object sender, AndroidX.AppCompat.Widget.Toolbar.MenuItemClickEventArgs args)
+        private void Appbar_MenuItemClick(object sender, AndroidX.AppCompat.Widget.Toolbar.MenuItemClickEventArgs args)
         {
             switch (args.Item.ItemId)
             {
-                case Resource.Id.appmenu_item_refresh:
-                    await Instagram.RefreshAll();
-                    NavigateTo(_fragment_home, false);
-                    break;
-                case Resource.Id.appmenu_item_about:
+                case Resource.Id.appbar_main_item_about:
                     new MaterialAlertDialogBuilder(this)
                         .SetTitle(Resource.String.menu_about)
                         .SetMessage(Resource.String.msg_about)
                         .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
                         .Show();
                     break;
-                case Resource.Id.appmenu_item_exit:
+                case Resource.Id.appbar_main_item_exit:
                     Finish();
                     break;
 
@@ -92,7 +88,7 @@ namespace madamin.unfollow
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            MenuInflater.Inflate(Resource.Menu.appmenu, menu);
+            MenuInflater.Inflate(Resource.Menu.appbar_menu_main, menu);
             return base.OnCreateOptionsMenu(menu);
         }
 
@@ -102,13 +98,13 @@ namespace madamin.unfollow
         {
             switch (e.Item.ItemId)
             {
-                case Resource.Id.navbar_item_home:
+                case Resource.Id.navbar_main_item_home:
                     NavigateTo(_fragment_home, false);
                     break;
-                case Resource.Id.navbar_item_unfollows:
+                case Resource.Id.navbar_main_item_unfollows:
                     NavigateTo(_fragment_unfollow, false);
                     break;
-                case Resource.Id.navbar_item_settings:
+                case Resource.Id.navbar_main_item_settings:
                     NavigateTo(_fragment_settings, false);
                     break;
             }

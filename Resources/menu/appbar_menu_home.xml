@@ -1,14 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	  xmlns:app="http://schemas.android.com/apk/res-auto">
-	<item android:id="@+id/appmenu_item_refresh"
+	<item android:id="@+id/appbar_home_item_refresh"
 		  android:icon="@drawable/ic_refresh_black_24dp"
 		  android:title="@string/refresh"
 		  app:showAsAction="always" />
-	<item android:id="@+id/appmenu_item_about"
-		  android:title="@string/menu_about"
-		  app:showAsAction="never"/>
-	<item android:id="@+id/appmenu_item_exit"
-		  android:title="@string/menu_exit"
-		  app:showAsAction="never"/>
+	<item android:id="@+id/appbar_home_item_addaccount"
+		  android:title="@string/menu_addaccount"
+		  app:showAsAction="ifRoom"/>
 </menu>

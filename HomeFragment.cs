@@ -39,6 +39,19 @@ namespace madamin.unfollow
 
             var adapter = new AccountAdapter(ig);
             recycler.SetAdapter(adapter);
+
+            case Resource.Id.appmenu_item_addaccount:
+                    break;
+                case Resource.Id.appmenu_item_refresh:
+                    await Instagram.RefreshAll();
+            NavigateTo(_fragment_home, false);
+            break;
+        }
+
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            inflater.Inflate(Resource.Menu.appbar_menu_home, menu);
+            base.OnCreateOptionsMenu(menu, inflater);
         }
     }
 

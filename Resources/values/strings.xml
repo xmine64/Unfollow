@@ -16,6 +16,7 @@
 	
 	<string name="msg_welcome">Welcome {0}!</string>
 
+	<string name="menu_addaccount">Add Account</string>
 	<string name="menu_about">About</string>
 	<string name="menu_exit">Exit</string>
 
