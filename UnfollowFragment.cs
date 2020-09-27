@@ -18,6 +18,11 @@ namespace madamin.unfollow
 {
     public class UnfollowFragment : Fragment
     {
+        public UnfollowFragment(InstagramAccount account)
+        {
+            _account = account;
+        }
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -33,14 +38,11 @@ namespace madamin.unfollow
             base.OnViewCreated(view, savedInstanceState);
             
             var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_unfollow_recycler);
-            
-            var layout_manager = new LinearLayoutManager(Activity);
-            recycler.SetLayoutManager(layout_manager);
-
-            var adapter = new UnfollowerAdapter((MainActivity)Activity, 
-                ((IInstagramActivity)Activity).Instagram.FirstOrDefault()); // TODO: Add multiple accounts support to UI
-            recycler.SetAdapter(adapter);
+            recycler.SetLayoutManager(new LinearLayoutManager(Activity));
+            recycler.SetAdapter(new UnfollowerAdapter((MainActivity)Activity, _account));
         }
+
+        private InstagramAccount _account;
     }
 
     public class UnfollowerViewHolder : RecyclerView.ViewHolder
@@ -115,7 +117,8 @@ namespace madamin.unfollow
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            (holder as UnfollowerViewHolder)?.SetData(_account, _unfollowers[position]);
+            (holder as UnfollowerViewHolder)?
+                .SetData(_account, _unfollowers[position]);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

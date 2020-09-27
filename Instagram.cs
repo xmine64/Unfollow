@@ -31,8 +31,11 @@ namespace madamin.unfollow
 
         public async Task LogoutAccountAt(int i)
         {
+            var session_data = Path.Combine(DataDir,
+                _accounts[i].Data.User.Id.ToString());
             await _accounts[i].Logout();
             _accounts.RemoveAt(i);
+            File.Delete(session_data);
         }
 
         public async Task RefreshAll()

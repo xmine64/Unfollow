@@ -3,9 +3,6 @@
 	<item android:id="@+id/navbar_main_item_home"
 		  android:icon="@drawable/ic_home_black_24dp"
 		  android:title="@string/home" />
-	<item android:id="@+id/navbar_main_item_unfollows"
-		  android:icon="@drawable/ic_person_remove_black_24dp"
-		  android:title="@string/unfollows" />
 	<item android:id="@+id/navbar_main_item_settings"
 		  android:icon="@drawable/ic_settings_black_24dp"
 		  android:title="@string/settings" />

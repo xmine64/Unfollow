@@ -20,7 +20,7 @@ namespace madamin.unfollow
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            _adapter = new AccountAdapter((IInstagramActivity)Activity);
+            _adapter = new AccountAdapter((IInstagramActivity)Activity, (INavigationHost)Activity);
             var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
             recycler.SetLayoutManager(new LinearLayoutManager(Activity));
             recycler.SetAdapter(_adapter);
@@ -57,14 +57,18 @@ namespace madamin.unfollow
     class AccountViewHolder : RecyclerView.ViewHolder
     {
         private RecyclerView.Adapter _adapter;
+        private View _view_item;
+        private INavigationHost _navhost;
         private MaterialTextView _tv_fullname;
         private MaterialTextView _tv_username;
         private MaterialTextView _tv_followers;
         private MaterialButton _btn_logout;
 
-        public AccountViewHolder(View item, RecyclerView.Adapter adapter) : base(item)
+        public AccountViewHolder(View item, RecyclerView.Adapter adapter, INavigationHost navhost) : base(item)
         {
             _adapter = adapter;
+            _view_item = item;
+            _navhost = navhost;
             _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_account_fullname);
             _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_account_username);
             _tv_followers = item.FindViewById<MaterialTextView>(Resource.Id.item_account_followers);
@@ -84,31 +88,38 @@ namespace madamin.unfollow
                 await instagram.LogoutAccountAt(position);
                 _adapter.NotifyDataSetChanged();
             };
+            _view_item.Click += (sender, args) =>
+            {
+                _navhost.NavigateTo(
+                    new UnfollowFragment(instagram[position]), true);
+            };
         }
     }
 
     class AccountAdapter : RecyclerView.Adapter
     {
-        public AccountAdapter(IInstagramActivity instagram)
+        public AccountAdapter(IInstagramActivity instagram, INavigationHost navhost)
         {
             _instagram = instagram;
+            _navhost = navhost;
         }
 
         public override int ItemCount => _instagram.Instagram.Count;
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            (holder as AccountViewHolder).
-                SetData(_instagram.Instagram, position);
+            (holder as AccountViewHolder)
+                .SetData(_instagram.Instagram, position);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             var view_item = LayoutInflater.From(parent.Context)
                 .Inflate(Resource.Layout.item_account, parent, false);
-            return new AccountViewHolder(view_item, this);
+            return new AccountViewHolder(view_item, this, _navhost);
         }
 
         private IInstagramActivity _instagram;
+        private INavigationHost _navhost;
     }
 }

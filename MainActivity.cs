@@ -55,7 +55,6 @@ namespace madamin.unfollow
             Instagram.LoadData();
 
             _fragment_home = new HomeFragment();
-            _fragment_unfollow = new UnfollowFragment();
             _fragment_settings = new SettingsFragment();
 
             if (savedInstanceState != null) return;
@@ -99,9 +98,6 @@ namespace madamin.unfollow
                 case Resource.Id.navbar_main_item_home:
                     NavigateTo(_fragment_home, false);
                     break;
-                case Resource.Id.navbar_main_item_unfollows:
-                    NavigateTo(_fragment_unfollow, false);
-                    break;
                 case Resource.Id.navbar_main_item_settings:
                     NavigateTo(_fragment_settings, false);
                     break;
@@ -131,7 +127,7 @@ namespace madamin.unfollow
 
         public Instagram Instagram { get; private set; }
 
-        private Fragment _fragment_home, _fragment_unfollow, _fragment_settings;
+        private Fragment _fragment_home, _fragment_settings;
     }
 }
 

@@ -8,11 +8,6 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     >
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/unfollows"
-        style="@style/TextAppearance.MaterialComponents.Headline4"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_unfollow_recycler"
         android:layout_width="match_parent"
