@@ -41,7 +41,6 @@ namespace madamin.unfollow
                 _btn_login.Enabled = false;
 
                 await ig.AddAccount(_et_username.Text, _et_password.Text);
-                ig.SaveData();
 
                 Activity.SupportFragmentManager.PopBackStack();
             }

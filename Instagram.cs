@@ -18,15 +18,15 @@ namespace madamin.unfollow
     {
         public async Task AddAccount(string username, string password)
         {
-            var account = new InstagramAccount(username);
-            await account.Login(password);
+            var account = new InstagramAccount();
+            await account.Login(username, password);
             await account.Refresh();
+            if (!Directory.Exists(DataDir))
+                Directory.CreateDirectory(DataDir);
+            account.Save(Path.Combine(
+                DataDir,
+                account.Data.User.Id.ToString()));
             _accounts.Add(account);
-        }
-
-        public Task LogoutAccount(string username)
-        {
-            return LogoutAccountAt(_accounts.FindIndex(a => a.UserName == username));
         }
 
         public async Task LogoutAccountAt(int i)
@@ -43,24 +43,39 @@ namespace madamin.unfollow
             }
         }
 
-        public void SaveData()
+        public async void LoadData()
         {
+            if (Directory.Exists(DataDir))
+            {
+                foreach (var file in Directory.GetFiles(DataDir))
+                {
+                    var account = new InstagramAccount();
+                    account.Load(file);
+                    var cache = Path.Combine(CacheDir,
+                        Path.GetFileName(file));
+                    if (File.Exists(cache))
+                    {
+                        account.LoadCache(cache);
+                    }
+                    else
+                    {
+                        await account.Refresh();
+                        account.SaveCache(cache);
 
-        }
-
-        public void LoadData()
-        {
-
+                    }
+                    _accounts.Add(account);
+                }
+            }
         }
 
         public void SaveCache()
         {
-
-        }
-
-        public void LoadCache()
-        {
-
+            foreach (var account in _accounts)
+            {
+                account.SaveCache(Path.Combine(
+                    CacheDir,
+                    account.Data.User.Id.ToString()));
+            }
         }
 
         public InstagramAccount this[int i] => _accounts[i];
@@ -84,9 +99,8 @@ namespace madamin.unfollow
 
     public class InstagramAccount
     {
-        public InstagramAccount(string username)
+        public InstagramAccount()
         {
-            UserName = username;
             _api = InstaApiBuilder.CreateBuilder()
                 .SetUser(UserSessionData.Empty)
                 .SetRequestDelay(RequestDelay.FromSeconds(0, 1))
@@ -94,11 +108,11 @@ namespace madamin.unfollow
             _api.SetApiVersion(InstagramApiSharp.Enums.InstaApiVersionType.Version126);
         }
 
-        internal async Task Login(string password)
+        internal async Task Login(string username, string password)
         {
             if (_api.IsUserAuthenticated) return;
 
-            _api.SetUser(UserName, password);
+            _api.SetUser(username, password);
 
             await _api.SendRequestsBeforeLoginAsync();
             await Task.Delay(5000);
@@ -128,19 +142,19 @@ namespace madamin.unfollow
         {
             if (_api?.IsUserAuthenticated ?? false)
             {
-                using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
+                using (var file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
                 {
-                    _api.LoadStateDataFromObject(
-                        (StateData)new BinaryFormatter().Deserialize(file));
+                    new BinaryFormatter().Serialize(file, _api.GetStateDataAsObject());
                 }
             }
         }
 
         public void Load(string path)
         {
-            using (var file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                new BinaryFormatter().Serialize(file, _api.GetStateDataAsObject());
+                _api.LoadStateDataFromObject(
+                    (StateData)new BinaryFormatter().Deserialize(file));
             }
         }
 
@@ -191,7 +205,6 @@ namespace madamin.unfollow
             Data.Followings.Remove(user);
         }
 
-        public string UserName { get; }
         public InstagramData Data { get; private set; }
         public bool IsUserAuthenticated => _api.IsUserAuthenticated;
 

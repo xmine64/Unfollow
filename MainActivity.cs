@@ -46,14 +46,13 @@ namespace madamin.unfollow
             SetSupportActionBar(
                 FindViewById<MaterialToolbar>(Resource.Id.main_appbar));
 
+
             Instagram = new Instagram
             {
-                DataDir = Path.Combine(Environment.DataDirectory.AbsolutePath),
+                DataDir = Path.Combine(DataDir.AbsolutePath, "session_data"),
                 CacheDir = CacheDir.AbsolutePath
             };
-
             Instagram.LoadData();
-            Instagram.LoadCache();
 
             _fragment_home = new HomeFragment();
             _fragment_unfollow = new UnfollowFragment();
@@ -112,7 +111,6 @@ namespace madamin.unfollow
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            Instagram.SaveData();
             Instagram.SaveCache();
         }
 
