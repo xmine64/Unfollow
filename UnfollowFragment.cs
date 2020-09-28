@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -36,7 +32,9 @@ namespace madamin.unfollow
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            
+
+            ((IFragmentHost)Activity).ActionbarTitle = _account.Data.User.Fullname;
+
             var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_unfollow_recycler);
             recycler.SetLayoutManager(new LinearLayoutManager(Activity));
             recycler.SetAdapter(new UnfollowerAdapter((MainActivity)Activity, _account));

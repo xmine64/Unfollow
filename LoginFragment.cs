@@ -1,6 +1,5 @@
 ﻿using Android.OS;
 using Android.Views;
-using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using Google.Android.Material.Button;
 using Google.Android.Material.Dialog;
@@ -19,6 +18,8 @@ namespace madamin.unfollow
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
+
+            ((IFragmentHost)Activity).ActionbarTitle = GetString(Resource.String.menu_addaccount);
 
             _et_username = view.FindViewById<TextInputEditText>(Resource.Id.fragment_login_et_username);
             _et_password = view.FindViewById<TextInputEditText>(Resource.Id.fragment_login_et_password);
