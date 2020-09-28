@@ -21,6 +21,11 @@ namespace madamin.unfollow
         Instagram Instagram { get; }
     }
 
+    interface INavigationHost
+    {
+        void NavigateTo(Fragment fragment, bool add_to_back_stack);
+    }
+
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
     public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity,
