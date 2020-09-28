@@ -21,14 +21,17 @@ namespace madamin.unfollow
         Instagram Instagram { get; }
     }
 
-    interface INavigationHost
+    interface IFragmentHost
     {
-        void NavigateTo(Fragment fragment, bool add_to_back_stack);
+        void NavigateTo(Fragment fragment, bool add_to_backstack);
+        void PushFragment(Fragment fragment);
+        void PopFragment();
+        string ActionbarTitle { get; set; }
     }
 
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
-    public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity,
+    public class MainActivity : AppCompatActivity, IFragmentHost, IInstagramActivity,
         FragmentManager.IOnBackStackChangedListener, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -146,6 +149,22 @@ namespace madamin.unfollow
                 SupportActionBar.SetDisplayHomeAsUpEnabled(false);
                 _navbar.Visibility = ViewStates.Visible;
             }
+        }
+
+        public void PushFragment(Fragment fragment)
+        {
+            NavigateTo(fragment, true);
+        }
+
+        public void PopFragment()
+        {
+            SupportFragmentManager.PopBackStack();
+        }
+
+        public string ActionbarTitle 
+        { 
+            get => SupportActionBar.Title;
+            set => SupportActionBar.Title = value;
         }
 
         public Instagram Instagram { get; private set; }

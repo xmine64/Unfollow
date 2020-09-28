@@ -21,7 +21,7 @@ namespace madamin.unfollow
         {
             base.OnViewCreated(view, savedInstanceState);
             
-            _adapter = new AccountAdapter((IInstagramActivity)Activity, (INavigationHost)Activity);
+            _adapter = new AccountAdapter((IInstagramActivity)Activity, (IFragmentHost)Activity);
             var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
             recycler.SetLayoutManager(new LinearLayoutManager(Activity));
             recycler.SetAdapter(_adapter);
@@ -38,7 +38,7 @@ namespace madamin.unfollow
             switch (item.ItemId)
             {
                 case Resource.Id.appbar_home_item_addaccount:
-                    ((INavigationHost)Activity).NavigateTo(new LoginFragment(), true);
+                    ((IFragmentHost)Activity).PushFragment(new LoginFragment());
                     _adapter.NotifyDataSetChanged();
                     return true;
                 case Resource.Id.appbar_home_item_refresh:
@@ -59,17 +59,17 @@ namespace madamin.unfollow
     {
         private RecyclerView.Adapter _adapter;
         private View _view_item;
-        private INavigationHost _navhost;
+        private IFragmentHost _host;
         private MaterialTextView _tv_fullname;
         private MaterialTextView _tv_username;
         private MaterialTextView _tv_followers;
         private MaterialButton _btn_logout;
 
-        public AccountViewHolder(View item, RecyclerView.Adapter adapter, INavigationHost navhost) : base(item)
+        public AccountViewHolder(View item, RecyclerView.Adapter adapter, IFragmentHost host) : base(item)
         {
             _adapter = adapter;
             _view_item = item;
-            _navhost = navhost;
+            _host = host;
             _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_account_fullname);
             _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_account_username);
             _tv_followers = item.FindViewById<MaterialTextView>(Resource.Id.item_account_followers);
@@ -91,18 +91,17 @@ namespace madamin.unfollow
             };
             _view_item.Click += (sender, args) =>
             {
-                _navhost.NavigateTo(
-                    new UnfollowFragment(instagram[position]), true);
+                _host.PushFragment(new UnfollowFragment(instagram[position]));
             };
         }
     }
 
     class AccountAdapter : RecyclerView.Adapter
     {
-        public AccountAdapter(IInstagramActivity instagram, INavigationHost navhost)
+        public AccountAdapter(IInstagramActivity instagram, IFragmentHost host)
         {
             _instagram = instagram;
-            _navhost = navhost;
+            _host = host;
         }
 
         public override int ItemCount => _instagram.Instagram.Count;
@@ -117,10 +116,10 @@ namespace madamin.unfollow
         {
             var view_item = LayoutInflater.From(parent.Context)
                 .Inflate(Resource.Layout.item_account, parent, false);
-            return new AccountViewHolder(view_item, this, _navhost);
+            return new AccountViewHolder(view_item, this, _host);
         }
 
         private IInstagramActivity _instagram;
-        private INavigationHost _navhost;
+        private IFragmentHost _host;
     }
 }
