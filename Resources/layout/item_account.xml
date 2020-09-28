@@ -6,57 +6,45 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     style="@style/Widget.MaterialComponents.CardView"
-    app:cardBackgroundColor="?attr/colorPrimaryDark"
     app:cardCornerRadius="4dp"
     android:elevation="0dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
-        <androidx.appcompat.widget.AppCompatImageView
+        android:orientation="vertical"
+        android:background="@color/backgroundColor"
+        android:padding="8dp">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_fullname"
             android:layout_width="match_parent"
-            android:layout_height="480px"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_person_black_48dp" />
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            style="@style/TextAppearance.MaterialComponents.Headline6" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_followers"
+            android:text="@string/msg_ffnumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:background="@color/backgroundColor"
-            android:padding="8dp">
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/item_account_fullname"
-                android:layout_width="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/item_account_logout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                style="@style/TextAppearance.MaterialComponents.Headline6" />
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/item_account_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1" />
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/item_account_followers"
-                android:text="@string/msg_ffnumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal">
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/item_account_logout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/logout"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:padding="2dp" />
-            </LinearLayout>
+                android:text="@string/logout"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:padding="2dp" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
