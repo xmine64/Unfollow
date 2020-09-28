@@ -6,11 +6,13 @@ using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
+using AndroidX.Fragment.App;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Dialog;
 using Xamarin.Essentials;
 using Fragment = AndroidX.Fragment.App.Fragment;
+using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
 namespace madamin.unfollow
 {
@@ -21,7 +23,8 @@ namespace madamin.unfollow
 
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
-    public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity
+    public class MainActivity : AppCompatActivity, INavigationHost, IInstagramActivity,
+        FragmentManager.IOnBackStackChangedListener, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,7 +41,7 @@ namespace madamin.unfollow
             SetContentView(Resource.Layout.activity_main);
 
             _navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
-            _navbar.NavigationItemSelected += NavBar_NavigationItemSelected;
+            _navbar.SetOnNavigationItemSelectedListener(this);
 
             SetSupportActionBar(
                 FindViewById<MaterialToolbar>(Resource.Id.main_appbar));
@@ -54,7 +57,7 @@ namespace madamin.unfollow
             _fragment_home = new HomeFragment();
             _fragment_settings = new SettingsFragment();
 
-            SupportFragmentManager.BackStackChanged += OnBackStackChanged;
+            SupportFragmentManager.AddOnBackStackChangedListener(this);
 
             if (savedInstanceState != null) return;
             SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
@@ -85,17 +88,18 @@ namespace madamin.unfollow
             return false;
         }
 
-        private void NavBar_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
+        public bool OnNavigationItemSelected(IMenuItem item)
         {
-            switch (e.Item.ItemId)
+            switch (item.ItemId)
             {
                 case Resource.Id.navbar_main_item_home:
                     NavigateTo(_fragment_home, false);
-                    break;
+                    return true;
                 case Resource.Id.navbar_main_item_settings:
                     NavigateTo(_fragment_settings, false);
-                    break;
+                    return true;
             }
+            return false;
         }
 
         protected override void OnDestroy()
@@ -125,7 +129,7 @@ namespace madamin.unfollow
             return true;
         }
 
-        private void OnBackStackChanged(object sender, EventArgs args)
+        public void OnBackStackChanged()
         {
             if (SupportFragmentManager.BackStackEntryCount > 0)
             {
