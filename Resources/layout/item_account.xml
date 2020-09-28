@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="vertical"
-        android:background="@color/backgroundColor"
         android:padding="8dp">
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_account_fullname"
