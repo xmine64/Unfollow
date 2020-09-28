@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginFragment.cs" />
-    <Compile Include="HomeFragment.cs" />
+    <Compile Include="AccountsFragment.cs" />
     <Compile Include="Instagram.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -209,7 +209,7 @@
     <AndroidResource Include="Resources\menu\appbar_menu_main.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_home.xml">
+    <AndroidResource Include="Resources\layout\fragment_accounts.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -346,7 +346,7 @@
     <AndroidResource Include="Resources\drawable-v24\ic_refresh_black_24dp.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\appbar_menu_home.xml">
+    <AndroidResource Include="Resources\menu\appbar_menu_accounts.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -377,6 +377,33 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v24\ic_add_black_24dp.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-mdpi\ic_group_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_group_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_group_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_group_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_group_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\ic_group_black_24dp.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-anydpi\ic_group_black_24dp.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\ic_group_black_24dp.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v24\ic_group_black_24dp.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -8,19 +8,19 @@ using System;
 
 namespace madamin.unfollow
 {
-    public class HomeFragment : Fragment
+    public class AccountsFragment : Fragment
     {
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             HasOptionsMenu = true;
-            return inflater.Inflate(Resource.Layout.fragment_home, container, false);
+            return inflater.Inflate(Resource.Layout.fragment_accounts, container, false);
         }
 
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            ((IFragmentHost)Activity).ActionbarTitle = GetString(Resource.String.home);
+            ((IFragmentHost)Activity).ActionbarTitle = GetString(Resource.String.app_name);
             
             _adapter = new AccountAdapter((IInstagramActivity)Activity, (IFragmentHost)Activity);
             var recycler = view.FindViewById<RecyclerView>(Resource.Id.fragment_home_accounts_recycler);
@@ -30,7 +30,7 @@ namespace madamin.unfollow
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            inflater.Inflate(Resource.Menu.appbar_menu_home, menu);
+            inflater.Inflate(Resource.Menu.appbar_menu_accounts, menu);
             base.OnCreateOptionsMenu(menu, inflater);
         }
 

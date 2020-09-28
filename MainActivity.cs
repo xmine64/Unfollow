@@ -62,13 +62,13 @@ namespace madamin.unfollow
             };
             Instagram.LoadData();
 
-            _fragment_home = new HomeFragment();
+            _fragment_accounts = new AccountsFragment();
             _fragment_settings = new SettingsFragment();
 
             SupportFragmentManager.AddOnBackStackChangedListener(this);
 
             if (savedInstanceState != null) return;
-            SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_home).Commit();
+            SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_accounts).Commit();
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -100,8 +100,8 @@ namespace madamin.unfollow
         {
             switch (item.ItemId)
             {
-                case Resource.Id.navbar_main_item_home:
-                    NavigateTo(_fragment_home, false);
+                case Resource.Id.navbar_main_item_accounts:
+                    NavigateTo(_fragment_accounts, false);
                     return true;
                 case Resource.Id.navbar_main_item_settings:
                     NavigateTo(_fragment_settings, false);
@@ -169,7 +169,7 @@ namespace madamin.unfollow
 
         public Instagram Instagram { get; private set; }
 
-        private Fragment _fragment_home, _fragment_settings;
+        private Fragment _fragment_accounts, _fragment_settings;
         private BottomNavigationView _navbar;
     }
 }
