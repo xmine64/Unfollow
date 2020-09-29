@@ -1,175 +1,146 @@
 ﻿using System;
 using System.IO;
+
 using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Xamarin.Essentials;
+
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
-using AndroidX.Fragment.App;
+
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Dialog;
-using Xamarin.Essentials;
-using Fragment = AndroidX.Fragment.App.Fragment;
-using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
-namespace madamin.unfollow
+using Madamin.Unfollow.Fragments;
+using Madamin.Unfollow.Instagram;
+
+namespace Madamin.Unfollow
 {
-    interface IInstagramActivity
-    {
-        Instagram Instagram { get; }
-    }
-
-    interface IFragmentHost
-    {
-        void NavigateTo(Fragment fragment, bool add_to_backstack);
-        void PushFragment(Fragment fragment);
-        void PopFragment();
-        string ActionbarTitle { get; set; }
-    }
-
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
-    public class MainActivity : AppCompatActivity, IFragmentHost, IInstagramActivity,
-        FragmentManager.IOnBackStackChangedListener, BottomNavigationView.IOnNavigationItemSelectedListener
+    public class MainActivity : FragmentHostBase, IInstagramHost
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        public MainActivity() : base(
+            Resource.Layout.activity_main,
+            Resource.Menu.appbar_menu_main,
+            Resource.Id.main_appbar,
+            Resource.Id.main_container)
         {
-            base.OnCreate(savedInstanceState);
-            Platform.Init(this, savedInstanceState);
+            BeforeSetContentView += MainActivity_BeforeSetContentView;
+            Create += MainActivity_OnCreate;
+            MenuItemSelected += MainActivity_OnMenuItemSelected;
+            BackButtonVisibilityChange += MainActivity_OnBackButtonVisibilityChange;
+        }
 
-            var apptheme = PreferenceManager.GetDefaultSharedPreferences(this)
-                .GetString("theme", "");
-            if (apptheme == "light")
-                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
-            else if (apptheme == "dark")
-                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
-
-            SetContentView(Resource.Layout.activity_main);
-
-            _navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
-            _navbar.SetOnNavigationItemSelectedListener(this);
-
-            SetSupportActionBar(
-                FindViewById<MaterialToolbar>(Resource.Id.main_appbar));
-
-
-            Instagram = new Instagram
+        private async void MainActivity_BeforeSetContentView(object sender, EventArgs e)
+        {
+            try
             {
-                DataDir = Path.Combine(DataDir.AbsolutePath, "session_data"),
-                CacheDir = CacheDir.AbsolutePath
-            };
-            Instagram.LoadData();
+                var apptheme = PreferenceManager
+                        .GetDefaultSharedPreferences(this)
+                        .GetString("theme", "");
 
-            _fragment_accounts = new AccountsFragment();
-            _fragment_settings = new SettingsFragment();
+                if (apptheme == "light")
+                {
+                    AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+                }
+                else if (apptheme == "dark")
+                {
+                    AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
+                }
 
-            SupportFragmentManager.AddOnBackStackChangedListener(this);
+                Accounts = new Accounts
+                {
+                    DataDir = Path.Combine(DataDir.AbsolutePath, "session_data"),
+                    CacheDir = CacheDir.AbsolutePath
+                };
 
-            if (savedInstanceState != null) return;
-            SupportFragmentManager.BeginTransaction().Add(Resource.Id.main_container, _fragment_accounts).Commit();
+                await Accounts.RestoreStateAsync();
+            }
+            catch (Exception ex)
+            {
+                new MaterialAlertDialogBuilder(this)
+                        .SetTitle(Resource.String.title_error)
+#if DEBUG
+                        .SetMessage(ex.ToString())
+#else
+                        .SetMessage(ex.Message)
+#endif
+                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => {
+                            Finish();
+                        })
+                        .Show();
+            }
         }
 
-        public override bool OnCreateOptionsMenu(IMenu menu)
+        private void MainActivity_OnCreate(object sender, EventArgs e)
         {
-            MenuInflater.Inflate(Resource.Menu.appbar_menu_main, menu);
-            return base.OnCreateOptionsMenu(menu);
+            _navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
+            _navbar.NavigationItemSelected += Navbar_NavigationItemSelected;
+
+            Fragments.Add(new AccountsFragment());
+            Fragments.Add(new SettingsFragment());
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        private void MainActivity_OnMenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
         {
-            switch (item.ItemId)
+            switch (e.ItemId)
             {
                 case Resource.Id.appbar_main_item_about:
                     new MaterialAlertDialogBuilder(this)
-                        .SetTitle(Resource.String.menu_about)
+                        .SetTitle(Resource.String.title_about)
                         .SetMessage(Resource.String.msg_about)
                         .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
                         .Show();
-                    return true;
+                    break;
+
                 case Resource.Id.appbar_main_item_exit:
                     Finish();
-                    return true;
+                    break;
 
+                default:
+                    e.Finished = false;
+                    break;
             }
-            return false;
         }
 
-        public bool OnNavigationItemSelected(IMenuItem item)
+        private void Navbar_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
-            switch (item.ItemId)
+            switch (e.Item.ItemId)
             {
                 case Resource.Id.navbar_main_item_accounts:
-                    NavigateTo(_fragment_accounts, false);
-                    return true;
+                    NavigateTo(0);
+                    break;
+
                 case Resource.Id.navbar_main_item_settings:
-                    NavigateTo(_fragment_settings, false);
-                    return true;
+                    NavigateTo(1);
+                    break;
             }
-            return false;
         }
 
-        protected override void OnDestroy()
+        private void MainActivity_OnBackButtonVisibilityChange(object sender, OnBackButtonVisibilityChange e)
         {
-            base.OnDestroy();
-            Instagram.SaveCache();
+            if (e.Visible)
+            {
+                _navbar.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                _navbar.Visibility = ViewStates.Visible;
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        public void NavigateTo(Fragment fragment, bool add_to_back_stack)
-        {
-            var tx = SupportFragmentManager.BeginTransaction().Replace(Resource.Id.main_container, fragment);
-            if (add_to_back_stack) 
-                tx.AddToBackStack(null);
-            tx.Commit();
-        }
+        public Accounts Accounts { get; private set; }
 
-        public override bool OnSupportNavigateUp()
-        {
-            SupportFragmentManager.PopBackStack();
-            return true;
-        }
-
-        public void OnBackStackChanged()
-        {
-            if (SupportFragmentManager.BackStackEntryCount > 0)
-            {
-                SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-                _navbar.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                SupportActionBar.SetDisplayHomeAsUpEnabled(false);
-                _navbar.Visibility = ViewStates.Visible;
-            }
-        }
-
-        public void PushFragment(Fragment fragment)
-        {
-            NavigateTo(fragment, true);
-        }
-
-        public void PopFragment()
-        {
-            SupportFragmentManager.PopBackStack();
-        }
-
-        public string ActionbarTitle 
-        { 
-            get => SupportActionBar.Title;
-            set => SupportActionBar.Title = value;
-        }
-
-        public Instagram Instagram { get; private set; }
-
-        private Fragment _fragment_accounts, _fragment_settings;
         private BottomNavigationView _navbar;
     }
 }

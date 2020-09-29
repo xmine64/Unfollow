@@ -1,17 +1,18 @@
 ﻿using Android.Content;
 using Android.OS;
 using Android.Views;
+
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
 
-namespace madamin.unfollow
+namespace Madamin.Unfollow.Fragments
 {
     public class SettingsFragment : PreferenceFragmentCompat, ISharedPreferencesOnSharedPreferenceChangeListener
     {
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            ((IFragmentHost)Activity).ActionbarTitle = GetString(Resource.String.settings);
+            ((IFragmentHost)Activity).ActionbarTitle = GetString(Resource.String.title_settings);
         }
 
         public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)

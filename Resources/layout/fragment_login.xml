@@ -3,17 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="50px">
+    android:padding="16dp"
+    android:orientation="vertical">
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username"
+        android:hint="@string/input_hint_username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_margin="4dp">
+        android:padding="4dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fragment_login_et_username"
             android:layout_width="match_parent"
@@ -24,10 +23,10 @@
         android:id="@+id/fragment_login_et_layout_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/password"
+        android:hint="@string/input_hint_password"
         app:endIconMode="password_toggle"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_margin="4dp">
+        android:padding="4dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fragment_login_et_password"
             android:layout_width="match_parent"
@@ -38,20 +37,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
+        android:padding="4dp"
         android:orientation="horizontal">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fragment_login_btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@android:string/cancel"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            />
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fragment_login_btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login"
-            style="@style/Widget.MaterialComponents.Button"
-            />
+            android:text="@string/button_text_login"
+            style="@style/Widget.MaterialComponents.Button" />
     </LinearLayout>
 </LinearLayout>

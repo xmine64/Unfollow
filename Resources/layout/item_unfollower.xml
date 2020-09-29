@@ -11,45 +11,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_unfollower_fullname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Headline6" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_unfollower_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Body1" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:id="@+id/item_unfollower_fullname"
-            />
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                android:id="@+id/item_unfollower_username"
-            />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:gravity="right"
             android:orientation="horizontal">
             <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:text="@string/unfollow"
                 android:id="@+id/item_unfollower_unfollow_button"
-                />
-            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:text="@string/openprofile"
-                android:id="@+id/item_unfollower_open_button"
-                />
+                android:text="@string/button_text_unfollow" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
