@@ -2,7 +2,6 @@
 using System.IO;
 
 using Android.App;
-using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Xamarin.Essentials;
@@ -10,9 +9,8 @@ using Xamarin.Essentials;
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
 
-using Google.Android.Material.AppBar;
-using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Dialog;
+using Google.Android.Material.BottomNavigation;
 
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
