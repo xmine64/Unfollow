@@ -1,33 +1,32 @@
 <resources>
-	<string name="app_name">آنفالویاب</string>
-
-	<string name="home">خانه</string>
-	<string name="unfollows">آنفالورها</string>
-	<string name="settings">تنظیمات</string>
-
-	<string name="login">ورود به حساب</string>
-	<string name="username">نام کاربری</string>
-	<string name="password">کلمه عبور</string>
-
-	<string name="error">خطا</string>
-
-	<string name="err_password">کلمه عبور نامعتبر</string>
-	<string name="err_login">خطا هنگام ورود</string>
-
-	<string name="msg_welcome">خوش آمدید {0}!</string>
-
-	<string name="menu_about">درباره..</string>
-	<string name="menu_exit">خروج</string>
-
-	<string name="msg_about">آنفالویاب ساده\nتوسط محمدامین ملازاده؛ حق کپی محفوظ است.</string>
-
-	<string name="descript_profile">تصویر نمایه</string>
-
-	<string name="refresh">بروزرسانی</string>
-	<string name="logout">خروج از حساب</string>
+    <string name="app_name">آنفالویاب</string>
 	
-	<string name="unfollow">آنفالو</string>
-	<string name="openprofile">بازکردن</string>
+    <string name="title_accounts">اکانت‌ها</string>
+    <string name="title_settings">تنظیمات</string>
+	<string name="title_login">ورود به سیستم</string>
+	
+	<string name="title_error">خطا</string>
+	<string name="title_addaccount">افزودن حساب کاربری</string>
+	<string name="title_about">درباره</string>
+	<string name="title_exit">خروج</string>
+	<string name="title_refresh">بروزرسانی</string>
+	<string name="title_themes">تم‌ها</string>
+	<string name="title_prefered_theme">تم ترجیحی</string>
+	<string name="title_empty">خالی\!</string>
+	
+	<string name="button_text_login">ورود</string>
+	<string name="button_text_logout">خروج از سیستم</string>
+	<string name="button_text_unfollow">آنفالو</string>
+	<string name="button_text_retry">تلاش محجدد</string>
+	
+	<string name="input_hint_username">نام کاربری</string>
+	<string name="input_hint_password">کلمه عبور</string>
 
-	<string name="msg_ffnumber">{0} فالویینگ | {1} فالور</string>
+	<string name="error_recyclerview">خراب شد:(</string>
+	<string name="error_invalid_password">کلمه عبور نامعتبر</string>
+	<string name="error_login_failure">خطا در ورود به سیستم</string>
+	<string name="error_ig_not_installed">برنامه اینستاگرام نصب نشده است</string>
+	
+	<string name="msg_about">آنفالویاب ساده\nتوسط محمدامین ملازاده؛ حق کپی محصفوظ است</string>
+	<string name="msg_followers">{0} فالویینگ | {1} فالور</string>
 </resources>

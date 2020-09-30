@@ -13,11 +13,11 @@
 	<string name="title_themes">Themes</string>
 	<string name="title_prefered_theme">Prefered Theme</string>
 	<string name="title_empty">Empty\!</string>
-	<string name="title_retry">Retry</string>
 	
 	<string name="button_text_login">Login</string>
 	<string name="button_text_logout">Logout</string>
 	<string name="button_text_unfollow">Unfollow</string>
+	<string name="button_text_retry">Retry</string>
 	
 	<string name="input_hint_username">User Name</string>
 	<string name="input_hint_password">Password</string>
