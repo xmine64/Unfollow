@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Android.Content;
 using Android.Widget;
@@ -12,9 +11,10 @@ using Madamin.Unfollow.Adapters;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class UnfollowFragment : FragmentBase
+    public class UnfollowFragment : RecyclerViewFragmentBase
     {
-        public UnfollowFragment(Account account) : base(Resource.Layout.fragment_recycler)
+        public UnfollowFragment(Account account) :
+            base()
         {
             _account = account;
             Create += UnfollowFragment_Create;
@@ -22,32 +22,18 @@ namespace Madamin.Unfollow.Fragments
 
         private void UnfollowFragment_Create(object sender, OnCreateEventArgs e)
         {
-            try
-            {
-                Title = _account.Data.User.Fullname;
+            Title = _account.Data.User.Fullname;
+            // set ErrorText
+            // set EmptyText
+            SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
 
-                _adapter = new UnfollowerAdapter(_account.Data.Unfollowers.ToList());
-                _adapter.ItemClick += Adapter_OnItemClick;
-                _adapter.ItemUnfollowClick += Adapter_OnItemUnfollowClick;
+            _adapter = new UnfollowerAdapter(_account);
+            _adapter.ItemClick += Adapter_OnItemClick;
+            _adapter.ItemUnfollowClick += Adapter_OnItemUnfollowClick;
 
-                _recycler = e.View.FindViewById<RecyclerView>(Resource.Id.fragment_recycler_view);
-                _recycler.SetAdapter(_adapter);
-            }
-            catch (Exception ex)
-            {
-                new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                        {
-                            Activity.Finish();
-                        })
-                        .Show();
-            }
+            Adapter = _adapter;
+
+            ViewMode = RecyclerViewMode.Data;
         }
 
         private void Adapter_OnItemClick(object sender, UnfollowClickEventArgs e)
@@ -58,6 +44,10 @@ namespace Madamin.Unfollow.Fragments
             {
                 Activity.StartActivity(intent);
             }
+            catch (ActivityNotFoundException)
+            {
+                Toast.MakeText(Activity, Resource.String.error_ig_not_installed, ToastLength.Long);
+            }
             catch (Exception ex)
             {
                 new MaterialAlertDialogBuilder(Activity)
@@ -67,21 +57,18 @@ namespace Madamin.Unfollow.Fragments
 #else
                         .SetMessage(ex.Message)
 #endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                        {
-                            Activity.Finish();
-                        })
+                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
                         .Show();
             }
         }
 
-        private async void Adapter_OnItemUnfollowClick(object sender, UnfollowClickEventArgs e)
+        private void Adapter_OnItemUnfollowClick(object sender, UnfollowClickEventArgs e)
         {
             //_btn_unfollow.Enabled = false;
             try
             {
-                await _account.UnfollowAsync(e.User);
-                _adapter.Remove(e.Position);
+                DoTask(_account.UnfollowAsync(e.User));
+                _adapter.Refresh();
                 _adapter.NotifyDataSetChanged();
             }
             catch (Exception ex)

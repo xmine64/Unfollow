@@ -7,13 +7,13 @@ using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
 
-using Data = Madamin.Unfollow.Instagram.Account.AccountData;
+using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.Adapters
 {
     class AccountAdapter : RecyclerView.Adapter
     {
-        public AccountAdapter(List<Data> data)
+        public AccountAdapter(Accounts data)
         {
             _data = data;
         }
@@ -24,15 +24,15 @@ namespace Madamin.Unfollow.Adapters
             if (account_view_holder == null)
                 return;
 
-            account_view_holder.BindData(_data[position]);
+            account_view_holder.BindData(_data[position].Data);
             account_view_holder.BindEvents(
                 (sender, args) =>
                 {
-                    ItemClick?.Invoke(this, new AccountClickEventArgs(position));
+                    ItemClick?.Invoke(sender, new AccountClickEventArgs(position));
                 },
                 (sender, args) =>
                 {
-                    ItemLogoutClick?.Invoke(this, new AccountClickEventArgs(position));
+                    ItemLogoutClick?.Invoke(sender, new AccountClickEventArgs(position));
                 });
         }
 
@@ -43,17 +43,12 @@ namespace Madamin.Unfollow.Adapters
             return new AccountViewHolder(view_item);
         }
 
-        public void Remove(int position)
-        {
-            _data.RemoveAt(position);
-        }
-
         public override int ItemCount => _data.Count;
 
         public event EventHandler<AccountClickEventArgs> ItemClick;
         public event EventHandler<AccountClickEventArgs> ItemLogoutClick;
 
-        private List<Data> _data;
+        private Accounts _data;
 
         class AccountViewHolder : RecyclerView.ViewHolder
         {
@@ -65,7 +60,7 @@ namespace Madamin.Unfollow.Adapters
                 _btn_logout = item.FindViewById<MaterialButton>(Resource.Id.item_account_logout);
             }
 
-            public void BindData(Data data)
+            public void BindData(Account.AccountData data)
             {
                 _tv_fullname.Text = data.User.Fullname;
                 _tv_username.Text = "@" + data.User.Username;

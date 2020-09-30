@@ -33,7 +33,7 @@ namespace Madamin.Unfollow
             BackButtonVisibilityChange += MainActivity_OnBackButtonVisibilityChange;
         }
 
-        private async void MainActivity_BeforeSetContentView(object sender, EventArgs e)
+        private void MainActivity_BeforeSetContentView(object sender, EventArgs e)
         {
             try
             {
@@ -55,8 +55,6 @@ namespace Madamin.Unfollow
                     DataDir = Path.Combine(DataDir.AbsolutePath, "session_data"),
                     CacheDir = CacheDir.AbsolutePath
                 };
-
-                await Accounts.RestoreStateAsync();
             }
             catch (Exception ex)
             {

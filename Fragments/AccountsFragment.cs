@@ -1,54 +1,46 @@
 ﻿using System;
-using System.Linq;
-
-using AndroidX.RecyclerView.Widget;
+using Google.Android.Material.Button;
 using Google.Android.Material.Dialog;
 
-using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
+using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class AccountsFragment : FragmentBase
+    public class AccountsFragment : RecyclerViewFragmentBase
     {
-        public AccountsFragment() : base(
-            Resource.Layout.fragment_recycler,
-            Resource.Menu.appbar_menu_accounts)
+        public AccountsFragment() :
+            base(Resource.Menu.appbar_menu_accounts)
         {
             Create += AccountsFragment_Create;
             MenuItemSelected += AccountsFragment_MenuItemSelected;
+            RetryClick += AccountsFragment_RetryClick;
         }
 
         private void AccountsFragment_Create(object sender, OnCreateEventArgs e)
         {
-            try
+            Title = GetString(Resource.String.app_name);
+            // TODO: set EmptyText
+            // TODO: set ErrorText
+            SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
+
+            var accounts = ((IInstagramHost)Activity).Accounts;
+
+            _adapter = new AccountAdapter(accounts);
+
+            _adapter.ItemClick += Adapter_OnItemClick;
+            _adapter.ItemLogoutClick += Adapter_OnItemLogoutClick;
+
+            Adapter = _adapter;
+
+            if (accounts.IsStateRestored)
             {
-                Title = GetString(Resource.String.app_name);
-
-                _adapter = new AccountAdapter(((IInstagramHost)Activity)
-                    .Accounts
-                    .Select(a => a.Data)
-                    .ToList());
-                _adapter.ItemClick += Adapter_OnItemClick;
-                _adapter.ItemLogoutClick += Adapter_OnItemLogoutClick;
-
-                _recycler = e.View.FindViewById<RecyclerView>(Resource.Id.fragment_recycler_view);
-                _recycler.SetAdapter(_adapter);
+                ViewMode = RecyclerViewMode.Data;
             }
-            catch (Exception ex)
+            else
             {
-                new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                        {
-                            Activity.Finish();
-                        })
-                        .Show();
+                DoTask(accounts.RestoreStateAsync());
+                _adapter.NotifyDataSetChanged();
             }
         }
 
@@ -78,14 +70,17 @@ namespace Madamin.Unfollow.Fragments
 
         private async void Adapter_OnItemLogoutClick(object sender, AccountClickEventArgs args)
         {
+            var button = (MaterialButton)sender;
+            button.Enabled = false;
             try
             {
                 await ((IInstagramHost)Activity).Accounts.LogoutAccountAtAsync(args.Position);
-                _adapter.Remove(args.Position);
                 _adapter.NotifyDataSetChanged();
+                ViewMode = RecyclerViewMode.Data;
             }
             catch (Exception ex)
             {
+                button.Enabled = true;
                 new MaterialAlertDialogBuilder(Activity)
                         .SetTitle(Resource.String.title_error)
 #if DEBUG
@@ -93,10 +88,7 @@ namespace Madamin.Unfollow.Fragments
 #else
                         .SetMessage(ex.Message)
 #endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                        {
-                            Activity.Finish();
-                        })
+                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
                         .Show();
             }
         }
@@ -107,32 +99,14 @@ namespace Madamin.Unfollow.Fragments
             {
                 case Resource.Id.appbar_home_item_addaccount:
                     PushFragment(new LoginFragment());
+                    ViewMode = RecyclerViewMode.Data;
                     break;
 
                 case Resource.Id.appbar_home_item_refresh:
-                    new Action(async () =>
-                    {
-                        try
-                        {
-                            await ((IInstagramHost)Activity).Accounts.RefreshAllAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            new MaterialAlertDialogBuilder(Activity)
-                                    .SetTitle(Resource.String.title_error)
-#if DEBUG
-                                    .SetMessage(ex.ToString())
-#else
-                                    .SetMessage(ex.Message)
-#endif
-                                    .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                                    {
-                                        Activity.Finish();
-                                    })
-                                    .Show();
-                        }
-                    }).Invoke();
-                    Refresh();
+                    DoTask(((IInstagramHost)Activity)
+                        .Accounts
+                        .RefreshAllAsync());
+                    _adapter.NotifyDataSetChanged();
                     break;
 
                 default:
@@ -141,7 +115,19 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        private RecyclerView _recycler;
+        private void AccountsFragment_RetryClick(object sender, EventArgs e)
+        {
+            var accounts = ((IInstagramHost)Activity).Accounts;
+            if (accounts.IsStateRestored)
+            {
+                DoTask(accounts.RestoreStateAsync());
+            }
+            else
+            {
+                DoTask(accounts.RefreshAllAsync());
+            }
+        }
+
         private AccountAdapter _adapter;
     }
 }

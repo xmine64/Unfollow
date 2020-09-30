@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -7,6 +8,11 @@ namespace Madamin.Unfollow.Instagram
 {
     public class Accounts : IEnumerable<Account>
     {
+        public Accounts()
+        {
+            IsStateRestored = false;
+        }
+
         public async Task AddAccountAsync(string username, string password)
         {
             if (!Directory.Exists(DataDir))
@@ -39,6 +45,8 @@ namespace Madamin.Unfollow.Instagram
 
         public async Task RestoreStateAsync()
         {
+            if (IsStateRestored)
+                throw new AlreadyRestoredException();
             if (Directory.Exists(DataDir))
             {
                 foreach (var file in Directory.GetFiles(DataDir))
@@ -58,8 +66,11 @@ namespace Madamin.Unfollow.Instagram
                         await RefreshAccountAsync(account);
                     }
 
+                    if (_accounts.Contains(account))
+                        throw new DuplicateAccountException();
                     _accounts.Add(account);
                 }
+                IsStateRestored = true;
             }
         }
 
@@ -73,6 +84,8 @@ namespace Madamin.Unfollow.Instagram
 
         public string DataDir { get; set; }
         public string CacheDir { get; set; }
+
+        public bool IsStateRestored { get; private set; }
 
         private string GetAccountStatePath(Account account)
         {
@@ -120,4 +133,7 @@ namespace Madamin.Unfollow.Instagram
     {
         Accounts Accounts { get; }
     }
+
+    public class AlreadyRestoredException : Exception { }
+    public class DuplicateAccountException : Exception { }
 }

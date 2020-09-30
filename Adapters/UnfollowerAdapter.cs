@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Android.Views;
 
 using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
 
-using User = Madamin.Unfollow.Instagram.User;
+using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.Adapters
 {
     class UnfollowerAdapter : RecyclerView.Adapter
     {
-        public UnfollowerAdapter(List<User> unfollowers)
+        public UnfollowerAdapter(Account data)
         {
-            _unfollowers = unfollowers;
+            _data = data;
+            _unfollowers_cache = _data.Data.Unfollowers.ToArray();
         }
 
-        public override int ItemCount => _unfollowers.Count;
+        public override int ItemCount => _unfollowers_cache.Length;
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -26,15 +27,15 @@ namespace Madamin.Unfollow.Adapters
             if (unfollow_view_holder == null)
                 return;
 
-            unfollow_view_holder.BindData(_unfollowers[position]);
+            unfollow_view_holder.BindData(_unfollowers_cache[position]);
             unfollow_view_holder.BindEvents(
                 (sender, args) =>
                 {
-                    ItemClick?.Invoke(this, new UnfollowClickEventArgs(_unfollowers[position], position));
+                    ItemClick?.Invoke(sender, new UnfollowClickEventArgs(_unfollowers_cache[position]));
                 },
                 (sender, args) =>
                 {
-                    ItemUnfollowClick?.Invoke(this, new UnfollowClickEventArgs(_unfollowers[position], position));
+                    ItemUnfollowClick?.Invoke(sender, new UnfollowClickEventArgs(_unfollowers_cache[position]));
                 });
         }
 
@@ -45,15 +46,16 @@ namespace Madamin.Unfollow.Adapters
             return new UnfollowerViewHolder(view_item);
         }
 
-        public void Remove(int position)
+        public void Refresh()
         {
-            _unfollowers.RemoveAt(position);
+            _unfollowers_cache = _data.Data.Unfollowers.ToArray();
         }
 
         public event EventHandler<UnfollowClickEventArgs> ItemClick;
         public event EventHandler<UnfollowClickEventArgs> ItemUnfollowClick;
 
-        private List<User> _unfollowers;
+        private Account _data;
+        private User[] _unfollowers_cache;
 
         class UnfollowerViewHolder : RecyclerView.ViewHolder
         {
@@ -84,13 +86,11 @@ namespace Madamin.Unfollow.Adapters
 
     class UnfollowClickEventArgs : EventArgs
     {
-        public UnfollowClickEventArgs(User user, int position)
+        public UnfollowClickEventArgs(User user)
         {
             User = user;
-            Position = position;
         }
 
         public User User { get; }
-        public int Position { get; }
     }
 }

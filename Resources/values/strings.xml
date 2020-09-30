@@ -12,6 +12,8 @@
 	<string name="title_refresh">Refresh</string>
 	<string name="title_themes">Themes</string>
 	<string name="title_prefered_theme">Prefered Theme</string>
+	<string name="title_empty">Empty\!</string>
+	<string name="title_retry">Retry</string>
 	
 	<string name="button_text_login">Login</string>
 	<string name="button_text_logout">Logout</string>
@@ -20,8 +22,10 @@
 	<string name="input_hint_username">User Name</string>
 	<string name="input_hint_password">Password</string>
 
+	<string name="error_recyclerview">Something went wrong!</string>
 	<string name="error_invalid_password">Invalid Password</string>
 	<string name="error_login_failure">Can\'t log into your account</string>
+	<string name="error_ig_not_installed">Instagram app is not installed</string>
 	
 	<string name="msg_about">Minimal Unfollow Tracker\nCopyright (C) 2020 By Mohammad Amin Mollazadeh</string>
 	<string name="msg_followers">{0} Followings | {1} Followers</string>
