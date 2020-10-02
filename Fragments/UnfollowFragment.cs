@@ -3,7 +3,6 @@
 using Android.Content;
 using Android.Widget;
 
-using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.Dialog;
 
 using Madamin.Unfollow.Instagram;
@@ -90,7 +89,6 @@ namespace Madamin.Unfollow.Fragments
         }
 
         private Account _account;
-        private RecyclerView _recycler;
         private UnfollowerAdapter _adapter;
     }
 }

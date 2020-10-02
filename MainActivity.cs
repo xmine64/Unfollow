@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 
+using Java.Util;
+
 using Android.App;
 using Android.Views;
 using Android.Content;
-using Android.Runtime;
-using Xamarin.Essentials;
 
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
@@ -51,11 +51,11 @@ namespace Madamin.Unfollow
             var applang = prefs.GetString("lang", "sysdef");
             if (applang == "sysdef")
             {
-                config.SetLocale(Java.Util.Locale.Default);
+                config.SetLocale(Locale.Default);
             }
             else
             {
-                var locale = new Java.Util.Locale(applang);
+                var locale = new Locale(applang);
                 config.SetLocale(locale);
             }
 
@@ -141,12 +141,6 @@ namespace Madamin.Unfollow
             {
                 _navbar.Visibility = ViewStates.Visible;
             }
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
-        {
-            Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         public Accounts Accounts { get; private set; }
