@@ -38,8 +38,12 @@ namespace Madamin.Unfollow
             var prefs = PreferenceManager.GetDefaultSharedPreferences(context);
             var config = context.Resources.Configuration;
 
-            var apptheme = prefs.GetString("theme", "");
-            if (apptheme == "light")
+            var apptheme = prefs.GetString("theme", "adaptive");
+            if (apptheme == "adaptive")
+            {
+                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightFollowSystem;
+            }
+            else if (apptheme == "light")
             {
                 AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
             }
