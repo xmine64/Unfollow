@@ -30,7 +30,7 @@ namespace Madamin.Unfollow.Instagram
             var state_path = GetAccountStatePath(_accounts[i]);
 
             await _accounts[i].LogoutAsync();
-            
+
             _accounts.RemoveAt(i);
             File.Delete(state_path);
         }
@@ -70,8 +70,8 @@ namespace Madamin.Unfollow.Instagram
                         throw new DuplicateAccountException();
                     _accounts.Add(account);
                 }
-                IsStateRestored = true;
             }
+            IsStateRestored = true;
         }
 
         public void SaveCacheAll()

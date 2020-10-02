@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Android.Views;
 
 using AndroidX.RecyclerView.Widget;
@@ -67,7 +67,8 @@ namespace Madamin.Unfollow.Adapters
                 _tv_followers.Text = string.Format(
                     _tv_followers.Text, 
                     data.Followings.Count,
-                    data.Followers.Count);
+                    data.Followers.Count,
+                    data.Unfollowers.Count());
             }
 
             public void BindEvents(EventHandler click_handler, EventHandler logout_handler)
