@@ -1,13 +1,16 @@
 ﻿using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using Android.Views;
 
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
+using Java.Util;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class SettingsFragment : PreferenceFragmentCompat, ISharedPreferencesOnSharedPreferenceChangeListener
+    public class SettingsFragment : 
+        PreferenceFragmentCompat, ISharedPreferencesOnSharedPreferenceChangeListener
     {
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
@@ -28,11 +31,24 @@ namespace Madamin.Unfollow.Fragments
             {
                 var apptheme = sharedPreferences.GetString("theme", "adaptive");
                 if (apptheme == "adaptive")
+                {
                     AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightFollowSystem;
+                }
                 else if (apptheme == "light")
+                {
                     AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+                }
                 else if (apptheme == "dark")
+                {
                     AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
+                }
+                return;
+            }
+
+            if (key == "lang")
+            {
+                Activity?.Recreate();
+                return;
             }
         }
     }

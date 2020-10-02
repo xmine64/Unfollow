@@ -5,4 +5,10 @@
 		<item>روشن</item>
 		<item>تیره</item>
 	</string-array>
+
+	<string-array name="settings_langs">
+		<item>پیشفرض سیستم</item>
+		<item>انگلیسی</item>
+		<item>فارسی</item>
+	</string-array>
 </resources>

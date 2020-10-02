@@ -5,10 +5,22 @@
 		<item>light</item>
 		<item>dark</item>
 	</string-array>
-	
+
 	<string-array name="settings_themes">
 		<item>Adaptive</item>
 		<item>Light</item>
 		<item>Dark</item>
+	</string-array>
+
+	<string-array name="settings_langs_values">
+		<item>sysdef</item>
+		<item>en</item>
+		<item>fa</item>
+	</string-array>
+
+	<string-array name="settings_langs">
+		<item>System Default</item>
+		<item>English</item>
+		<item>Persian</item>
 	</string-array>
 </resources>

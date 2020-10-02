@@ -13,6 +13,8 @@
 	<string name="title_themes">Themes</string>
 	<string name="title_prefered_theme">Prefered Theme</string>
 	<string name="title_empty">Empty\!</string>
+	<string name="title_langs">Languages</string>
+	<string name="title_prefered_lang">Prefered Language</string>
 	
 	<string name="button_text_login">Login</string>
 	<string name="button_text_logout">Logout</string>

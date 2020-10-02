@@ -39,8 +39,6 @@ namespace Madamin.Unfollow
 
             SupportFragmentManager.AddOnBackStackChangedListener(this);
 
-            BeforeSetContentView?.Invoke(this, new EventArgs());
-
             SetContentView(_layout);
             SetSupportActionBar(FindViewById<Toolbar>(_actionbar));
 
@@ -126,7 +124,6 @@ namespace Madamin.Unfollow
         }
 
         public event EventHandler Create;
-        public event EventHandler BeforeSetContentView;
         public event EventHandler<OnMenuItemSelectedEventArgs> MenuItemSelected;
         public event EventHandler<OnBackButtonVisibilityChange> BackButtonVisibilityChange;
 

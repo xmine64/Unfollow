@@ -438,10 +438,16 @@ namespace Madamin.Unfollow
 		{
 			
 			// aapt resource value: 0x7F030000
-			public const int settings_themes = 2130903040;
+			public const int settings_langs = 2130903040;
 			
 			// aapt resource value: 0x7F030001
-			public const int settings_themes_values = 2130903041;
+			public const int settings_langs_values = 2130903041;
+			
+			// aapt resource value: 0x7F030002
+			public const int settings_themes = 2130903042;
+			
+			// aapt resource value: 0x7F030003
+			public const int settings_themes_values = 2130903043;
 			
 			static Array()
 			{
@@ -6276,6 +6282,9 @@ namespace Madamin.Unfollow
 			// aapt resource value: 0x7F10001F
 			public const int button_text_logout = 2131755039;
 			
+			// aapt resource value: 0x7F100020
+			public const int button_text_retry = 2131755040;
+			
 			// aapt resource value: 0x7F100021
 			public const int button_text_unfollow = 2131755041;
 			
@@ -6505,28 +6514,31 @@ namespace Madamin.Unfollow
 			public const int title_exit = 2131755116;
 			
 			// aapt resource value: 0x7F10006D
-			public const int title_login = 2131755117;
+			public const int title_langs = 2131755117;
 			
 			// aapt resource value: 0x7F10006E
-			public const int title_prefered_theme = 2131755118;
+			public const int title_login = 2131755118;
 			
 			// aapt resource value: 0x7F10006F
-			public const int title_refresh = 2131755119;
+			public const int title_prefered_lang = 2131755119;
 			
 			// aapt resource value: 0x7F100070
-			public const int title_retry = 2131755120;
+			public const int title_prefered_theme = 2131755120;
 			
 			// aapt resource value: 0x7F100071
-			public const int title_settings = 2131755121;
+			public const int title_refresh = 2131755121;
 			
 			// aapt resource value: 0x7F100072
-			public const int title_themes = 2131755122;
+			public const int title_settings = 2131755122;
 			
 			// aapt resource value: 0x7F100073
-			public const int v7_preference_off = 2131755123;
+			public const int title_themes = 2131755123;
 			
 			// aapt resource value: 0x7F100074
-			public const int v7_preference_on = 2131755124;
+			public const int v7_preference_off = 2131755124;
+			
+			// aapt resource value: 0x7F100075
+			public const int v7_preference_on = 2131755125;
 			
 			static String()
 			{

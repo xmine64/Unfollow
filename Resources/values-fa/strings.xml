@@ -13,6 +13,8 @@
 	<string name="title_themes">تم‌ها</string>
 	<string name="title_prefered_theme">تم ترجیحی</string>
 	<string name="title_empty">خالی\!</string>
+	<string name="title_langs">زبان‌ها</string>
+	<string name="title_prefered_lang">زبان ترجیحی</string>
 	
 	<string name="button_text_login">ورود</string>
 	<string name="button_text_logout">خروج از سیستم</string>
@@ -27,6 +29,6 @@
 	<string name="error_login_failure">خطا در ورود به سیستم</string>
 	<string name="error_ig_not_installed">برنامه اینستاگرام نصب نشده است</string>
 	
-	<string name="msg_about">آنفالویاب ساده\nتوسط محمدامین ملازاده؛ حق کپی محصفوظ است</string>
+	<string name="msg_about">آنفالویاب ساده\nتوسط محمدامین ملازاده؛ حق کپی محفوظ است</string>
 	<string name="msg_followers">{0} فالویینگ | {1} فالور</string>
 </resources>
