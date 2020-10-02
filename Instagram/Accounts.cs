@@ -8,16 +8,21 @@ namespace Madamin.Unfollow.Instagram
 {
     public class Accounts : IEnumerable<Account>
     {
-        public Accounts()
+        public Accounts(string state_path, string cache_path)
         {
+            DataDir = state_path;
+            CacheDir = cache_path;
             IsStateRestored = false;
+
+            if (!Directory.Exists(DataDir))
+                Directory.CreateDirectory(DataDir);
+
+            if (!Directory.Exists(CacheDir))
+                Directory.CreateDirectory(CacheDir);
         }
 
         public async Task AddAccountAsync(string username, string password)
         {
-            if (!Directory.Exists(DataDir))
-                Directory.CreateDirectory(DataDir);
-
             var account = new Account();
             await account.LoginAsync(username, password);
             await RefreshAccountAsync(account);
@@ -47,30 +52,29 @@ namespace Madamin.Unfollow.Instagram
         {
             if (IsStateRestored)
                 throw new AlreadyRestoredException();
-            if (Directory.Exists(DataDir))
+
+            foreach (var file in Directory.GetFiles(DataDir))
             {
-                foreach (var file in Directory.GetFiles(DataDir))
+                var account = new Account();
+                account.LoadState(file);
+
+                // can't use GetAccountCachePath() because account.Data is null
+                var cache = Path.Combine(CacheDir, Path.GetFileName(file));
+
+                if (File.Exists(cache))
                 {
-                    var account = new Account();
-                    account.LoadState(file);
-
-                    // can't use GetAccountCachePath() because account.Data is null
-                    var cache = Path.Combine(CacheDir, Path.GetFileName(file));
-
-                    if (File.Exists(cache))
-                    {
-                        account.LoadCache(cache);
-                    }
-                    else
-                    {
-                        await RefreshAccountAsync(account);
-                    }
-
-                    if (_accounts.Contains(account))
-                        throw new DuplicateAccountException();
-                    _accounts.Add(account);
+                    account.LoadCache(cache);
                 }
+                else
+                {
+                    await RefreshAccountAsync(account);
+                }
+
+                if (_accounts.Contains(account))
+                    throw new DuplicateAccountException();
+                _accounts.Add(account);
             }
+
             IsStateRestored = true;
         }
 
@@ -82,8 +86,32 @@ namespace Madamin.Unfollow.Instagram
             }
         }
 
-        public string DataDir { get; set; }
-        public string CacheDir { get; set; }
+        public async void RestoreDataFromOldVersion(string state_path, string cache_path)
+        {
+            var account = new Account();
+            
+            account.LoadState(state_path);
+            
+            account.SaveState(GetAccountStatePath(account));
+            File.Delete(state_path);
+            
+            if (File.Exists(cache_path))
+            {
+                account.LoadCache(cache_path);
+
+                account.SaveCache(cache_path);
+                File.Delete(cache_path);
+            }
+            else
+            {
+                await RefreshAccountAsync(account);
+            }
+
+            _accounts.Add(account);
+        }
+
+        public string DataDir { get; }
+        public string CacheDir { get; }
 
         public bool IsStateRestored { get; private set; }
 
