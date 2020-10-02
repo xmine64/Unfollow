@@ -91,21 +91,20 @@ namespace Madamin.Unfollow.Instagram
             var account = new Account();
             
             account.LoadState(state_path);
-            
-            account.SaveState(GetAccountStatePath(account));
             File.Delete(state_path);
-            
+
             if (File.Exists(cache_path))
             {
                 account.LoadCache(cache_path);
-
-                account.SaveCache(cache_path);
                 File.Delete(cache_path);
             }
             else
             {
                 await RefreshAccountAsync(account);
             }
+
+            SaveAccountState(account);
+            SaveAccountCache(account);
 
             _accounts.Add(account);
         }
