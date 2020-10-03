@@ -1,7 +1,9 @@
 # Minimal Unfollow App
+[![telegram channel](https://patrolavia.github.io/telegram-badge/follow.png)](https://t.me/unfollowapp)
+
 a small application to track the people who unfollowed you on Instagram.
 
-based on Xamarin and InstaSharpApi
+based on Xamarin and [InstaSharpApi](https://github.com/ramtinak/InstagramApiSharp)
 
 # Features
 * No Ads and Open Source
