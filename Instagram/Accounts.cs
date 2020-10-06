@@ -86,29 +86,6 @@ namespace Madamin.Unfollow.Instagram
             }
         }
 
-        public async void RestoreDataFromOldVersion(string state_path, string cache_path)
-        {
-            var account = new Account();
-            
-            account.LoadState(state_path);
-            File.Delete(state_path);
-
-            if (File.Exists(cache_path))
-            {
-                account.LoadCache(cache_path);
-                File.Delete(cache_path);
-            }
-            else
-            {
-                await RefreshAccountAsync(account);
-            }
-
-            SaveAccountState(account);
-            SaveAccountCache(account);
-
-            _accounts.Add(account);
-        }
-
         public string DataDir { get; }
         public string CacheDir { get; }
 

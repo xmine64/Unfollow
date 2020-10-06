@@ -72,13 +72,6 @@ namespace Madamin.Unfollow
                     Path.Combine(DataDir.AbsolutePath, "accounts"),
                     CacheDir.AbsolutePath
                 );
-
-                var old_state = Path.Combine(DataDir.AbsolutePath, "session_data");
-                var old_cache = Path.Combine(CacheDir.AbsolutePath, "cache_data");
-                if (File.Exists(old_state))
-                {
-                    Accounts.RestoreDataFromOldVersion(old_state, old_cache);
-                }
             }
             catch (Exception ex)
             {
