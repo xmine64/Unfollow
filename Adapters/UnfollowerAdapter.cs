@@ -18,7 +18,7 @@ namespace Madamin.Unfollow.Adapters
         {
             _data = data;
             _listener = listener;
-            Refresh();
+            _unfollowers_cache = new List<User>();
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
@@ -46,7 +46,8 @@ namespace Madamin.Unfollow.Adapters
 
         public void Refresh()
         {
-            _unfollowers_cache = _data.Data.Unfollowers.ToArray();
+            _unfollowers_cache.Clear();
+            _unfollowers_cache.AddRange(_data.Data.Unfollowers);
             SelectedItems = new List<int>();
         }
 
@@ -66,7 +67,7 @@ namespace Madamin.Unfollow.Adapters
         public void SelectAll()
         {
             DeselectAll();
-            SelectedItems.AddRange(Enumerable.Range(0, _unfollowers_cache.Length));
+            SelectedItems.AddRange(Enumerable.Range(0, _unfollowers_cache.Count));
             NotifyDataSetChanged();
         }
 
@@ -81,12 +82,12 @@ namespace Madamin.Unfollow.Adapters
             return SelectedItems.Select(pos => _unfollowers_cache[pos]).ToArray();
         }
 
-        public override int ItemCount => _unfollowers_cache.Length;
+        public override int ItemCount => _unfollowers_cache.Count;
 
         public List<int> SelectedItems { get; private set; }
 
         private Account _data;
-        private User[] _unfollowers_cache;
+        private List<User> _unfollowers_cache;
 
         private IUnfollowerItemClickListener _listener;
     }

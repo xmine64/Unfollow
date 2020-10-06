@@ -124,17 +124,17 @@ namespace Madamin.Unfollow.Instagram
             return Path.Combine(CacheDir, account.Data.User.Id.ToString());
         }
 
-        private void SaveAccountState(Account account)
+        public void SaveAccountState(Account account)
         {
             account.SaveState(GetAccountStatePath(account));
         }
 
-        private void SaveAccountCache(Account account)
+        public void SaveAccountCache(Account account)
         {
             account.SaveCache(GetAccountCachePath(account));
         }
 
-        private async Task RefreshAccountAsync(Account account)
+        public async Task RefreshAccountAsync(Account account)
         {
             await account.RefreshAsync();
             SaveAccountCache(account);

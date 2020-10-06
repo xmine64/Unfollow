@@ -37,6 +37,7 @@ namespace Madamin.Unfollow.Fragments
 
             _adapter = new UnfollowerAdapter(_account, this);
             Adapter = _adapter;
+            _adapter.Refresh();
             ViewMode = RecyclerViewMode.Data;
         }
 
@@ -84,6 +85,7 @@ namespace Madamin.Unfollow.Fragments
             try
             {
                 DoTask(_account.UnfollowAsync(_adapter.GetItem(position)));
+                ((IInstagramHost)Activity).Accounts.SaveAccountCache(_account);
                 _adapter.Refresh();
                 _adapter.NotifyDataSetChanged();
             }
@@ -172,6 +174,7 @@ namespace Madamin.Unfollow.Fragments
                 _update_progress(i, users.Length);
                 await _account.UnfollowAsync(users[i]);
             }
+            ((IInstagramHost)Activity).Accounts.SaveAccountCache(_account);
         }
 
         private void _update_progress(int i, int total)
