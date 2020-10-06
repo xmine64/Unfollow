@@ -38,8 +38,10 @@ namespace Madamin.Unfollow.Fragments
             }
             else
             {
-                DoTask(accounts.RestoreStateAsync());
-                _adapter.NotifyDataSetChanged();
+                DoTask(accounts.RestoreStateAsync(), () => 
+                {
+                    _adapter.NotifyDataSetChanged();
+                });
             }
         }
 
@@ -86,8 +88,10 @@ namespace Madamin.Unfollow.Fragments
                 case Resource.Id.appbar_home_item_refresh:
                     DoTask(((IInstagramHost)Activity)
                         .Accounts
-                        .RefreshAllAsync());
-                    _adapter.NotifyDataSetChanged();
+                        .RefreshAllAsync(),
+                        () => {
+                            _adapter.NotifyDataSetChanged();
+                        });
                     break;
 
                 default:
@@ -101,11 +105,11 @@ namespace Madamin.Unfollow.Fragments
             var accounts = ((IInstagramHost)Activity).Accounts;
             if (accounts.IsStateRestored)
             {
-                DoTask(accounts.RestoreStateAsync());
+                DoTask(accounts.RestoreStateAsync(), () => { });
             }
             else
             {
-                DoTask(accounts.RefreshAllAsync());
+                DoTask(accounts.RefreshAllAsync(), () => { });
             }
         }
 

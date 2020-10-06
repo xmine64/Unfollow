@@ -84,10 +84,12 @@ namespace Madamin.Unfollow.Fragments
             //_btn_unfollow.Enabled = false;
             try
             {
-                DoTask(_account.UnfollowAsync(_adapter.GetItem(position)));
-                ((IInstagramHost)Activity).Accounts.SaveAccountCache(_account);
-                _adapter.Refresh();
-                _adapter.NotifyDataSetChanged();
+                DoTask(_account.UnfollowAsync(_adapter.GetItem(position)), () =>
+                {
+                    _adapter.Refresh();
+                    _adapter.NotifyDataSetChanged();
+                    ((IInstagramHost)Activity).Accounts.SaveAccountCache(_account);
+                });
             }
             catch (Exception ex)
             {
@@ -139,9 +141,12 @@ namespace Madamin.Unfollow.Fragments
                         _adapter.SelectedItems.Count);
                     return true;
                 case Resource.Id.appbar_unfollow_item_unfollow:
-                    DoTask(BatchUnfollowAsync(_adapter.GetSelected()));
+                    DoTask(BatchUnfollowAsync(_adapter.GetSelected()), () => 
+                    {
+                        _adapter.NotifyDataSetChanged();
+                        ((IInstagramHost)Activity).Accounts.SaveAccountCache(_account);
+                    });
                     mode.Finish();
-                    _adapter.NotifyDataSetChanged();
                     return true;
                 default:
                     return false;
@@ -174,7 +179,7 @@ namespace Madamin.Unfollow.Fragments
                 _update_progress(i, users.Length);
                 await _account.UnfollowAsync(users[i]);
             }
-            ((IInstagramHost)Activity).Accounts.SaveAccountCache(_account);
+            ProgressText = GetString(Resource.String.title_loading);
         }
 
         private void _update_progress(int i, int total)

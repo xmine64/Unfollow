@@ -51,7 +51,7 @@ namespace Madamin.Unfollow.Fragments
             e.View.FindViewById<MaterialButton>(Resource.Id.fragment_recyclerview_error_retry).SetOnClickListener(this);
         }
 
-        public void DoTask(Task task)
+        public void DoTask(Task task, Action post_action)
         {
             Activity.RunOnUiThread(async () =>
             {
@@ -62,6 +62,8 @@ namespace Madamin.Unfollow.Fragments
                     await task;
 
                     ViewMode = RecyclerViewMode.Data;
+
+                    post_action();
                 }
                 catch (Exception ex)
                 {
