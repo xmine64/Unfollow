@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Android.OS;
-using Xamarin.Essentials;
 
 using AndroidX.Fragment.App;
 using AndroidX.AppCompat.App;
 using AndroidX.AppCompat.Widget;
 
+using Xamarin.Essentials;
+
 using Madamin.Unfollow.Fragments;
-using System.Collections.Generic;
 
 namespace Madamin.Unfollow
 {
