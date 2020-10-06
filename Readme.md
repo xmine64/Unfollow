@@ -8,9 +8,10 @@ based on Xamarin and [InstaSharpApi](https://github.com/ramtinak/InstagramApiSha
 # Features
 * No Ads and Open Source
 * Log in multiple accounts at same time
+* Batch unfollow
 
 # TODO
-* Batch unfollow
+* whitelist
 
 # Contribute
 You can translate app in your native language.
