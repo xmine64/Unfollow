@@ -1,13 +1,17 @@
 ﻿using System;
+
 using Google.Android.Material.Button;
 using Google.Android.Material.Dialog;
 
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.ViewHolders;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class AccountsFragment : RecyclerViewFragmentBase
+    public class AccountsFragment : 
+        RecyclerViewFragmentBase,
+        IAccountItemClickListener
     {
         public AccountsFragment() :
             base(Resource.Menu.appbar_menu_accounts)
@@ -26,11 +30,7 @@ namespace Madamin.Unfollow.Fragments
 
             var accounts = ((IInstagramHost)Activity).Accounts;
 
-            _adapter = new AccountAdapter(accounts);
-
-            _adapter.ItemClick += Adapter_OnItemClick;
-            _adapter.ItemLogoutClick += Adapter_OnItemLogoutClick;
-
+            _adapter = new AccountAdapter(accounts, this);
             Adapter = _adapter;
 
             if (accounts.IsStateRestored)
@@ -44,43 +44,25 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        private void Adapter_OnItemClick(object sender, AccountClickEventArgs args)
+        public void OnItemClick(int position)
         {
-            try
-            {
-                var user = ((IInstagramHost)Activity).Accounts[args.Position];
-                PushFragment(new UnfollowFragment(user));
-            }
-            catch (Exception ex)
-            {
-                new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                        {
-                            Activity.Finish();
-                        })
-                        .Show();
-            }
+            var user = _adapter.GetItem(position);
+            PushFragment(new UnfollowFragment(user));
         }
 
-        private async void Adapter_OnItemLogoutClick(object sender, AccountClickEventArgs args)
+        public async void OnItemLogoutClick(int position)
         {
-            var button = (MaterialButton)sender;
-            button.Enabled = false;
+            //var button = (MaterialButton)sender;
+            //button.Enabled = false;
             try
             {
-                await ((IInstagramHost)Activity).Accounts.LogoutAccountAtAsync(args.Position);
+                await ((IInstagramHost)Activity).Accounts.LogoutAccountAtAsync(position);
                 _adapter.NotifyDataSetChanged();
                 ViewMode = RecyclerViewMode.Data;
             }
             catch (Exception ex)
             {
-                button.Enabled = true;
+                //button.Enabled = true;
                 new MaterialAlertDialogBuilder(Activity)
                         .SetTitle(Resource.String.title_error)
 #if DEBUG

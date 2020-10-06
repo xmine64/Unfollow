@@ -7,14 +7,15 @@ using Google.Android.Material.Dialog;
 
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
-using System.Collections.Generic;
-using Android.Views;
-using Android.Graphics;
-using Android.Graphics.Drawables;
+using Madamin.Unfollow.ViewHolders;
+using AndroidX.AppCompat.View;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class UnfollowFragment : RecyclerViewFragmentBase
+    public class UnfollowFragment :
+        RecyclerViewFragmentBase,
+        IUnfollowerItemClickListener,
+        ActionMode.ICallback
     {
         public UnfollowFragment(Account account) :
             base()
@@ -26,22 +27,25 @@ namespace Madamin.Unfollow.Fragments
         private void UnfollowFragment_Create(object sender, OnCreateEventArgs e)
         {
             Title = _account.Data.User.Fullname;
-            // set ErrorText
-            // set EmptyText
+            // TODO: set ErrorText
+            // TODO: set EmptyText
             SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
 
-            _adapter = new UnfollowerAdapter(_account);
-            _adapter.ItemClick += Adapter_OnItemClick;
-            _adapter.ItemUnfollowClick += Adapter_OnItemUnfollowClick;
-
+            _adapter = new UnfollowerAdapter(_account, this);
             Adapter = _adapter;
-
             ViewMode = RecyclerViewMode.Data;
         }
 
-        private void Adapter_OnItemClick(object sender, UnfollowClickEventArgs e)
+        public void OnItemClick(int position)
         {
-            var intent = Intent.ParseUri("https://instagram.com/_u/" + e.User.Username, IntentUriType.None);
+            if (_adapter.SelectedItems.Count > 0)
+            {
+                _select_or_deselect_item(position);
+                return;
+            }
+
+            var user = _adapter.GetItem(position);
+            var intent = Intent.ParseUri("https://instagram.com/_u/" + user.Username, IntentUriType.None);
             intent.SetPackage("com.instagram.android");
             try
             {
@@ -65,12 +69,17 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        private void Adapter_OnItemUnfollowClick(object sender, UnfollowClickEventArgs e)
+        public void OnItemLongClick(int position)
+        {
+            _select_or_deselect_item(position);
+        }
+
+        public void OnItemUnfollowClick(int position)
         {
             //_btn_unfollow.Enabled = false;
             try
             {
-                DoTask(_account.UnfollowAsync(e.User));
+                DoTask(_account.UnfollowAsync(_adapter.GetItem(position)));
                 _adapter.Refresh();
                 _adapter.NotifyDataSetChanged();
             }
@@ -92,7 +101,47 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
+        private void _select_or_deselect_item(int pos)
+        {
+            _adapter.SelectOrDeselectItem(pos);
+
+            if (_adapter.SelectedItems.Count > 0 &&
+                _action_mode == null)
+            {
+                var parent = (FragmentHostBase)Activity;
+                _action_mode = parent.StartSupportActionMode(this);
+            }
+            else if (_adapter.SelectedItems.Count == 0)
+            {
+                // _action_mode should not be null here, it's a bug
+                _action_mode.Finish();
+            }
+        }
+
+        public bool OnActionItemClicked(ActionMode mode, Android.Views.IMenuItem item)
+        {
+            // TODO
+            return false;
+        }
+
+        public bool OnCreateActionMode(ActionMode mode, Android.Views.IMenu menu)
+        {
+            // TODO
+            return true;
+        }
+
+        public void OnDestroyActionMode(ActionMode mode)
+        {
+            _action_mode = null;
+        }
+
+        public bool OnPrepareActionMode(ActionMode mode, Android.Views.IMenu menu)
+        {
+            return false;
+        }
+
         private Account _account;
         private UnfollowerAdapter _adapter;
+        private ActionMode _action_mode = null;
     }
 }
