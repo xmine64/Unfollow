@@ -28,6 +28,7 @@ namespace Madamin.Unfollow
             Resource.Id.main_container)
         {
             Create += MainActivity_OnCreate;
+            BackButtonVisibilityChange += MainActivity_OnBackButtonVisibilityChange;
         }
 
         protected override void AttachBaseContext(Context context)
