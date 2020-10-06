@@ -7,6 +7,10 @@ using Google.Android.Material.Dialog;
 
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
+using System.Collections.Generic;
+using Android.Views;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 
 namespace Madamin.Unfollow.Fragments
 {

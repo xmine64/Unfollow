@@ -2,12 +2,14 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_unfollower_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     style="@style/Widget.MaterialComponents.CardView"
     app:cardCornerRadius="4dp"
-    android:elevation="0dp">
+    android:elevation="0dp"
+    android:checkable="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
