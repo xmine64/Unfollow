@@ -100,4 +100,16 @@ namespace Madamin.Unfollow.Fragments
 
         public View View { get; }
     }
+
+    public class OnMenuItemSelectedEventArgs : EventArgs
+    {
+        public OnMenuItemSelectedEventArgs(int item_id)
+        {
+            ItemId = item_id;
+            Finished = true;
+        }
+
+        public int ItemId { get; }
+        public bool Finished { get; set; }
+    }
 }

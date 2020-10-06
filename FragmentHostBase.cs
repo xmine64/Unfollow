@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Android.OS;
-using Android.Views;
 using Xamarin.Essentials;
 
 using AndroidX.Fragment.App;
@@ -20,12 +19,10 @@ namespace Madamin.Unfollow
     {
         protected FragmentHostBase(
             int layout,
-            int menu,
             int actionbar,
             int container)
         {
             _layout = layout;
-            _menu = menu;
             _actionbar = actionbar;
             _container = container;
 
@@ -50,21 +47,6 @@ namespace Madamin.Unfollow
                 .BeginTransaction()
                 .Add(_container, Fragments[0])
                 .Commit();
-        }
-
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            MenuInflater.Inflate(_menu, menu);
-            return base.OnCreateOptionsMenu(menu);
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            var args = new OnMenuItemSelectedEventArgs(item.ItemId);
-            MenuItemSelected?.Invoke(this, args);
-            if (args.Finished)
-                return true;
-            return base.OnOptionsItemSelected(item);
         }
 
         public void NavigateTo(int index)
@@ -124,26 +106,13 @@ namespace Madamin.Unfollow
         }
 
         public event EventHandler Create;
-        public event EventHandler<OnMenuItemSelectedEventArgs> MenuItemSelected;
         public event EventHandler<OnBackButtonVisibilityChange> BackButtonVisibilityChange;
 
         public List<Fragment> Fragments { get; }
 
-        private int _layout, _menu, _actionbar, _container;
+        private int _layout, _actionbar, _container;
 
         private bool _back_button_visible = false;
-    }
-
-    public class OnMenuItemSelectedEventArgs : EventArgs
-    {
-        public OnMenuItemSelectedEventArgs(int item_id)
-        {
-            ItemId = item_id;
-            Finished = true;
-        }
-
-        public int ItemId { get; }
-        public bool Finished { get; set; }
     }
 
     public class OnBackButtonVisibilityChange

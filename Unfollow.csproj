@@ -179,9 +179,6 @@
     <AndroidResource Include="Resources\drawable-v24\ic_settings_black_24dp.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\appbar_menu_main.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\fragment_recyclerview.xml">
       <SubType>Designer</SubType>
     </AndroidResource>

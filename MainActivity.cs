@@ -24,13 +24,10 @@ namespace Madamin.Unfollow
     {
         public MainActivity() : base(
             Resource.Layout.activity_main,
-            Resource.Menu.appbar_menu_main,
             Resource.Id.main_appbar,
             Resource.Id.main_container)
         {
             Create += MainActivity_OnCreate;
-            MenuItemSelected += MainActivity_OnMenuItemSelected;
-            BackButtonVisibilityChange += MainActivity_OnBackButtonVisibilityChange;
         }
 
         protected override void AttachBaseContext(Context context)
@@ -103,28 +100,6 @@ namespace Madamin.Unfollow
 
             Fragments.Add(new AccountsFragment());
             Fragments.Add(new SettingsFragment());
-        }
-
-        private void MainActivity_OnMenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
-        {
-            switch (e.ItemId)
-            {
-                case Resource.Id.appbar_main_item_about:
-                    new MaterialAlertDialogBuilder(this)
-                        .SetTitle(Resource.String.title_about)
-                        .SetMessage(Resource.String.msg_about)
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
-                        .Show();
-                    break;
-
-                case Resource.Id.appbar_main_item_exit:
-                    Finish();
-                    break;
-
-                default:
-                    e.Finished = false;
-                    break;
-            }
         }
 
         private void Navbar_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
