@@ -61,9 +61,9 @@ namespace Madamin.Unfollow.Fragments
 
                     await task;
 
-                    ViewMode = RecyclerViewMode.Data;
-
                     post_action();
+
+                    ViewMode = RecyclerViewMode.Data;
                 }
                 catch (Exception ex)
                 {
