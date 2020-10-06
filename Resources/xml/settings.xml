@@ -24,4 +24,14 @@
 			app:entryValues="@array/settings_langs_values"
 			app:defaultValue="sysdef" />
 	</PreferenceCategory>
+
+	<PreferenceCategory
+		app:title="@string/title_more">
+		<Preference
+			app:key="about"
+			app:title="@string/title_about" />
+		<Preference
+			app:key="exit"
+			app:title="@string/title_exit" />
+	</PreferenceCategory>
 </PreferenceScreen>

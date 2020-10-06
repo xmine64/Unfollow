@@ -1,22 +1,23 @@
-﻿using Android.Content;
-using Android.Content.Res;
+﻿using System;
+using System.Linq;
+
 using Android.OS;
 using Android.Views;
+using Android.Content;
 
-using AndroidX.AppCompat.App;
 using AndroidX.Preference;
-using Java.Util;
-using System.Linq;
 
 namespace Madamin.Unfollow.Fragments
 {
     public class SettingsFragment : 
-        PreferenceFragmentCompat, ISharedPreferencesOnSharedPreferenceChangeListener
+        PreferenceFragmentCompat,
+        ISharedPreferencesOnSharedPreferenceChangeListener
     {
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
             ((IFragmentHost)Activity).ActionbarTitle = GetString(Resource.String.title_settings);
+            
         }
 
         public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)
@@ -24,6 +25,14 @@ namespace Madamin.Unfollow.Fragments
             SetPreferencesFromResource(Resource.Xml.settings, rootKey);
             PreferenceManager.GetDefaultSharedPreferences(Activity)
                 .RegisterOnSharedPreferenceChangeListener(this);
+            FindPreference("about").PreferenceClick += (sender, args) =>
+            {
+                ((IFragmentHost)Activity).PushFragment(new AboutFragment());
+            };
+            FindPreference("exit").PreferenceClick += (sender, args) =>
+            {
+                Activity.Finish();
+            };
         }
 
         public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
