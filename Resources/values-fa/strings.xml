@@ -1,34 +1,46 @@
 <resources>
-    <string name="app_name">آنفالویاب</string>
-	
-    <string name="title_accounts">اکانت‌ها</string>
-    <string name="title_settings">تنظیمات</string>
-	<string name="title_login">ورود به سیستم</string>
-	
+	<string name="app_name">آنفالویاب</string>
+	<string name="title_selected">{0} انتخاب شده</string>
+
+	<string name="title_accounts">حساب‌ها</string>
+	<string name="title_settings">تنظیمات</string>
+
 	<string name="title_error">خطا</string>
-	<string name="title_addaccount">افزودن حساب کاربری</string>
-	<string name="title_about">درباره</string>
-	<string name="title_exit">خروج</string>
+	<string name="title_loading">درحال بارگیری...</string>
+	<string name="title_batch_unfollow">درحال آنفالو کردن ({0}/{1})...</string>
+
+	<string name="title_addaccount">افزودن حساب</string>
+	<string name="title_login">ورود به حساب</string>
 	<string name="title_refresh">بروزرسانی</string>
+
 	<string name="title_themes">تم‌ها</string>
 	<string name="title_prefered_theme">تم ترجیحی</string>
 	<string name="title_empty">خالی\!</string>
 	<string name="title_langs">زبان‌ها</string>
 	<string name="title_prefered_lang">زبان ترجیحی</string>
-	
+	<string name="title_more">بیشتر</string>
+	<string name="title_about">درباره</string>
+	<string name="title_exit">خروج</string>
+
 	<string name="button_text_login">ورود</string>
-	<string name="button_text_logout">خروج از سیستم</string>
+	<string name="button_text_logout">خروج از حساب</string>
 	<string name="button_text_unfollow">آنفالو</string>
-	<string name="button_text_retry">تلاش محجدد</string>
-	
+	<string name="button_text_retry">تلاش مجدد</string>
+	<string name="button_text_telegram">دنبال کردن در تلگرام</string>
+	<string name="button_text_instagram">دنبال کردن در اینستاگرام</string>
+	<string name="button_text_github">مخزن گیتهاب</string>
+
 	<string name="input_hint_username">نام کاربری</string>
-	<string name="input_hint_password">کلمه عبور</string>
+	<string name="input_hint_password">گذرواژه</string>
 
 	<string name="error_recyclerview">خراب شد:(</string>
-	<string name="error_invalid_password">کلمه عبور نامعتبر</string>
-	<string name="error_login_failure">خطا در ورود به سیستم</string>
-	<string name="error_ig_not_installed">برنامه اینستاگرام نصب نشده است</string>
-	
-	<string name="msg_about">آنفالویاب ساده\nتوسط محمدامین ملازاده؛ حق کپی محفوظ است</string>
+	<string name="error_invalid_password">گذرواژه اشتباه</string>
+	<string name="error_login_failure">نمیتوان وارد حساب شد</string>
+	<string name="error_ig_not_installed">اینستاگرام نصب نشده است</string>
+
 	<string name="msg_followers">{0} فالویینگ | {1} فالور | {2} آنفالور</string>
+
+	<string name="app_name_full">آنفالویاب ساده</string>
+	<string name="msg_version">نسخه {0}</string>
+	<string name="msg_copyright">توسط محمدامین ملازاده؛ 2020/1399 حق کپی محقوظ است</string>
 </resources>
