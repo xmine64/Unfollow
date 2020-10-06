@@ -76,6 +76,11 @@ namespace Madamin.Unfollow.Adapters
             NotifyDataSetChanged();
         }
 
+        public User[] GetSelected()
+        {
+            return SelectedItems.Select(pos => _unfollowers_cache[pos]).ToArray();
+        }
+
         public override int ItemCount => _unfollowers_cache.Length;
 
         public List<int> SelectedItems { get; private set; }

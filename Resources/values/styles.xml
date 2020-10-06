@@ -26,6 +26,11 @@
 		<item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
 		<item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 		
+		<item name="windowActionModeOverlay">true</item>
+		<item name="actionModeStyle">@style/AppTheme.Light.Widget.ActionMode</item>
+		<item name="actionModeCloseDrawable">@drawable/ic_close_black_24dp</item>
+		<item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
+		
 		<item name="toolbarStyle">@style/AppTheme.Light.Widget.MaterialComponents.Toolbar</item>
 		<item name="bottomNavigationStyle">@style/AppTheme.Light.Widget.MaterialComponents.BottomNavigationView</item>
 	</style>
@@ -34,6 +39,12 @@
 	</style>
 	
 	<style name="AppTheme.Light.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+	</style>
+	
+	<style name="AppTheme.Light.Widget.ActionMode" parent="Widget.AppCompat.ActionMode">
+		<item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
+		<item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
+		<item name="background">@color/material_grey_300</item>
 	</style>
 
 	<!-- Dark Theme -->
@@ -56,6 +67,11 @@
 		<item name="android:navigationBarColor">@android:color/transparent</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 
+		<item name="windowActionModeOverlay">true</item>
+		<item name="actionModeStyle">@style/AppTheme.Dark.Widget.ActionMode</item>
+		<item name="actionModeCloseDrawable">@drawable/ic_close_black_24dp</item>
+		<item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
+
 		<item name="toolbarStyle">@style/AppTheme.Dark.Widget.MaterialComponents.Toolbar</item>
 		<item name="bottomNavigationStyle">@style/AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView</item>
 	</style>
@@ -64,5 +80,11 @@
 	</style>
 	
 	<style name="AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+	</style>
+
+	<style name="AppTheme.Dark.Widget.ActionMode" parent="Widget.AppCompat.ActionMode">
+		<item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
+		<item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
+		<item name="background">@color/material_grey_900</item>
 	</style>
 </resources>

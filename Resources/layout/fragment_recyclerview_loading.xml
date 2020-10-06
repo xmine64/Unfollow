@@ -11,4 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/primaryColor"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_recyclerview_loading_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/title_loading"
+        android:alpha="0.3"/>
 </LinearLayout>

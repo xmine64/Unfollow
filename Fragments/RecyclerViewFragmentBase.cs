@@ -43,6 +43,7 @@ namespace Madamin.Unfollow.Fragments
 
             _tv_empty = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_recyclerview_empty_text);
             _tv_error = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_recyclerview_error_text);
+            _tv_progress = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_recyclerview_loading_textview);
 
             _image_empty = e.View.FindViewById<AppCompatImageView>(Resource.Id.fragment_recyclerview_empty_image);
             _image_error = e.View.FindViewById<AppCompatImageView>(Resource.Id.fragment_recyclerview_error_image);
@@ -127,6 +128,18 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
+        public string ProgressText
+        {
+            get
+            {
+                return _tv_progress.Text;
+            }
+            set
+            {
+                _tv_progress.Text = value;
+            }
+        }
+
         public void SetEmptyImage(int image)
         {
             _image_empty.SetImageResource(image);
@@ -184,7 +197,7 @@ namespace Madamin.Unfollow.Fragments
 
         private View _view_loading, _view_empty, _view_error;
         private AppCompatImageView _image_empty, _image_error;
-        private MaterialTextView _tv_empty, _tv_error;
+        private MaterialTextView _tv_empty, _tv_error, _tv_progress;
     }
 
     public enum RecyclerViewMode
