@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Android.Content;
 using Google.Android.Material.Dialog;
 
 using Madamin.Unfollow.Adapters;
@@ -42,13 +42,22 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        public void OnItemClick(int position)
+        public void OnItemOpenUnfollowers(int position)
         {
             var user = _adapter.GetItem(position);
             PushFragment(new UnfollowFragment(user));
         }
 
-        public async void OnItemLogoutClick(int position)
+        public void OnItemOpenInstagram(int position)
+        {
+            var intent = Intent.ParseUri(
+                "https://instagram.com/_u/" + _adapter.GetItem(position).Data.User.Username,
+                IntentUriType.None);
+            intent.SetPackage("com.instagram.android");
+            Activity.StartActivity(intent); // TODO: catch exceptions
+        }
+
+        public async void OnItemLogout(int position)
         {
             //var button = (MaterialButton)sender;
             //button.Enabled = false;
@@ -71,6 +80,13 @@ namespace Madamin.Unfollow.Fragments
                         .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
                         .Show();
             }
+        }
+
+        public void OnItemRefresh(int position)
+        {
+            DoTask(
+                _adapter.GetItem(position).RefreshAsync(),
+                _adapter.NotifyDataSetChanged);
         }
 
         private void AccountsFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)

@@ -13,6 +13,10 @@
 	<string name="title_about">About</string>
 	<string name="title_refresh">Refresh</string>
 	
+	<string name="title_unfollowers">Unfollowers</string>
+	<string name="title_open_ig">Open in Instagram</string>
+	<string name="title_logout">Logout</string>
+	
 	<string name="title_themes">Themes</string>
 	<string name="title_prefered_theme">Prefered Theme</string>
 	<string name="title_empty">Empty\!</string>

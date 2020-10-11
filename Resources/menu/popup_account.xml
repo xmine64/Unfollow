@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/popup_account_item_unfollowers"
+          android:title="@string/title_unfollowers"
+          android:icon="@drawable/ic_person_remove_black_24dp" />
+    <item android:id="@+id/popup_account_item_open"
+          android:title="@string/title_open_ig"
+          android:icon="@drawable/ic_launch_black_24dp" />
+    <item android:id="@+id/popup_account_item_refresh"
+          android:title="@string/title_refresh"
+          android:icon="@drawable/ic_refresh_black_24dp" />
+    <item android:id="@+id/popup_account_item_logout"
+          android:title="@string/title_logout"
+          android:icon="@drawable/ic_exit_to_app_black_24dp" />
+</menu>
