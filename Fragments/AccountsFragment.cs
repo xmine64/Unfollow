@@ -1,9 +1,5 @@
 ﻿using System;
 
-using Android.Content;
-
-using Google.Android.Material.Dialog;
-
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
@@ -52,11 +48,8 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemOpenInstagram(int position)
         {
-            var intent = Intent.ParseUri(
-                "https://instagram.com/_u/" + _adapter.GetItem(position).Data.User.Username,
-                IntentUriType.None);
-            intent.SetPackage("com.instagram.android");
-            Activity.StartActivity(intent); // TODO: catch exceptions
+            ((IInstagramHost)Activity).OpenInInstagram(
+                _adapter.GetItem(position).Data.User.Username);
         }
 
         public async void OnItemLogout(int position)
@@ -72,15 +65,7 @@ namespace Madamin.Unfollow.Fragments
             catch (Exception ex)
             {
                 //button.Enabled = true;
-                new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
-                        .Show();
+                ((IFragmentHost)Activity).ShowError(ex);
             }
         }
 

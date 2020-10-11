@@ -7,7 +7,6 @@ using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 
 using Google.Android.Material.Button;
-using Google.Android.Material.Dialog;
 using Google.Android.Material.TextView;
 
 namespace Madamin.Unfollow.Fragments
@@ -68,13 +67,7 @@ namespace Madamin.Unfollow.Fragments
                 catch (Exception ex)
                 {
                     ViewMode = RecyclerViewMode.Error;
-#if DEBUG
-                    new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-                        .SetMessage(ex.ToString())
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
-                        .Show();
-#endif
+                    ((IFragmentHost)Activity).ShowError(ex);
                 }
             });
         }

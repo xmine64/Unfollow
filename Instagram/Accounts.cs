@@ -136,6 +136,8 @@ namespace Madamin.Unfollow.Instagram
     interface IInstagramHost
     {
         Accounts Accounts { get; }
+
+        void OpenInInstagram(string username);
     }
 
     public class AlreadyRestoredException : Exception { }

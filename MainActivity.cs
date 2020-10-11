@@ -5,12 +5,12 @@ using Java.Util;
 
 using Android.App;
 using Android.Views;
+using Android.Widget;
 using Android.Content;
 
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
 
-using Google.Android.Material.Dialog;
 using Google.Android.Material.BottomNavigation;
 
 using Madamin.Unfollow.Fragments;
@@ -75,18 +75,7 @@ namespace Madamin.Unfollow
             }
             catch (Exception ex)
             {
-                new MaterialAlertDialogBuilder(this)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                        {
-                            Finish();
-                        })
-                        .Show();
+                ShowError(ex);
             }
 
             _navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
@@ -123,6 +112,26 @@ namespace Madamin.Unfollow
         }
 
         public Accounts Accounts { get; private set; }
+
+        public void OpenInInstagram(string username)
+        {
+            var intent = Intent.ParseUri(
+                "https://instagram.com/_u/" + username,
+                IntentUriType.None);
+            intent.SetPackage("com.instagram.android");
+            try
+            {
+                StartActivity(intent);
+            }
+            catch (ActivityNotFoundException)
+            {
+                Toast.MakeText(this, Resource.String.error_ig_not_installed, ToastLength.Long);
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex);
+            }
+        }
 
         private BottomNavigationView _navbar;
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Google.Android.Material.Button;
-using Google.Android.Material.Dialog;
 using Google.Android.Material.TextField;
 
 using Madamin.Unfollow.Instagram;
@@ -59,17 +58,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(GetString(Resource.String.error_login_failure) + ":\n" + ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => {
-                            Activity.Finish();
-                        })
-                        .Show();
+                ((IFragmentHost)Activity).ShowError(ex);
             }
             finally
             {

@@ -2,13 +2,9 @@
 using System.Threading.Tasks;
 
 using Android.Views;
-using Android.Content;
-using Android.Widget;
 
 using AndroidX.AppCompat.App;
 using ActionMode = AndroidX.AppCompat.View.ActionMode;
-
-using Google.Android.Material.Dialog;
 
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
@@ -59,28 +55,7 @@ namespace Madamin.Unfollow.Fragments
         public void OnItemOpen(int position)
         {
             var user = _adapter.GetItem(position);
-            var intent = Intent.ParseUri("https://instagram.com/_u/" + user.Username, IntentUriType.None);
-            intent.SetPackage("com.instagram.android");
-            try
-            {
-                Activity.StartActivity(intent);
-            }
-            catch (ActivityNotFoundException)
-            {
-                Toast.MakeText(Activity, Resource.String.error_ig_not_installed, ToastLength.Long);
-            }
-            catch (Exception ex)
-            {
-                new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) => { })
-                        .Show();
-            }
+            ((IInstagramHost)Activity).OpenInInstagram(user.Username);
         }
 
         public void OnItemSelect(int position)
@@ -100,18 +75,7 @@ namespace Madamin.Unfollow.Fragments
             catch (Exception ex)
             {
                 //_btn_unfollow.Enabled = true;
-                new MaterialAlertDialogBuilder(Activity)
-                        .SetTitle(Resource.String.title_error)
-#if DEBUG
-                        .SetMessage(ex.ToString())
-#else
-                        .SetMessage(ex.Message)
-#endif
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args2) =>
-                        {
-                            Activity.Finish();
-                        })
-                        .Show();
+                ((IFragmentHost)Activity).ShowError(ex);
             }
         }
 

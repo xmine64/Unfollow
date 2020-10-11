@@ -5,6 +5,7 @@ using Android.Content;
 
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
+using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -46,15 +47,7 @@ namespace Madamin.Unfollow.Fragments
 
         private void Instagram_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var intent = Intent.ParseUri("https://instagram.com/_u/minimalunfollowapp", IntentUriType.AndroidAppScheme);
-                Activity.StartActivity(intent);
-            }
-            catch
-            {
-                // ignore
-            }
+            ((IInstagramHost)Activity).OpenInInstagram("minimalunfollowapp");
         }
 
         private void Github_Click(object sender, EventArgs e)

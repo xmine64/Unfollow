@@ -10,6 +10,7 @@ using AndroidX.AppCompat.Widget;
 using Xamarin.Essentials;
 
 using Madamin.Unfollow.Fragments;
+using Google.Android.Material.Dialog;
 
 namespace Madamin.Unfollow
 {
@@ -62,7 +63,7 @@ namespace Madamin.Unfollow
                 tx.AddToBackStack(null);
             tx.Commit();
         }
-
+        
         public override bool OnSupportNavigateUp()
         {
             SupportFragmentManager.PopBackStack();
@@ -98,6 +99,21 @@ namespace Madamin.Unfollow
         public void PopFragment()
         {
             SupportFragmentManager.PopBackStack();
+        }
+
+        public void ShowError(Exception exception)
+        {
+            Android.Widget.Toast.MakeText(
+                this, 
+                exception.Message, 
+                Android.Widget.ToastLength.Long);
+#if DEBUG
+            new MaterialAlertDialogBuilder(this)
+                        .SetTitle(Resource.String.title_error)
+                        .SetMessage(exception.ToString())
+                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args) => { })
+                        .Show();
+#endif
         }
 
         public string ActionbarTitle
