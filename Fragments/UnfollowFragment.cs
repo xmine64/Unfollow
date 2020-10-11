@@ -41,14 +41,23 @@ namespace Madamin.Unfollow.Fragments
             ViewMode = RecyclerViewMode.Data;
         }
 
-        public void OnItemClick(int position)
+        public bool OnItemClick(int position)
         {
             if (_action_mode != null)
             {
                 _select_or_deselect_item(position);
-                return;
+                return true;
             }
+            return false;
+        }
 
+        public void OnItemLongClick(int position)
+        {
+            _select_or_deselect_item(position);
+        }
+
+        public void OnItemOpen(int position)
+        {
             var user = _adapter.GetItem(position);
             var intent = Intent.ParseUri("https://instagram.com/_u/" + user.Username, IntentUriType.None);
             intent.SetPackage("com.instagram.android");
@@ -74,12 +83,12 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        public void OnItemLongClick(int position)
+        public void OnItemSelect(int position)
         {
             _select_or_deselect_item(position);
         }
 
-        public void OnItemUnfollowClick(int position)
+        public void OnItemUnfollow(int position)
         {
             //_btn_unfollow.Enabled = false;
             try
@@ -104,6 +113,11 @@ namespace Madamin.Unfollow.Fragments
                         })
                         .Show();
             }
+        }
+
+        public void OnItemAddToWhitelist(int position)
+        {
+            // TODO
         }
 
         private void _select_or_deselect_item(int pos)

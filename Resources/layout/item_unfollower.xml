@@ -19,25 +19,13 @@
             android:id="@+id/item_unfollower_fullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.MaterialComponents.Headline6" />
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:text="Full Name"/>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_unfollower_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.MaterialComponents.Body1" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:gravity="right"
-            android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/item_unfollower_unfollow_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:text="@string/button_text_unfollow" />
-        </LinearLayout>
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:text="@username" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

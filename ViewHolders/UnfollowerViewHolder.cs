@@ -1,10 +1,12 @@
 ﻿using System;
-
+using System.Runtime.InteropServices.WindowsRuntime;
 using Android.Views;
 
+using AndroidX.AppCompat.View;
+using AndroidX.AppCompat.View.Menu;
+using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 
-using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Google.Android.Material.TextView;
 
@@ -12,7 +14,9 @@ using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.ViewHolders
 {
-    class UnfollowerViewHolder : RecyclerView.ViewHolder
+    class UnfollowerViewHolder : 
+        RecyclerView.ViewHolder,
+        MenuBuilder.ICallback
     {
         public UnfollowerViewHolder(
             View item,
@@ -22,13 +26,20 @@ namespace Madamin.Unfollow.ViewHolders
             _card = item.FindViewById<MaterialCardView>(Resource.Id.item_unfollower_card);
             _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_unfollower_fullname);
             _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_unfollower_username);
-            _btn_unfollow = item.FindViewById<MaterialButton>(Resource.Id.item_unfollower_unfollow_button);
+
+            _menu = new MenuBuilder(ItemView.Context);
+            _menu.SetCallback(this);
+            var inflater = new SupportMenuInflater(ItemView.Context);
+            inflater.Inflate(Resource.Menu.popup_unfollower, _menu);
+
+            _popup = new MenuPopupHelper(ItemView.Context, _menu);
+            _popup.SetAnchorView(ItemView);
+            _popup.SetForceShowIcon(true);
 
             _listener = listener;
 
             _card.Click += Item_Click;
             _card.LongClick += Item_LongClick;
-            _btn_unfollow.Click += Unfollow_Click;
         }
 
         public void BindData(User user, bool selected)
@@ -40,7 +51,10 @@ namespace Madamin.Unfollow.ViewHolders
 
         private void Item_Click(object sender, EventArgs e)
         {
-            _listener.OnItemClick(AdapterPosition);
+            if (!_listener.OnItemClick(AdapterPosition))
+            {
+                _popup.Show();
+            }
         }
 
         private void Item_LongClick(object sender, View.LongClickEventArgs e)
@@ -50,21 +64,49 @@ namespace Madamin.Unfollow.ViewHolders
 
         private void Unfollow_Click(object sender, EventArgs e)
         {
-            _listener.OnItemUnfollowClick(AdapterPosition);
+            _listener.OnItemUnfollow(AdapterPosition);
         }
+
+        public bool OnMenuItemSelected(MenuBuilder builder, IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.popup_unfollower_item_open:
+                    _listener.OnItemOpen(AdapterPosition);
+                    return true;
+                case Resource.Id.popup_unfollower_item_select:
+                    _listener.OnItemSelect(AdapterPosition);
+                    return true;
+                case Resource.Id.popup_unfollower_item_unfollow:
+                    _listener.OnItemUnfollow(AdapterPosition);
+                    return true;
+                case Resource.Id.popup_unfollower_item_add_whitelist:
+                    _listener.OnItemAddToWhitelist(AdapterPosition);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public void OnMenuModeChange(MenuBuilder builder) {}
 
         private MaterialTextView _tv_fullname;
         private MaterialTextView _tv_username;
-        private MaterialButton _btn_unfollow;
         private MaterialCardView _card;
+
+        private MenuBuilder _menu;
+        private MenuPopupHelper _popup;
 
         private IUnfollowerItemClickListener _listener;
     }
 
     interface IUnfollowerItemClickListener
     {
-        void OnItemClick(int position);
+        bool OnItemClick(int position);
         void OnItemLongClick(int position);
-        void OnItemUnfollowClick(int position);
+        void OnItemOpen(int position);
+        void OnItemSelect(int position);
+        void OnItemUnfollow(int position);
+        void OnItemAddToWhitelist(int position);
     }
 }
