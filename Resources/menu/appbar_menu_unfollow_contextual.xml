@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:id="@+id/appbar_unfollow_item_unfollow"
 		  android:showAsAction="always"
-		  android:text="@string/button_text_unfollow"
+		  android:text="@string/title_unfollow"
 		  android:icon="@drawable/ic_person_remove_black_24dp"/>
 	<item android:id="@+id/appbar_unfollow_item_selectall"
 		  android:showAsAction="always"

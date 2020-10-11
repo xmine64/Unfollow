@@ -3,16 +3,14 @@ using System.Linq;
 
 using Android.Views;
 
+using AndroidX.AppCompat.View;
+using AndroidX.AppCompat.View.Menu;
 using AndroidX.RecyclerView.Widget;
-using AndroidX.AppCompat.Widget;
 
-using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Google.Android.Material.TextView;
 
 using Madamin.Unfollow.Instagram;
-using AndroidX.AppCompat.View.Menu;
-using AndroidX.AppCompat.View;
 
 namespace Madamin.Unfollow.ViewHolders
 {

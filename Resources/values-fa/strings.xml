@@ -13,6 +13,17 @@
 	<string name="title_login">ورود به حساب</string>
 	<string name="title_refresh">بروزرسانی</string>
 
+	<string name="title_open_unfollowers">نمایش آنفالورها</string>
+	<string name="title_open_ig">بازکردن در اینستاگرام</string>
+	<string name="title_logout">خروج از حساب</string>
+	<string name="title_select">انتخاب کردن</string>
+	<string name="title_unfollow">آنفالو کردن</string>
+	<string name="title_add_whitelist">افزودن به لیست سفید</string>
+
+	<string name="title_followings">فالویینگ‌ها</string>
+	<string name="title_followers">فالورها</string>
+	<string name="title_unfollowers">آنفالورها</string>
+
 	<string name="title_themes">تم‌ها</string>
 	<string name="title_prefered_theme">تم ترجیحی</string>
 	<string name="title_empty">خالی\!</string>
@@ -37,8 +48,6 @@
 	<string name="error_invalid_password">گذرواژه اشتباه</string>
 	<string name="error_login_failure">نمیتوان وارد حساب شد</string>
 	<string name="error_ig_not_installed">اینستاگرام نصب نشده است</string>
-
-	<string name="msg_followers">{0} فالویینگ | {1} فالور | {2} آنفالور</string>
 
 	<string name="app_name_full">آنفالویاب ساده</string>
 	<string name="msg_version">نسخه {0}</string>

@@ -10,7 +10,7 @@
 	<string name="title_batch_unfollow">Unfollowing ({0}/{1})...</string>
 	
 	<string name="title_addaccount">Add Account</string>
-	<string name="title_about">About</string>
+	<string name="title_login">Login</string>
 	<string name="title_refresh">Refresh</string>
 	
 	<string name="title_open_unfollowers">Show Unfollowers</string>
@@ -30,12 +30,10 @@
 	<string name="title_langs">Languages</string>
 	<string name="title_prefered_lang">Prefered Language</string>
 	<string name="title_more">More</string>
-	<string name="title_login">Login</string>
+	<string name="title_about">About</string>
 	<string name="title_exit">Exit</string>
 	
 	<string name="button_text_login">Login</string>
-	<string name="button_text_logout">Logout</string>
-	<string name="button_text_unfollow">Unfollow</string>
 	<string name="button_text_retry">Retry</string>
 	<string name="button_text_telegram">Follow on Telegram</string>
 	<string name="button_text_instagram">Follow on Instagram</string>
@@ -44,12 +42,10 @@
 	<string name="input_hint_username">User Name</string>
 	<string name="input_hint_password">Password</string>
 
-	<string name="error_recyclerview">Something went wrong!</string>
+	<string name="error_recyclerview">Something went wrong:(</string>
 	<string name="error_invalid_password">Invalid Password</string>
 	<string name="error_login_failure">Can\'t log into your account</string>
 	<string name="error_ig_not_installed">Instagram app is not installed</string>
-	
-	<string name="msg_followers">{0} Followings | {1} Followers | {2} Unfollowers</string>
 	
 	<string name="app_name_full">Minimal Unfollow Track</string>
 	<string name="msg_version">v{0}</string>

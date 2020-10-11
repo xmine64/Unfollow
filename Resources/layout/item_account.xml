@@ -31,6 +31,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal"
             android:padding="4dp"
             android:gravity="center">
@@ -41,7 +42,7 @@
                 android:padding="2dp"
                 android:layout_marginEnd="6dp">
                 <com.google.android.material.textview.MaterialTextView
-                    android:text="FOLLOWINGS"
+                    android:text="@string/title_followings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.MaterialComponents.Body2"
@@ -61,7 +62,7 @@
                 android:padding="2dp"
                 android:layout_marginEnd="6dp">
                 <com.google.android.material.textview.MaterialTextView
-                    android:text="FOLLOWERS"
+                    android:text="@string/title_followers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.MaterialComponents.Body2"
@@ -80,7 +81,7 @@
                 android:orientation="vertical"
                 android:padding="2dp">
                 <com.google.android.material.textview.MaterialTextView
-                    android:text="UNFOLLOWERS"
+                    android:text="@string/title_unfollowers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.MaterialComponents.Body2"

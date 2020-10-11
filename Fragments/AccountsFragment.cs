@@ -1,5 +1,7 @@
 ﻿using System;
+
 using Android.Content;
+
 using Google.Android.Material.Dialog;
 
 using Madamin.Unfollow.Adapters;

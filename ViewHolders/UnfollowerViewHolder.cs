@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Runtime.InteropServices.WindowsRuntime;
+
 using Android.Views;
 
 using AndroidX.AppCompat.View;
 using AndroidX.AppCompat.View.Menu;
-using AndroidX.AppCompat.Widget;
 using AndroidX.RecyclerView.Widget;
 
 using Google.Android.Material.Card;
