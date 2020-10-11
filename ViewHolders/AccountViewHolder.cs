@@ -28,7 +28,9 @@ namespace Madamin.Unfollow.ViewHolders
             _card = item.FindViewById<MaterialCardView>(Resource.Id.item_account_card);
             _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_account_fullname);
             _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_account_username);
+            _tv_followings = item.FindViewById<MaterialTextView>(Resource.Id.item_account_followings);
             _tv_followers = item.FindViewById<MaterialTextView>(Resource.Id.item_account_followers);
+            _tv_unfollowers = item.FindViewById<MaterialTextView>(Resource.Id.item_account_unfollowers);
 
             _menu = new MenuBuilder(ItemView.Context);
             _menu.SetCallback(this);
@@ -48,11 +50,9 @@ namespace Madamin.Unfollow.ViewHolders
         {
             _tv_fullname.Text = data.User.Fullname;
             _tv_username.Text = "@" + data.User.Username;
-            _tv_followers.Text = string.Format(
-                _tv_followers.Text,
-                data.Followings.Count,
-                data.Followers.Count,
-                data.Unfollowers.Count());
+            _tv_followings.Text = data.Followings.Count.ToString();
+            _tv_followers.Text = data.Followers.Count.ToString();
+            _tv_unfollowers.Text = data.Unfollowers.Count().ToString();
         }
 
         private void Item_Click(object sender, EventArgs e)
@@ -85,7 +85,9 @@ namespace Madamin.Unfollow.ViewHolders
 
         private MaterialTextView _tv_fullname;
         private MaterialTextView _tv_username;
+        private MaterialTextView _tv_followings;
         private MaterialTextView _tv_followers;
+        private MaterialTextView _tv_unfollowers;
         private MaterialCardView _card;
 
         private MenuBuilder _menu;

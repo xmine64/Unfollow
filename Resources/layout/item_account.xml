@@ -19,19 +19,80 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            style="@style/TextAppearance.MaterialComponents.Headline6" />
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:text="Full Name"/>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_account_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            style="@style/TextAppearance.MaterialComponents.Subtitle1" />
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/item_account_followers"
-            android:text="@string/msg_followers"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:text="@username"/>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            style="@style/TextAppearance.MaterialComponents.Subtitle2" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:gravity="center">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:layout_marginEnd="6dp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:text="FOLLOWINGS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:letterSpacing="0.05" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/item_account_followings"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="2dp"
+                android:layout_marginEnd="6dp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:text="FOLLOWERS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:letterSpacing="0.05" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/item_account_followers"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:gravity="center"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="2dp">
+                <com.google.android.material.textview.MaterialTextView
+                    android:text="UNFOLLOWERS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:letterSpacing="0.05" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/item_account_unfollowers"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

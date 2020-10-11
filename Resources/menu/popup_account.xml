@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/popup_account_item_unfollowers"
-          android:title="@string/title_unfollowers"
+          android:title="@string/title_open_unfollowers"
           android:icon="@drawable/ic_person_remove_black_24dp" />
     <item android:id="@+id/popup_account_item_open"
           android:title="@string/title_open_ig"
