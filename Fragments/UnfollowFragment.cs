@@ -10,6 +10,7 @@ using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.ViewHolders;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -19,10 +20,11 @@ namespace Madamin.Unfollow.Fragments
         ActionMode.ICallback
     {
         public UnfollowFragment(Account account) :
-            base()
+            base(Resource.Menu.appbar_menu_unfollow)
         {
             _account = account;
             Create += UnfollowFragment_Create;
+            MenuItemSelected += UnfollowFragment_MenuItemSelected;
         }
 
         private void UnfollowFragment_Create(object sender, OnCreateEventArgs e)
@@ -46,6 +48,36 @@ namespace Madamin.Unfollow.Fragments
             Adapter = _adapter;
             _adapter.Refresh();
             ViewMode = RecyclerViewMode.Data;
+        }
+
+        private void UnfollowFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
+        {
+            switch (e.ItemId)
+            {
+                case Resource.Id.appbar_unfollow_item_refresh:
+                    DoTask(_account.RefreshAsync(), _refresh_adapter_data);
+                    break;
+                case Resource.Id.appbar_unfollow_item_unfollowall:
+                    DoTask(
+                        BatchUnfollowAsync(_account.Data.Unfollowers.Except(_adapter.Whitelist).ToArray()),
+                        _refresh_adapter_data);
+                    break;
+                case Resource.Id.appbar_unfollow_item_clear_whitelist:
+                    _adapter.Whitelist.Clear();
+                    ((IDataContainer)Activity).SaveData(_account.Data.User.Id + ".whitelist", _adapter.Whitelist);
+                    _refresh_adapter_data();
+                    break;
+                case Resource.Id.appbar_unfollow_item_logout:
+                    var ig = ((IInstagramHost)Activity).Accounts;
+                    DoTask(ig.LogoutAccountAsync(_account), () =>
+                    {
+                        ((IFragmentHost)Activity).PopFragment();
+                    });
+                    break;
+                default:
+                    e.Finished = false;
+                    break;
+            }
         }
 
         public bool OnItemClick(int position)

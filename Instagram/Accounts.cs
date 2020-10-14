@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Madamin.Unfollow.Instagram
@@ -28,6 +29,11 @@ namespace Madamin.Unfollow.Instagram
             await RefreshAccountAsync(account);
             SaveAccountState(account);
             _accounts.Add(account);
+        }
+
+        public async Task LogoutAccountAsync(Account account)
+        {
+            await LogoutAccountAtAsync(_accounts.FindIndex(a => a == account));
         }
 
         public async Task LogoutAccountAtAsync(int i)

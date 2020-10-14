@@ -11,6 +11,8 @@
 
 	<string name="title_addaccount">افزودن حساب</string>
 	<string name="title_refresh">بروزرسانی</string>
+	<string name="title_unfollow_all">آنفالو کردن همه</string>
+	<string name="title_clear_whitelist">پاک کردن لیست سفید</string>
 
 	<string name="title_open_unfollowers">نمایش آنفالورها</string>
 	<string name="title_open_ig">بازکردن در اینستاگرام</string>

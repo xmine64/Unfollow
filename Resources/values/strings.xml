@@ -11,6 +11,8 @@
 	
 	<string name="title_addaccount">Add Account</string>
 	<string name="title_refresh">Refresh</string>
+	<string name="title_unfollow_all">Unfollow All</string>
+	<string name="title_clear_whitelist">Clear Whitelist</string>
 	
 	<string name="title_open_unfollowers">Show Unfollowers</string>
 	<string name="title_open_ig">Open in Instagram</string>
