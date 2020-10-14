@@ -10,7 +10,6 @@
 	<string name="title_batch_unfollow">درحال آنفالو کردن ({0}/{1})...</string>
 
 	<string name="title_addaccount">افزودن حساب</string>
-	<string name="title_login">ورود به حساب</string>
 	<string name="title_refresh">بروزرسانی</string>
 
 	<string name="title_open_unfollowers">نمایش آنفالورها</string>
@@ -34,8 +33,6 @@
 	<string name="title_exit">خروج</string>
 
 	<string name="button_text_login">ورود</string>
-	<string name="button_text_logout">خروج از حساب</string>
-	<string name="button_text_unfollow">آنفالو</string>
 	<string name="button_text_retry">تلاش مجدد</string>
 	<string name="button_text_telegram">دنبال کردن در تلگرام</string>
 	<string name="button_text_instagram">دنبال کردن در اینستاگرام</string>
