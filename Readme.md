@@ -9,9 +9,11 @@ based on Xamarin and [InstaSharpApi](https://github.com/ramtinak/InstagramApiSha
 * No Ads and Open Source
 * Log in multiple accounts at same time
 * Batch unfollow
+* Whitelist
 
 # TODO
-* whitelist
+* Add section for displaying the people who you didn't follow back
+* Reimplement Instagram Private API (checkout newapi branch)
 
 # Contribute
 You can translate app in your native language.
