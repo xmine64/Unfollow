@@ -21,7 +21,7 @@ namespace Madamin.Unfollow.Fragments
         private void AccountsFragment_Create(object sender, OnCreateEventArgs e)
         {
             Title = GetString(Resource.String.app_name);
-            // TODO: set EmptyText
+            EmptyText = GetString(Resource.String.msg_no_account);
             // TODO: set ErrorText
             SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 

@@ -43,6 +43,8 @@
 	<string name="input_hint_username">نام کاربری</string>
 	<string name="input_hint_password">گذرواژه</string>
 
+	<string name="msg_no_account">اکانتی پیدا نشد، برای ورود به سیستم دکمه + را فشار دهید.</string>
+
 	<string name="error_recyclerview">خراب شد:(</string>
 	<string name="error_invalid_password">گذرواژه اشتباه</string>
 	<string name="error_login_failure">نمیتوان وارد حساب شد</string>
