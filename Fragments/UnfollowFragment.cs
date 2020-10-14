@@ -9,6 +9,7 @@ using ActionMode = AndroidX.AppCompat.View.ActionMode;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.ViewHolders;
+using System.Collections.Generic;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -32,6 +33,16 @@ namespace Madamin.Unfollow.Fragments
             SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
 
             _adapter = new UnfollowerAdapter(_account, this);
+
+            var wl_file_name = _account.Data.User.Id + ".whitelist";
+            var data_container = (IDataContainer)Activity;
+
+            if (data_container.DataExists(wl_file_name))
+            {
+                var wl = (List<User>)data_container.LoadData(wl_file_name);
+                _adapter.Whitelist.AddRange(wl);
+            }
+
             Adapter = _adapter;
             _adapter.Refresh();
             ViewMode = RecyclerViewMode.Data;
@@ -81,7 +92,9 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemAddToWhitelist(int position)
         {
-            // TODO
+            _adapter.Whitelist.Add(_adapter.GetItem(position));
+            ((IDataContainer)Activity).SaveData(_account.Data.User.Id + ".whitelist", _adapter.Whitelist);
+            _refresh_adapter_data();
         }
 
         private void _select_or_deselect_item(int pos)

@@ -15,12 +15,13 @@ using Google.Android.Material.BottomNavigation;
 
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Madamin.Unfollow
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
-    public class MainActivity : FragmentHostBase, IInstagramHost
+    public class MainActivity : FragmentHostBase, IInstagramHost, IDataContainer
     {
         public MainActivity() : base(
             Resource.Layout.activity_main,
@@ -133,7 +134,41 @@ namespace Madamin.Unfollow
             }
         }
 
+        public void SaveData(string fileName, object data)
+        {
+            using (var file = new FileStream(
+                Path.Combine(DataDir.AbsolutePath, fileName),
+                FileMode.OpenOrCreate,
+                FileAccess.Write))
+            {
+                new BinaryFormatter().Serialize(file, data);
+            }
+        }
+
+        public object LoadData(string fileName)
+        {
+            using (var file = new FileStream(
+                Path.Combine(DataDir.AbsolutePath, fileName),
+                FileMode.Open,
+                FileAccess.Read))
+            {
+                return new BinaryFormatter().Deserialize(file);
+            }
+        }
+
+        public bool DataExists(string fileName)
+        {
+            return File.Exists(Path.Combine(DataDir.AbsolutePath, fileName));
+        }
+
         private BottomNavigationView _navbar;
+    }
+
+    interface IDataContainer
+    {
+        void SaveData(string fileName, object data);
+        object LoadData(string fileName);
+        bool DataExists(string fileName);
     }
 }
 

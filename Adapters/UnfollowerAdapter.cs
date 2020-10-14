@@ -47,7 +47,7 @@ namespace Madamin.Unfollow.Adapters
         public void Refresh()
         {
             _unfollowers_cache.Clear();
-            _unfollowers_cache.AddRange(_data.Data.Unfollowers);
+            _unfollowers_cache.AddRange(_data.Data.Unfollowers.Except(Whitelist));
             SelectedItems = new List<int>();
         }
 
@@ -85,6 +85,8 @@ namespace Madamin.Unfollow.Adapters
         public override int ItemCount => _unfollowers_cache.Count;
 
         public List<int> SelectedItems { get; private set; }
+
+        public List<User> Whitelist { get; } = new List<User>();
 
         private Account _data;
         private List<User> _unfollowers_cache;
