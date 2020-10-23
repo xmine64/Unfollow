@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Adapters\AccountAdapter.cs" />
     <Compile Include="Fragments\AboutFragment.cs" />
+    <Compile Include="UpdateServer.cs" />
     <Compile Include="ViewHolders\AccountViewHolder.cs" />
     <Compile Include="ViewHolders\UnfollowerViewHolder.cs" />
     <Compile Include="FragmentHostBase.cs" />
