@@ -65,7 +65,7 @@ namespace Madamin.Unfollow.Fragments
             catch (Exception ex)
             {
                 //button.Enabled = true;
-                ((IFragmentHost)Activity).ShowError(ex);
+                ((IErrorHost)Activity).ShowError(ex);
             }
         }
 

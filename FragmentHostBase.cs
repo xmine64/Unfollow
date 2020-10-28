@@ -9,15 +9,17 @@ using AndroidX.AppCompat.Widget;
 
 using Xamarin.Essentials;
 
-using Madamin.Unfollow.Fragments;
 using Google.Android.Material.Dialog;
+
+using Madamin.Unfollow.Fragments;
 
 namespace Madamin.Unfollow
 {
     public class FragmentHostBase :
         AppCompatActivity,
         IFragmentHost,
-        FragmentManager.IOnBackStackChangedListener
+        FragmentManager.IOnBackStackChangedListener,
+        IErrorHost
     {
         protected FragmentHostBase(
             int layout,
@@ -130,6 +132,16 @@ namespace Madamin.Unfollow
         private int _layout, _actionbar, _container;
 
         private bool _back_button_visible = false;
+    }
+
+    interface ISnackBarHost
+    {
+        void ShowSnackbar(int res);
+    }
+
+    interface IErrorHost
+    {
+        void ShowError(Exception ex);
     }
 
     public class OnBackButtonVisibilityChange

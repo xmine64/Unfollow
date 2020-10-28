@@ -6598,79 +6598,88 @@ namespace Madamin.Unfollow
 			public const int title_add_whitelist = 2131755116;
 			
 			// aapt resource value: 0x7F10006E
-			public const int title_batch_unfollow = 2131755118;
+			public const int title_auto_update_check = 2131755118;
 			
 			// aapt resource value: 0x7F10006F
-			public const int title_clear_whitelist = 2131755119;
+			public const int title_batch_unfollow = 2131755119;
 			
 			// aapt resource value: 0x7F100070
-			public const int title_empty = 2131755120;
+			public const int title_clear_whitelist = 2131755120;
 			
 			// aapt resource value: 0x7F100071
-			public const int title_error = 2131755121;
+			public const int title_empty = 2131755121;
 			
 			// aapt resource value: 0x7F100072
-			public const int title_exit = 2131755122;
+			public const int title_error = 2131755122;
 			
 			// aapt resource value: 0x7F100073
-			public const int title_followers = 2131755123;
+			public const int title_exit = 2131755123;
 			
 			// aapt resource value: 0x7F100074
-			public const int title_followings = 2131755124;
+			public const int title_followers = 2131755124;
 			
 			// aapt resource value: 0x7F100075
-			public const int title_langs = 2131755125;
+			public const int title_followings = 2131755125;
 			
 			// aapt resource value: 0x7F100076
-			public const int title_loading = 2131755126;
+			public const int title_langs = 2131755126;
 			
 			// aapt resource value: 0x7F100077
-			public const int title_logout = 2131755127;
+			public const int title_loading = 2131755127;
 			
 			// aapt resource value: 0x7F100078
-			public const int title_more = 2131755128;
+			public const int title_logout = 2131755128;
 			
 			// aapt resource value: 0x7F100079
-			public const int title_open_ig = 2131755129;
+			public const int title_more = 2131755129;
 			
 			// aapt resource value: 0x7F10007A
-			public const int title_open_unfollowers = 2131755130;
+			public const int title_open_ig = 2131755130;
 			
 			// aapt resource value: 0x7F10007B
-			public const int title_prefered_lang = 2131755131;
+			public const int title_open_unfollowers = 2131755131;
 			
 			// aapt resource value: 0x7F10007C
-			public const int title_prefered_theme = 2131755132;
+			public const int title_prefered_lang = 2131755132;
 			
 			// aapt resource value: 0x7F10007D
-			public const int title_refresh = 2131755133;
+			public const int title_prefered_theme = 2131755133;
 			
 			// aapt resource value: 0x7F10007E
-			public const int title_select = 2131755134;
+			public const int title_refresh = 2131755134;
 			
 			// aapt resource value: 0x7F10007F
-			public const int title_selected = 2131755135;
+			public const int title_select = 2131755135;
 			
 			// aapt resource value: 0x7F100080
-			public const int title_settings = 2131755136;
+			public const int title_selected = 2131755136;
 			
 			// aapt resource value: 0x7F100081
-			public const int title_themes = 2131755137;
+			public const int title_settings = 2131755137;
 			
 			// aapt resource value: 0x7F100082
-			public const int title_unfollow = 2131755138;
-			
-			// aapt resource value: 0x7F100084
-			public const int title_unfollowers = 2131755140;
+			public const int title_themes = 2131755138;
 			
 			// aapt resource value: 0x7F100083
-			public const int title_unfollow_all = 2131755139;
+			public const int title_unfollow = 2131755139;
 			
 			// aapt resource value: 0x7F100085
-			public const int v7_preference_off = 2131755141;
+			public const int title_unfollowers = 2131755141;
+			
+			// aapt resource value: 0x7F100084
+			public const int title_unfollow_all = 2131755140;
 			
 			// aapt resource value: 0x7F100086
-			public const int v7_preference_on = 2131755142;
+			public const int title_update_available = 2131755142;
+			
+			// aapt resource value: 0x7F100087
+			public const int title_update_check = 2131755143;
+			
+			// aapt resource value: 0x7F100088
+			public const int v7_preference_off = 2131755144;
+			
+			// aapt resource value: 0x7F100089
+			public const int v7_preference_on = 2131755145;
 			
 			static String()
 			{

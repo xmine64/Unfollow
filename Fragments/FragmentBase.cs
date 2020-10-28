@@ -13,7 +13,6 @@ namespace Madamin.Unfollow.Fragments
         void NavigateTo(Fragment fragment, bool add_to_backstack);
         void PushFragment(FragmentBase fragment);
         void PopFragment();
-        void ShowError(Exception exception);
         string ActionbarTitle { get; set; }
     }
 

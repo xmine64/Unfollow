@@ -67,7 +67,7 @@ namespace Madamin.Unfollow.Fragments
                 catch (Exception ex)
                 {
                     ViewMode = RecyclerViewMode.Error;
-                    ((IFragmentHost)Activity).ShowError(ex);
+                    ((IErrorHost)Activity).ShowError(ex);
                 }
             });
         }

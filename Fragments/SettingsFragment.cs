@@ -25,6 +25,10 @@ namespace Madamin.Unfollow.Fragments
             SetPreferencesFromResource(Resource.Xml.settings, rootKey);
             PreferenceManager.GetDefaultSharedPreferences(Activity)
                 .RegisterOnSharedPreferenceChangeListener(this);
+            FindPreference("update_check").PreferenceClick += (sender, args) =>
+            {
+                ((IUpdateServerHost)Activity).CheckForUpdate();
+            };
             FindPreference("about").PreferenceClick += (sender, args) =>
             {
                 ((IFragmentHost)Activity).PushFragment(new AboutFragment());

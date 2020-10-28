@@ -65,7 +65,7 @@ namespace Madamin.Unfollow
 
     class CheckUpdateResponse : ResponseBase
     {
-        [JsonProperty("update")]
+        [JsonProperty("update", Required = Required.DisallowNull)]
         public UpdateData Update { get; set; }
     }
 

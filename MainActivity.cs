@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using Java.Util;
 
@@ -11,17 +13,21 @@ using Android.Content;
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
 
+using Google.Android.Material.Dialog;
 using Google.Android.Material.BottomNavigation;
 
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Madamin.Unfollow
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
-    public class MainActivity : FragmentHostBase, IInstagramHost, IDataContainer
+    public class MainActivity : 
+        FragmentHostBase, 
+        IInstagramHost, 
+        IDataContainer,
+        IUpdateServerHost
     {
         public MainActivity() : base(
             Resource.Layout.activity_main,
@@ -161,7 +167,43 @@ namespace Madamin.Unfollow
             return File.Exists(Path.Combine(DataDir.AbsolutePath, fileName));
         }
 
+        public void CheckForUpdate()
+        {
+            RunOnUiThread(async () => {
+                var result = await _update_server.CheckUpdate(
+                    new CheckUpdateRequest { Version = 8 });
+                if (result.Update != null)
+                {
+                    new MaterialAlertDialogBuilder(this)
+                        .SetTitle(Resource.String.title_update_available)
+                        .SetMessage(result.Update.Message)
+                        .SetPositiveButton(result.Update.Label, (sender, args) => {
+                            if (result.Update.Url == "unfollow:ok")
+                                return;
+                            var intent = Intent.ParseUri(result.Update.Url, IntentUriType.None);
+                            try
+                            {
+                                StartActivity(intent);
+                            }
+                            catch (Exception ex)
+                            {
+                                ShowError(ex);
+                            }
+                        })
+                        .SetCancelable(true)
+                        .Show();
+                }
+            });
+        }
+
         private BottomNavigationView _navbar;
+
+        // TODO: Don't hardcode this strings
+        private UpdateServerApi _update_server = 
+            new UpdateServerApi(
+                "https://unfollowapp.herokuapp.com/api",
+                "UnfollowApp/v0.5"
+            );
     }
 
     interface IDataContainer
@@ -169,6 +211,11 @@ namespace Madamin.Unfollow
         void SaveData(string fileName, object data);
         object LoadData(string fileName);
         bool DataExists(string fileName);
+    }
+
+    interface IUpdateServerHost
+    {
+        void CheckForUpdate();
     }
 }
 

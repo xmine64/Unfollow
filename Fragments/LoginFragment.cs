@@ -58,7 +58,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                ((IFragmentHost)Activity).ShowError(ex);
+                ((IErrorHost)Activity).ShowError(ex);
             }
             finally
             {

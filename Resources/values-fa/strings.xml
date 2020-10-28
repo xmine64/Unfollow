@@ -4,6 +4,7 @@
 
 	<string name="title_accounts">حساب‌ها</string>
 	<string name="title_settings">تنظیمات</string>
+	<string name="title_update_available">به‌روزرسانی موجود است!</string>
 
 	<string name="title_error">خطا</string>
 	<string name="title_loading">درحال بارگیری...</string>
@@ -31,6 +32,8 @@
 	<string name="title_langs">زبان‌ها</string>
 	<string name="title_prefered_lang">زبان ترجیحی</string>
 	<string name="title_more">بیشتر</string>
+	<string name="title_auto_update_check">بررسی برای نسخه به‌روز خودکار</string>
+	<string name="title_update_check">بررسی نسخه به‌روز...</string>
 	<string name="title_about">درباره</string>
 	<string name="title_exit">خروج</string>
 
