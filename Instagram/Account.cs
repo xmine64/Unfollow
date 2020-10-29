@@ -6,7 +6,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
 using InstagramApiSharp.Classes;
-using Javax.Security.Auth.Login;
 using IInstaApi = InstagramApiSharp.API.IInstaApi;
 using InstaApiBuilder = InstagramApiSharp.API.Builder.InstaApiBuilder;
 
@@ -65,7 +64,7 @@ namespace Madamin.Unfollow.Instagram
         {
             var result = await _api.TwoFactorLoginAsync(code);
             if (result.Value != InstaLoginTwoFactorResult.Success)
-                throw new LoginException();
+                throw new InstagramException("Login error");
             await _api.SendRequestsAfterLoginAsync();
         }
 

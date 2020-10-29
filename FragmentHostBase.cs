@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 
 using Android.OS;
+using Android.Views;
 
-using AndroidX.Fragment.App;
 using AndroidX.AppCompat.App;
 using AndroidX.AppCompat.Widget;
+using AndroidX.Fragment.App;
+using AndroidX.Transitions;
 
 using Xamarin.Essentials;
 
 using Madamin.Unfollow.Fragments;
-using AndroidX.Transitions;
-using Android.Views;
 
 namespace Madamin.Unfollow
 {

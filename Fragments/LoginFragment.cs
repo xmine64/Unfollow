@@ -1,9 +1,11 @@
 ﻿using System;
+
 using Android.Widget;
+
 using Google.Android.Material.Button;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.TextField;
-using Java.Nio.Channels;
+
 using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.Fragments
