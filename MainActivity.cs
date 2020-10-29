@@ -6,7 +6,6 @@ using Java.Util;
 
 using Android.App;
 using Android.Views;
-using Android.Widget;
 using Android.Content;
 
 using AndroidX.AppCompat.App;
@@ -27,7 +26,9 @@ namespace Madamin.Unfollow
         FragmentHostBase, 
         IInstagramHost, 
         IDataContainer,
-        IUpdateServerHost
+        IUpdateServerHost,
+        IErrorHost,
+        ISnackBarHost
     {
         public MainActivity() : base(
             Resource.Layout.activity_main,
@@ -138,7 +139,7 @@ namespace Madamin.Unfollow
             }
             catch (ActivityNotFoundException)
             {
-                Toast.MakeText(this, Resource.String.error_ig_not_installed, ToastLength.Long);
+                ShowSnackbar(Resource.String.error_ig_not_installed);
             }
             catch (Exception ex)
             {
