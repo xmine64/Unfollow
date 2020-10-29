@@ -67,6 +67,9 @@ namespace Madamin.Unfollow
 
         [JsonProperty("result", Required = Required.DisallowNull)]
         public TResult Result { get; set; }
+
+        [JsonProperty("error", Required = Required.DisallowNull)]
+        public string Error { get; set; }
     }
 
     class CheckUpdateResult

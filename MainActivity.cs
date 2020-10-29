@@ -205,12 +205,15 @@ namespace Madamin.Unfollow
                         }
                         else
                         {
-                            // TODO: up to date
+                            if (verbose)
+                            {
+                                ShowSnackbar(Resource.String.msg_up_to_date);
+                            }
                         }
                     }
                     else
                     {
-                        // TODO: error
+                        throw new Exception(result.Error);
                     }
                 }
                 catch (Exception ex)
