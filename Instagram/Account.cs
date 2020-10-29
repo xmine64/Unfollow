@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
 using InstagramApiSharp.Classes;
+using Javax.Security.Auth.Login;
 using IInstaApi = InstagramApiSharp.API.IInstaApi;
 using InstaApiBuilder = InstagramApiSharp.API.Builder.InstaApiBuilder;
 
@@ -40,6 +41,9 @@ namespace Madamin.Unfollow.Instagram
                     await _api.SendRequestsAfterLoginAsync();
                     return;
 
+                case InstaLoginResult.TwoFactorRequired:
+                    throw new TwoFactorAuthException(this);
+
                 case InstaLoginResult.BadPassword:
                     throw new WrongPasswordException();
 
@@ -50,6 +54,19 @@ namespace Madamin.Unfollow.Instagram
                     throw result.Info.Exception ??
                         new InstagramException(result.Info.Message);
             }
+        }
+
+        public async Task TwoFactorSendSms()
+        {
+            await _api.SendTwoFactorLoginSMSAsync();
+        }
+
+        internal async Task CompleteLoginAsync(string code)
+        {
+            var result = await _api.TwoFactorLoginAsync(code);
+            if (result.Value != InstaLoginTwoFactorResult.Success)
+                throw new LoginException();
+            await _api.SendRequestsAfterLoginAsync();
         }
 
         internal async Task LogoutAsync()
@@ -242,5 +259,14 @@ namespace Madamin.Unfollow.Instagram
     public class InstagramException : Exception 
     { 
         public InstagramException(string message) : base (message) {}
+    }
+    public class TwoFactorAuthException : Exception
+    {
+        public TwoFactorAuthException(Account account)
+        {
+            Account = account;
+        }
+
+        public Account Account { get; }
     }
 }

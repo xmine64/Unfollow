@@ -31,6 +31,14 @@ namespace Madamin.Unfollow.Instagram
             _accounts.Add(account);
         }
 
+        public async Task CompleteLoginAsync(Account account, string code)
+        {
+            await account.CompleteLoginAsync(code);
+            await RefreshAccountAsync(account);
+            SaveAccountState(account);
+            _accounts.Add(account);
+        }
+
         public async Task LogoutAccountAsync(Account account)
         {
             await LogoutAccountAtAsync(_accounts.FindIndex(a => a == account));
