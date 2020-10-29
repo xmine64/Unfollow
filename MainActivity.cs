@@ -13,9 +13,8 @@ using AndroidX.AppCompat.App;
 using AndroidX.Preference;
 
 using Google.Android.Material.Dialog;
-using Google.Android.Material.BottomNavigation;
-using Google.Android.Material.Dialog;
 using Google.Android.Material.Snackbar;
+using Google.Android.Material.BottomNavigation;
 
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
@@ -262,13 +261,17 @@ namespace Madamin.Unfollow
                         .SetNegativeButton(Android.Resource.String.Cancel, (dialog, args) => { })
                         .Show();
             });
+            if (_navbar.Visibility == ViewStates.Visible)
+                snack.SetAnchorView(_navbar);
+            snack.Show();
         }
 
         public void ShowSnackbar(int res)
         {
             var container = FindViewById(Resource.Id.main_container);
             var snack = Snackbar.Make(container, res, Snackbar.LengthLong);
-            snack.SetAnchorView(Resource.Id.main_navbar);
+            if (_navbar.Visibility == ViewStates.Visible)
+                snack.SetAnchorView(_navbar);
             snack.Show();
         }
 

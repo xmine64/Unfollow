@@ -5,12 +5,6 @@
 	
 	<!-- Light Theme -->
 	<style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
-		<item name="android:colorBackground">@color/backgroundColor</item>
-		<item name="android:windowBackground">?android:attr/colorBackground</item>
-		<item name="android:textColor">@color/foregroundColor</item>
-		
-		<item name="colorSurface">?android:attr/colorBackground</item>
-
 		<item name="colorPrimary">@color/primaryColor</item>
 		<item name="colorPrimaryDark">@color/primaryDarkColor</item>
 		<item name="colorOnPrimary">@color/primaryTextColor</item>
@@ -49,12 +43,6 @@
 
 	<!-- Dark Theme -->
 	<style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-		<item name="android:colorBackground">@color/backgroundColor</item>
-		<item name="android:windowBackground">?android:attr/colorBackground</item>
-		<item name="android:textColor">@color/foregroundColor</item>
-		
-		<item name="colorSurface">?android:attr/colorBackground</item>
-
 		<item name="colorPrimary">@color/primaryColor</item>
 		<item name="colorPrimaryDark">@color/primaryDarkColor</item>
 		<item name="colorOnPrimary">@color/primaryTextColor</item>
