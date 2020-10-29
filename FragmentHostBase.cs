@@ -10,6 +10,7 @@ using AndroidX.AppCompat.Widget;
 using Xamarin.Essentials;
 
 using Google.Android.Material.Dialog;
+using Google.Android.Material.Snackbar;
 
 using Madamin.Unfollow.Fragments;
 
@@ -19,7 +20,8 @@ namespace Madamin.Unfollow
         AppCompatActivity,
         IFragmentHost,
         FragmentManager.IOnBackStackChangedListener,
-        IErrorHost
+        IErrorHost,
+        ISnackBarHost
     {
         protected FragmentHostBase(
             int layout,
@@ -65,7 +67,7 @@ namespace Madamin.Unfollow
                 tx.AddToBackStack(null);
             tx.Commit();
         }
-        
+
         public override bool OnSupportNavigateUp()
         {
             SupportFragmentManager.PopBackStack();
@@ -106,8 +108,8 @@ namespace Madamin.Unfollow
         public void ShowError(Exception exception)
         {
             Android.Widget.Toast.MakeText(
-                this, 
-                exception.Message, 
+                this,
+                exception.Message,
                 Android.Widget.ToastLength.Long);
 #if DEBUG
             new MaterialAlertDialogBuilder(this)
@@ -116,6 +118,13 @@ namespace Madamin.Unfollow
                         .SetPositiveButton(Android.Resource.String.Ok, (dialog, args) => { })
                         .Show();
 #endif
+        }
+
+        public void ShowSnackbar(int res)
+        {
+            var container = FindViewById(_container);
+            var snack = Snackbar.Make(container, res, Snackbar.LengthLong);
+            snack.Show();
         }
 
         public string ActionbarTitle
