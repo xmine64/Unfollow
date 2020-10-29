@@ -29,7 +29,8 @@
 		app:title="@string/title_more">
 		<SwitchPreference
 			app:key="auto_update_check"
-			app:title="@string/title_auto_update_check" />
+			app:title="@string/title_auto_update_check"
+			app:defaultValue="true"/>
 		<Preference
 			app:key="update_check"
 			app:title="@string/title_update_check" />

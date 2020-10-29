@@ -27,7 +27,7 @@ namespace Madamin.Unfollow.Fragments
                 .RegisterOnSharedPreferenceChangeListener(this);
             FindPreference("update_check").PreferenceClick += (sender, args) =>
             {
-                ((IUpdateServerHost)Activity).CheckForUpdate();
+                ((IUpdateServerHost)Activity).CheckForUpdate(true);
             };
             FindPreference("about").PreferenceClick += (sender, args) =>
             {

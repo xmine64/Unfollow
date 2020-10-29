@@ -9,6 +9,9 @@ namespace Madamin.Unfollow
 {
     class UpdateData
     {
+        [JsonProperty("available")]
+        public bool Available { get; set; }
+
         [JsonProperty("version")]
         public int Version { get; set; }
 
@@ -57,19 +60,22 @@ namespace Madamin.Unfollow
         public ExceptionData Exception { get; set; }
     }
 
-    class ResponseBase
+    class Response<TResult>
     {
         [JsonProperty("status")]
         public string Status { get; set; }
+
+        [JsonProperty("result", Required = Required.DisallowNull)]
+        public TResult Result { get; set; }
     }
 
-    class CheckUpdateResponse : ResponseBase
+    class CheckUpdateResult
     {
         [JsonProperty("update", Required = Required.DisallowNull)]
         public UpdateData Update { get; set; }
     }
 
-    class BugReportResponse : ResponseBase
+    class BugReportResult
     {
         [JsonProperty("id")]
         public int Id { get; set; }
@@ -89,34 +95,37 @@ namespace Madamin.Unfollow
             _client.Dispose();
         }
 
-        private async Task<TResponse> SendRequest<TRequest, TResponse>(TRequest args)
+        private async Task<Response<TResponse>> SendRequest<TRequest, TResponse>(TRequest args)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, _api_address);
-            request.Headers.UserAgent.ParseAdd(_user_agent);
-            request.Content = new StringContent(
-                JsonConvert.SerializeObject(
+            var request_content = JsonConvert.SerializeObject(
                     args,
                     typeof(TRequest),
                     new JsonSerializerSettings
                     {
                         Formatting = Formatting.None
                     }
-                    ),
+                    );
+            request.Headers.UserAgent.ParseAdd(_user_agent);
+            request.Content = new StringContent(
+                request_content,
                 Encoding.UTF8,
                 "application/json");
             var result = await _client.SendAsync(request);
+            if (result.Content.Headers.ContentType.MediaType != "application/json")
+                throw new Exception("invalid result for MediaType");
             var response = await result.Content.ReadAsStringAsync();
-            return (TResponse)JsonConvert.DeserializeObject(response, typeof(TResponse));
+            return (Response<TResponse>)JsonConvert.DeserializeObject(response, typeof(Response<TResponse>));
         }
 
-        public async Task<CheckUpdateResponse> CheckUpdate(CheckUpdateRequest args)
+        public async Task<Response<CheckUpdateResult>> CheckUpdate(CheckUpdateRequest args)
         {
-            return await SendRequest<CheckUpdateRequest, CheckUpdateResponse>(args);
+            return await SendRequest<CheckUpdateRequest, CheckUpdateResult>(args);
         }
 
-        public async Task<BugReportResponse> BugReport(BugReportRequest args)
+        public async Task<Response<BugReportResult>> BugReport(BugReportRequest args)
         {
-            return await SendRequest<BugReportRequest, BugReportResponse>(args);
+            return await SendRequest<BugReportRequest, BugReportResult>(args);
         }
 
         private string _api_address, _user_agent;

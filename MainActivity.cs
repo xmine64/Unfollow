@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using Java.Util;
@@ -90,6 +89,12 @@ namespace Madamin.Unfollow
 
             Fragments.Add(new AccountsFragment());
             Fragments.Add(new SettingsFragment());
+
+            var pref = PreferenceManager.GetDefaultSharedPreferences(this);
+            if (pref.GetBoolean("auto_update_check", true))
+            {
+                CheckForUpdate(false);
+            }
         }
 
         private void Navbar_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
@@ -167,31 +172,53 @@ namespace Madamin.Unfollow
             return File.Exists(Path.Combine(DataDir.AbsolutePath, fileName));
         }
 
-        public void CheckForUpdate()
+        public void CheckForUpdate(bool verbose)
         {
             RunOnUiThread(async () => {
-                var result = await _update_server.CheckUpdate(
-                    new CheckUpdateRequest { Version = 8 });
-                if (result.Update != null)
+                try
                 {
-                    new MaterialAlertDialogBuilder(this)
-                        .SetTitle(Resource.String.title_update_available)
-                        .SetMessage(result.Update.Message)
-                        .SetPositiveButton(result.Update.Label, (sender, args) => {
-                            if (result.Update.Url == "unfollow:ok")
-                                return;
-                            var intent = Intent.ParseUri(result.Update.Url, IntentUriType.None);
-                            try
-                            {
-                                StartActivity(intent);
-                            }
-                            catch (Exception ex)
-                            {
-                                ShowError(ex);
-                            }
-                        })
-                        .SetCancelable(true)
-                        .Show();
+                    var result = await _update_server.CheckUpdate(
+                        new CheckUpdateRequest { Version = 7 });
+                    if (result.Status == "ok")
+                    {
+                        if (result.Result.Update.Available)
+                        {
+                            new MaterialAlertDialogBuilder(this)
+                                .SetTitle(Resource.String.title_update_available)
+                                .SetMessage(result.Result.Update.Message)
+                                .SetPositiveButton(result.Result.Update.Label, (sender, args) =>
+                                {
+                                    if (result.Result.Update.Url == "unfollow:ok")
+                                        return;
+                                    var intent = Intent.ParseUri(result.Result.Update.Url, IntentUriType.None);
+                                    try
+                                    {
+                                        StartActivity(intent);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        ShowError(ex);
+                                    }
+                                })
+                                .SetNegativeButton(Android.Resource.String.Cancel, (sener,args) => { })
+                                .Show();
+                        }
+                        else
+                        {
+                            // TODO: up to date
+                        }
+                    }
+                    else
+                    {
+                        // TODO: error
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (verbose)
+                    {
+                        ShowError(ex);
+                    }
                 }
             });
         }
@@ -215,7 +242,7 @@ namespace Madamin.Unfollow
 
     interface IUpdateServerHost
     {
-        void CheckForUpdate();
+        void CheckForUpdate(bool verbose);
     }
 }
 
