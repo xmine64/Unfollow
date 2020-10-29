@@ -9,9 +9,6 @@ using AndroidX.AppCompat.Widget;
 
 using Xamarin.Essentials;
 
-using Google.Android.Material.Dialog;
-using Google.Android.Material.Snackbar;
-
 using Madamin.Unfollow.Fragments;
 
 namespace Madamin.Unfollow
@@ -19,9 +16,7 @@ namespace Madamin.Unfollow
     public class FragmentHostBase :
         AppCompatActivity,
         IFragmentHost,
-        FragmentManager.IOnBackStackChangedListener,
-        IErrorHost,
-        ISnackBarHost
+        FragmentManager.IOnBackStackChangedListener
     {
         protected FragmentHostBase(
             int layout,
@@ -105,28 +100,6 @@ namespace Madamin.Unfollow
             SupportFragmentManager.PopBackStack();
         }
 
-        public void ShowError(Exception exception)
-        {
-            Android.Widget.Toast.MakeText(
-                this,
-                exception.Message,
-                Android.Widget.ToastLength.Long);
-#if DEBUG
-            new MaterialAlertDialogBuilder(this)
-                        .SetTitle(Resource.String.title_error)
-                        .SetMessage(exception.ToString())
-                        .SetPositiveButton(Android.Resource.String.Ok, (dialog, args) => { })
-                        .Show();
-#endif
-        }
-
-        public void ShowSnackbar(int res)
-        {
-            var container = FindViewById(_container);
-            var snack = Snackbar.Make(container, res, Snackbar.LengthLong);
-            snack.Show();
-        }
-
         public string ActionbarTitle
         {
             get => SupportActionBar.Title;
@@ -141,16 +114,6 @@ namespace Madamin.Unfollow
         private int _layout, _actionbar, _container;
 
         private bool _back_button_visible = false;
-    }
-
-    interface ISnackBarHost
-    {
-        void ShowSnackbar(int res);
-    }
-
-    interface IErrorHost
-    {
-        void ShowError(Exception ex);
     }
 
     public class OnBackButtonVisibilityChange

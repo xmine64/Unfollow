@@ -14,6 +14,8 @@ using AndroidX.Preference;
 
 using Google.Android.Material.Dialog;
 using Google.Android.Material.BottomNavigation;
+using Google.Android.Material.Dialog;
+using Google.Android.Material.Snackbar;
 
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
@@ -226,6 +228,50 @@ namespace Madamin.Unfollow
             });
         }
 
+        public void ShowError(Exception exception)
+        {
+            var container = FindViewById(Resource.Id.main_container);
+            var snack = Snackbar.Make(container, "Error", Snackbar.LengthLong);
+            snack.SetAnchorView(Resource.Id.main_navbar);
+            snack.SetAction("Details", view =>
+            {
+                new MaterialAlertDialogBuilder(this)
+                        .SetTitle(Resource.String.title_error)
+                        .SetMessage(exception.ToString())
+                        .SetPositiveButton("Report", async (dialog, args) => {
+                            try
+                            {
+                                ShowSnackbar(Resource.String.msg_sending_report);
+                                await _update_server.BugReport(
+                                    new BugReportRequest
+                                    {
+                                        Exception = new ExceptionData
+                                        {
+                                            Type = exception.GetType().FullName,
+                                            Message = exception.Message,
+                                            Callstack = exception.StackTrace
+                                        }
+                                    }
+                                );
+                            }
+                            catch (Exception ex)
+                            {
+                                ShowError(ex);
+                            }
+                        })
+                        .SetNegativeButton(Android.Resource.String.Cancel, (dialog, args) => { })
+                        .Show();
+            });
+        }
+
+        public void ShowSnackbar(int res)
+        {
+            var container = FindViewById(Resource.Id.main_container);
+            var snack = Snackbar.Make(container, res, Snackbar.LengthLong);
+            snack.SetAnchorView(Resource.Id.main_navbar);
+            snack.Show();
+        }
+
         private BottomNavigationView _navbar;
 
         // TODO: Don't hardcode this strings
@@ -246,6 +292,16 @@ namespace Madamin.Unfollow
     interface IUpdateServerHost
     {
         void CheckForUpdate(bool verbose);
+    }
+
+    interface ISnackBarHost
+    {
+        void ShowSnackbar(int res);
+    }
+
+    interface IErrorHost
+    {
+        void ShowError(Exception ex);
     }
 }
 

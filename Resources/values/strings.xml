@@ -47,7 +47,9 @@
 	<string name="input_hint_password">Password</string>
 
 	<string name="msg_no_account">No Account found, Press + button to login.</string>
-	<string name="msg_up_to_date">You're up to date!</string>
+	<string name="msg_up_to_date">You\'re up to date!</string>
+	<string name="msg_error">An error occured!</string>
+	<string name="msg_sending_report">Sending Bug Report...</string>
 
 	<string name="error_recyclerview">Something went wrong:(</string>
 	<string name="error_invalid_password">Invalid Password</string>
