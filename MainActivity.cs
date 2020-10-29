@@ -231,14 +231,14 @@ namespace Madamin.Unfollow
         public void ShowError(Exception exception)
         {
             var container = FindViewById(Resource.Id.main_container);
-            var snack = Snackbar.Make(container, "Error", Snackbar.LengthLong);
+            var snack = Snackbar.Make(container, Resource.String.msg_error, Snackbar.LengthLong);
             snack.SetAnchorView(Resource.Id.main_navbar);
-            snack.SetAction("Details", view =>
+            snack.SetAction(Resource.String.button_text_details, view =>
             {
                 new MaterialAlertDialogBuilder(this)
                         .SetTitle(Resource.String.title_error)
                         .SetMessage(exception.ToString())
-                        .SetPositiveButton("Report", async (dialog, args) => {
+                        .SetPositiveButton(Resource.String.button_text_report, async (dialog, args) => {
                             try
                             {
                                 ShowSnackbar(Resource.String.msg_sending_report);
