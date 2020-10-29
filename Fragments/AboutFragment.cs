@@ -5,6 +5,7 @@ using Android.Content;
 
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
+
 using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.Fragments

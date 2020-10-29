@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Android.Views;
@@ -9,8 +11,6 @@ using ActionMode = AndroidX.AppCompat.View.ActionMode;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.ViewHolders;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Madamin.Unfollow.Fragments
 {

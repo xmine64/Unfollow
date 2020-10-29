@@ -10,6 +10,8 @@ using AndroidX.AppCompat.Widget;
 using Xamarin.Essentials;
 
 using Madamin.Unfollow.Fragments;
+using AndroidX.Transitions;
+using Android.Views;
 
 namespace Madamin.Unfollow
 {
@@ -44,6 +46,7 @@ namespace Madamin.Unfollow
 
             if (savedInstanceState != null) return;
 
+            BeginTransition();
             SupportFragmentManager
                 .BeginTransaction()
                 .Add(_container, Fragments[0])
@@ -55,17 +58,26 @@ namespace Madamin.Unfollow
             NavigateTo(Fragments[index], false);
         }
 
+        private void BeginTransition()
+        {
+            var rootView = (ViewGroup)FindViewById(Resource.Id.root);
+            TransitionManager.BeginDelayedTransition(rootView);
+        }
+
         public void NavigateTo(Fragment fragment, bool add_to_back_stack)
         {
+            BeginTransition();
             var tx = SupportFragmentManager.BeginTransaction().Replace(_container, fragment);
             if (add_to_back_stack)
+            { 
                 tx.AddToBackStack(null);
+            }
             tx.Commit();
         }
 
         public override bool OnSupportNavigateUp()
         {
-            SupportFragmentManager.PopBackStack();
+            PopFragment();
             return true;
         }
 
@@ -97,6 +109,7 @@ namespace Madamin.Unfollow
 
         public void PopFragment()
         {
+            BeginTransition();
             SupportFragmentManager.PopBackStack();
         }
 
