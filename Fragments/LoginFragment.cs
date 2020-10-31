@@ -21,12 +21,12 @@ namespace Madamin.Unfollow.Fragments
         {
             Title = GetString(Resource.String.title_addaccount);
 
-            _et_username = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_et_username);
-            _et_password = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_et_password);
-            _et_layout_password = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_et_layout_password);
-            _btn_login = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_btn_login);
+            _et_username = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_username_input);
+            _et_password = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_password_input);
+            _et_layout_password = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_password_layout);
+            _btn_login = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
 
-            var btn_cancel = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_btn_cancel);
+            var btn_cancel = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_cancel);
 
             _btn_login.Click += LoginBtn_Click;
             btn_cancel.Click += CancelBtn_Click;

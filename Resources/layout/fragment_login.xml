@@ -1,55 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/fragment_login_input_flow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="fragment_login_input_flow,fragment_login_buttons_flow"
+        app:flow_verticalStyle="packed"
+        app:flow_wrapMode="aligned"
+        app:flow_verticalBias="0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/fragment_login_input_flow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="fragment_login_username_layout,fragment_login_password_layout"
+        app:flow_horizontalGap="4dp"
+        app:flow_verticalStyle="packed"
+        app:flow_wrapMode="aligned"/>
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/fragment_login_buttons_flow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingEnd="8dp"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="fragment_login_cancel,fragment_login_login"
+        app:flow_wrapMode="aligned"
+        app:flow_horizontalStyle="packed"
+        app:flow_horizontalBias="1"
+        app:flow_horizontalGap="6dp"/>
+
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_login_username_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/input_hint_username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:padding="4dp">
+        android:paddingStart="10dp"
+        android:paddingEnd="8dp">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_login_et_username"
+            android:id="@+id/fragment_login_username_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fragment_login_et_layout_password"
+        android:id="@+id/fragment_login_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/input_hint_password"
         app:endIconMode="password_toggle"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:padding="4dp">
+        android:paddingStart="10dp"
+        android:paddingEnd="8dp">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_login_et_password"
+            android:id="@+id/fragment_login_password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_login_login"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:padding="4dp"
-        android:orientation="horizontal">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fragment_login_btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@android:string/cancel"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fragment_login_btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_text_login"
-            style="@style/Widget.MaterialComponents.Button" />
-    </LinearLayout>
-</LinearLayout>
+        android:text="@string/button_text_login"
+        style="@style/Widget.MaterialComponents.Button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_login_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

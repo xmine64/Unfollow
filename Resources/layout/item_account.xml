@@ -2,98 +2,133 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_account_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     style="@style/Widget.MaterialComponents.CardView"
-    app:cardCornerRadius="4dp"
-    android:elevation="@dimen/cardview_default_elevation">
-    <LinearLayout
+    app:cardCornerRadius="8dp"
+    android:elevation="4dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="8dp">
+        
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical"
+            app:flow_verticalGap="8dp"
+            app:constraint_referenced_ids="item_account_info_flow,item_account_count_flow"/>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/item_account_info_flow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:flow_verticalGap="4dp"
+            app:constraint_referenced_ids="item_account_fullname,item_account_username"/>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/item_account_count_flow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:constraint_referenced_ids="item_account_followings_flow,item_account_followers_flow,item_account_unfollowers_flow"
+            app:flow_horizontalGap="4dp"
+            app:flow_verticalGap="4dp"
+            app:flow_wrapMode="aligned"/>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/item_account_followings_flow"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:flow_horizontalGap="2dp"
+            app:constraint_referenced_ids="item_account_followings_label,item_account_followings"/>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/item_account_followers_flow"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:flow_horizontalGap="2dp"
+            app:constraint_referenced_ids="item_account_followers_label,item_account_followers"/>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/item_account_unfollowers_flow"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:flow_horizontalGap="2dp"
+            app:constraint_referenced_ids="item_account_unfollowers_label,item_account_unfollowers"/>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_account_fullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp"
             style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:text="Full Name"/>
+            tools:text="Full Name"/>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_account_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:text="@username"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal"
-            android:padding="4dp"
-            android:gravity="center">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="2dp"
-                android:layout_marginEnd="6dp">
-                <com.google.android.material.textview.MaterialTextView
-                    android:text="@string/title_followings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
-                    android:letterSpacing="0.05" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/item_account_followings"
-                    android:text="0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
-                    android:gravity="center"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="2dp"
-                android:layout_marginEnd="6dp">
-                <com.google.android.material.textview.MaterialTextView
-                    android:text="@string/title_followers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
-                    android:letterSpacing="0.05" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/item_account_followers"
-                    android:text="0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
-                    android:gravity="center"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="2dp">
-                <com.google.android.material.textview.MaterialTextView
-                    android:text="@string/title_unfollowers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
-                    android:letterSpacing="0.05" />
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/item_account_unfollowers"
-                    android:text="0"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.MaterialComponents.Body2"
-                    android:gravity="center"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+            tools:text="@username"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_followings_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/title_followings"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:letterSpacing="0.05" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_followings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:gravity="center"
+            tools:text="0"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_followers_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/title_followers"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:letterSpacing="0.05" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_followers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:gravity="center"
+            tools:text="0"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_unfollowers_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/title_unfollowers"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:letterSpacing="0.05" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_account_unfollowers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:gravity="center"
+            tools:text="0"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
