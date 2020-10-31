@@ -6,8 +6,8 @@ using AndroidX.AppCompat.View;
 using AndroidX.AppCompat.View.Menu;
 using AndroidX.RecyclerView.Widget;
 
-using Google.Android.Material.Card;
 using Google.Android.Material.TextView;
+using Google.Android.Material.Card;
 
 using Madamin.Unfollow.Instagram;
 
@@ -22,9 +22,9 @@ namespace Madamin.Unfollow.ViewHolders
             IFanItemClickListener listener) 
             : base(item)
         {
-            _card = item.FindViewById<MaterialCardView>(Resource.Id.item_unfollower_card);
-            _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_unfollower_fullname);
-            _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_unfollower_username);
+            _card = item.FindViewById<MaterialCardView>(Resource.Id.item_user_card);
+            _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_user_fullname);
+            _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_user_username);
 
             _menu = new MenuBuilder(ItemView.Context);
             _menu.SetCallback(this);
@@ -39,6 +39,7 @@ namespace Madamin.Unfollow.ViewHolders
 
             _card.Click += Item_Click;
             _card.LongClick += Item_LongClick;
+            item.FindViewById(Resource.Id.item_user_more).Click += More_Click;
         }
 
         public void BindData(User user, bool selected)
@@ -52,7 +53,7 @@ namespace Madamin.Unfollow.ViewHolders
         {
             if (!_listener.OnItemClick(AdapterPosition))
             {
-                _popup.Show();
+                _listener.OnItemOpen(AdapterPosition);
             }
         }
 
@@ -61,9 +62,9 @@ namespace Madamin.Unfollow.ViewHolders
             _listener.OnItemLongClick(AdapterPosition);
         }
 
-        private void Unfollow_Click(object sender, EventArgs e)
+        private void More_Click(object sender, EventArgs e)
         {
-            _listener.OnItemFollow(AdapterPosition);
+            _popup.Show();
         }
 
         public bool OnMenuItemSelected(MenuBuilder builder, IMenuItem item)

@@ -35,7 +35,7 @@ namespace Madamin.Unfollow.Adapters
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             var view_item = LayoutInflater.From(parent.Context)
-                .Inflate(Resource.Layout.item_unfollower, parent, false);
+                .Inflate(Resource.Layout.item_user, parent, false);
             return new UnfollowerViewHolder(view_item, _listener);
         }
 

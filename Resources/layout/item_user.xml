@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_user_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:checkable="true"
+    android:elevation="0dp"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:minHeight="64dp">
+
+        <ImageView
+            android:id="@+id/item_user_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_user_fullname"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="8dp"
+            android:src="@drawable/ic_person_black_48dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_user_fullname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/item_user_avatar"
+            app:layout_constraintEnd_toStartOf="@+id/item_user_more"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/item_user_username"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:maxLines="1"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            tools:text="Full Name" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/item_user_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/item_user_avatar"
+            app:layout_constraintEnd_toStartOf="@+id/item_user_more"
+            app:layout_constraintTop_toBottomOf="@+id/item_user_fullname"
+            android:maxLines="1"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+            tools:text="@username" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_user_more"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintStart_toEndOf="@+id/item_user_fullname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_more_vert_black_24dp"
+            style="@style/Widget.AppCompat.ActionButton.Overflow"
+            app:tint="?android:attr/colorControlNormal"
+            android:clickable="true" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
