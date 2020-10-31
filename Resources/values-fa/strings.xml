@@ -55,6 +55,8 @@
 	<string name="msg_up_to_date">شما به‌روز هستید!</string>
 	<string name="msg_error">خطایی رخ داده است!</string>
 	<string name="msg_sending_report">درحال ارسال گزارش خطا...</string>
+	<string name="msg_no_unfollower">کسانی که به شما فالوبک نداده‌اند اینجا نمایش داده می‌شوند.</string>
+	<string name="msg_no_fan">کسانی که شما به آنها فالوبک نداده‌اید اینجا نمایش داده می‌شوند.</string>
 
 	<string name="error_recyclerview">خراب شد:(</string>
 	<string name="error_invalid_password">گذرواژه اشتباه</string>

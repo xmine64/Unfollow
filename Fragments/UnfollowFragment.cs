@@ -31,7 +31,7 @@ namespace Madamin.Unfollow.Fragments
         {
             Title = _account.Data.User.Fullname;
             // TODO: set ErrorText
-            // TODO: set EmptyText
+            EmptyText = GetString(Resource.String.msg_no_unfollower);
             SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
 
             _adapter = new UnfollowerAdapter(_account, this);

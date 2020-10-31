@@ -31,8 +31,8 @@ namespace Madamin.Unfollow.Fragments
         {
             Title = _account.Data.User.Fullname;
             // TODO: set ErrorText
-            // TODO: set EmptyText
-            // TODO: SetEmptyImage(Resource.Drawable);
+            EmptyText = GetString(Resource.String.msg_no_fan);
+            SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
             _adapter = new FansAdapter(_account, this);
 
