@@ -12,9 +12,9 @@ Update Checker Server from [UpdateServer](https://github.com/mmdmine/updateserve
 * Batch unfollow
 * Whitelist
 * 2 Factor Authentication support
+* Show fans, people who you didn't follow back
 
 # TODO
-* Show fans, people who you didn't follow back
 * Reimplement a simpler and cheaper version of Instagram API (newapi branch)
 
 # Contribute
