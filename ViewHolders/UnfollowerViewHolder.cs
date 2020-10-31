@@ -25,6 +25,7 @@ namespace Madamin.Unfollow.ViewHolders
             _card = item.FindViewById<MaterialCardView>(Resource.Id.item_user_card);
             _tv_fullname = item.FindViewById<MaterialTextView>(Resource.Id.item_user_fullname);
             _tv_username = item.FindViewById<MaterialTextView>(Resource.Id.item_user_username);
+            var option_menu_button = item.FindViewById(Resource.Id.item_user_more);
 
             _menu = new MenuBuilder(ItemView.Context);
             _menu.SetCallback(this);
@@ -32,14 +33,14 @@ namespace Madamin.Unfollow.ViewHolders
             inflater.Inflate(Resource.Menu.popup_unfollower, _menu);
 
             _popup = new MenuPopupHelper(ItemView.Context, _menu);
-            _popup.SetAnchorView(ItemView);
+            _popup.SetAnchorView(option_menu_button);
             _popup.SetForceShowIcon(true);
 
             _listener = listener;
 
             _card.Click += Item_Click;
             _card.LongClick += Item_LongClick;
-            item.FindViewById(Resource.Id.item_user_more).Click += More_Click;
+            option_menu_button.Click += More_Click;
         }
 
         public void BindData(User user, bool selected)

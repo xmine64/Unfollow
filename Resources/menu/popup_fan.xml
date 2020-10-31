@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/popup_fan_item_open"
-		  android:title="@string/title_open_ig"
-		  android:icon="@drawable/ic_launch_black_24dp" />
-	<item android:id="@+id/popup_fan_item_select"
-		  android:title="@string/title_select"
-		  android:icon="@drawable/ic_check_box_black_24dp" />
-	<item android:id="@+id/popup_fan_item_follow"
-		  android:title="@string/title_follow" />
-	<item android:id="@+id/popup_fan_item_add_whitelist"
-		  android:title="@string/title_add_whitelist"
-		  android:icon="@drawable/ic_close_black_24dp" />
+    <item android:id="@+id/popup_fan_item_open"
+          android:title="@string/title_open_ig"
+          android:icon="@drawable/ic_launch_black_24dp" />
+    <item android:id="@+id/popup_fan_item_select"
+          android:title="@string/title_select"
+          android:icon="@drawable/ic_check_box_black_24dp" />
+    <item android:id="@+id/popup_fan_item_follow"
+          android:title="@string/title_follow"
+          android:icon="@drawable/ic_person_add_black_24dp"/>
+    <item android:id="@+id/popup_fan_item_add_whitelist"
+          android:title="@string/title_add_whitelist"
+          android:icon="@drawable/ic_close_black_24dp" />
 </menu>
