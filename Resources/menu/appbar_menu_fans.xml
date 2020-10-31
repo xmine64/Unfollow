@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/appbar_fans_item_refresh"
+		  android:title="@string/title_refresh"
+		  android:icon="@drawable/ic_refresh_black_24dp"
+		  android:showAsAction="ifRoom" />
+	<item android:id="@+id/appbar_fans_item_followall"
+		  android:title="@string/title_follow_all"
+		  android:showAsAction="never" />
+	<item android:id="@+id/appbar_fans_item_clear_whitelist"
+		  android:title="@string/title_clear_whitelist"
+		  android:showAsAction="never" />
+	<item android:id="@+id/appbar_fans_item_logout"
+		  android:title="@string/title_logout"
+		  android:showAsAction="never" />
+</menu>

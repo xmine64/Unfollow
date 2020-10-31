@@ -65,6 +65,9 @@ namespace Madamin.Unfollow.ViewHolders
                 case Resource.Id.popup_account_item_unfollowers:
                     _listener.OnItemOpenUnfollowers(AdapterPosition);
                     return true;
+                case Resource.Id.popup_account_item_fans:
+                    _listener.OnItemOpenFans(AdapterPosition);
+                    return true;
                 case Resource.Id.popup_account_item_open:
                     _listener.OnItemOpenInstagram(AdapterPosition);
                     return true;
@@ -98,6 +101,7 @@ namespace Madamin.Unfollow.ViewHolders
     {
         void OnItemOpenInstagram(int position);
         void OnItemOpenUnfollowers(int position);
+        void OnItemOpenFans(int position);
         void OnItemLogout(int position);
         void OnItemRefresh(int position);
     }

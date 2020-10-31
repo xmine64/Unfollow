@@ -175,6 +175,16 @@ namespace Madamin.Unfollow.Instagram
             Data.Followings.Remove(user);
         }
 
+        public async Task FollowAsync(User user)
+        {
+            var result = await _api.UserProcessor.FollowUserAsync(user.Id);
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                    new InstagramException(result.Info.Message); ;
+
+            Data.Followings.Add(user);
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Account account &&
@@ -208,6 +218,7 @@ namespace Madamin.Unfollow.Instagram
             public List<User> Followings { get; }
 
             public IEnumerable<User> Unfollowers => Followings.Except(Followers);
+            public IEnumerable<User> Fans => Followers.Except(Followings);
 
             public override bool Equals(object obj)
             {

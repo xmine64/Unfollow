@@ -14,13 +14,16 @@
 	<string name="title_refresh">Refresh</string>
 	<string name="title_unfollow_all">Unfollow All</string>
 	<string name="title_clear_whitelist">Clear Whitelist</string>
+	<string name="title_follow_all">Follow All</string>
 	
 	<string name="title_open_unfollowers">Show Unfollowers</string>
+	<string name="title_open_fans">Show Fans</string>
 	<string name="title_open_ig">Open in Instagram</string>
 	<string name="title_logout">Logout</string>
 	<string name="title_select">Select</string>
 	<string name="title_unfollow">Unfollow</string>
 	<string name="title_add_whitelist">Add to Whitelist</string>
+	<string name="title_follow">Follow</string>
 
 	<string name="title_followings">FOLLOWINGS</string>
 	<string name="title_followers">FOLLOWERS</string>

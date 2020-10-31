@@ -3,6 +3,9 @@
     <item android:id="@+id/popup_account_item_unfollowers"
           android:title="@string/title_open_unfollowers"
           android:icon="@drawable/ic_person_remove_black_24dp" />
+    <item android:id="@+id/popup_account_item_fans"
+          android:title="@string/title_open_fans"
+          android:icon="@drawable/ic_group_black_24dp" />
     <item android:id="@+id/popup_account_item_open"
           android:title="@string/title_open_ig"
           android:icon="@drawable/ic_launch_black_24dp" />

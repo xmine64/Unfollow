@@ -14,13 +14,16 @@
 	<string name="title_refresh">بروزرسانی</string>
 	<string name="title_unfollow_all">آنفالو کردن همه</string>
 	<string name="title_clear_whitelist">پاک کردن لیست سفید</string>
+	<string name="title_follow_all">فالو کردن همه</string>
 
 	<string name="title_open_unfollowers">نمایش آنفالورها</string>
+	<string name="title_open_fans">نمایش طرفدارها</string>
 	<string name="title_open_ig">بازکردن در اینستاگرام</string>
 	<string name="title_logout">خروج از حساب</string>
 	<string name="title_select">انتخاب کردن</string>
-	<string name="title_unfollow">آنفالو کردن</string>
 	<string name="title_add_whitelist">افزودن به لیست سفید</string>
+	<string name="title_unfollow">آنفالو کردن</string>
+	<string name="title_follow">فالو کردن</string>
 
 	<string name="title_followings">فالویینگ‌ها</string>
 	<string name="title_followers">فالورها</string>

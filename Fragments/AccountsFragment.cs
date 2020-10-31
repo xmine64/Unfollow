@@ -76,6 +76,12 @@ namespace Madamin.Unfollow.Fragments
                 _adapter.NotifyDataSetChanged);
         }
 
+        public void OnItemOpenFans(int position)
+        {
+            var user = _adapter.GetItem(position);
+            PushFragment(new FansFragment(user));
+        }
+
         private void AccountsFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
         {
             switch (e.ItemId)
