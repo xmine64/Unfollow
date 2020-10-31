@@ -269,10 +269,10 @@ namespace Madamin.Unfollow
 
         public void ShowSnackbar(int res)
         {
-            var container = FindViewById(Resource.Id.main_container);
-            var snack = Snackbar.Make(container, res, Snackbar.LengthLong);
-            if (_navbar.Visibility == ViewStates.Visible)
-                snack.SetAnchorView(_navbar);
+            var rootView = FindViewById(Resource.Id.root);
+            var snack = Snackbar.Make(rootView, res, Snackbar.LengthLong);
+            //if (_navbar.Visibility == ViewStates.Visible)
+                //snack.SetAnchorView(_navbar);
             snack.Show();
         }
 
