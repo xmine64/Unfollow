@@ -8,7 +8,7 @@
     android:layout_margin="16dp"
     style="@style/Widget.MaterialComponents.CardView"
     app:cardCornerRadius="4dp"
-    android:elevation="0dp">
+    android:elevation="@dimen/cardview_default_elevation">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
