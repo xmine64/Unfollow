@@ -2,7 +2,7 @@
 
 [![telegram channel](https://patrolavia.github.io/telegram-badge/follow.png)](https://t.me/unfollowapp)
 
-[![bazaar badge](https://s.cafebazaar.ir/2/images/get-cafebazaar-en.png)](https://cafebazaar.ir/app/madamin.unfollow)
+[<img src="https://s.cafebazaar.ir/2/images/get-cafebazaar-en.png" width=240 />](https://cafebazaar.ir/app/madamin.unfollow)
 
 A small application to track the people who unfollowed you on Instagram.
 
