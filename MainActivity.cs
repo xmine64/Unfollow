@@ -192,7 +192,7 @@ namespace Madamin.Unfollow
                 try
                 {
                     var result = await _update_server.CheckUpdate(
-                        new CheckUpdateRequest { Version = 7 });
+                        new CheckUpdateRequest { Version = 10 });
                     if (result.Status == "ok")
                     {
                         if (result.Result.Update.Available)
