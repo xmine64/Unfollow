@@ -42,8 +42,8 @@
 
 	<string name="button_text_login">ورود</string>
 	<string name="button_text_retry">تلاش مجدد</string>
-	<string name="button_text_telegram">دنبال کردن در تلگرام</string>
-	<string name="button_text_instagram">دنبال کردن در اینستاگرام</string>
+	<string name="button_text_telegram">کانال تلگرام</string>
+	<string name="button_text_instagram">اینستاگرام</string>
 	<string name="button_text_github">مخزن گیتهاب</string>
 	<string name="button_text_details">جزییات</string>
 	<string name="button_text_report">گزارش خطا</string>
