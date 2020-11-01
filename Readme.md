@@ -15,6 +15,8 @@ Update Checker Server from [UpdateServer](https://github.com/mmdmine/updateserve
 * Show fans, people who you didn't follow back
 
 # TODO
+* Block unfollowers or fans, one by one or batch
+* Implement account data as IParcelable to save them in bundle as instance data
 * Reimplement a simpler and cheaper version of Instagram API (newapi branch)
 
 # Contribute
