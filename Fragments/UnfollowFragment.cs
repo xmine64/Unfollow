@@ -11,6 +11,7 @@ using ActionMode = AndroidX.AppCompat.View.ActionMode;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.ViewHolders;
+using Android.OS;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -19,16 +20,26 @@ namespace Madamin.Unfollow.Fragments
         IUnfollowerItemClickListener,
         ActionMode.ICallback
     {
-        public UnfollowFragment(Account account) :
+        public UnfollowFragment() :
             base(Resource.Menu.appbar_menu_unfollow)
         {
-            _account = account;
             Create += UnfollowFragment_Create;
             MenuItemSelected += UnfollowFragment_MenuItemSelected;
         }
 
-        private void UnfollowFragment_Create(object sender, OnCreateEventArgs e)
+        private void UnfollowFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
+            if (e.SavedInstanceState != null)
+            {
+                PopFragment();
+                return;
+            }
+
+            _account_position = Arguments.GetInt(ACCOUNT_INDEX, -1);
+            if (_account_position < 0)
+                throw new ArgumentException(); // TODO
+            _account = ((IInstagramHost)Activity).Accounts[_account_position];
+
             Title = _account.Data.User.Fullname;
             // TODO: set ErrorText
             EmptyText = GetString(Resource.String.msg_no_unfollower);
@@ -213,6 +224,7 @@ namespace Madamin.Unfollow.Fragments
             ((IInstagramHost)Activity).Accounts.SaveAccountCache(_account);
         }
 
+        private int _account_position;
         private Account _account;
         private UnfollowerAdapter _adapter;
         private ActionMode _action_mode;

@@ -42,9 +42,18 @@ namespace Madamin.Unfollow
             SetContentView(_layout);
             SetSupportActionBar(FindViewById<Toolbar>(_actionbar));
 
-            Create?.Invoke(this, new EventArgs());
+            Create?.Invoke(this, new OnActivityCreateEventArgs(savedInstanceState));
 
-            if (savedInstanceState != null) return;
+            if (savedInstanceState != null)
+            {
+                if (savedInstanceState.GetBoolean(BACKBUTTON_VISIBLITY))
+                {
+                    _back_button_visible = true;
+                    OnBackButtonVisibilityChanged(true);
+                }
+
+                return;
+            }
 
             BeginTransition();
             SupportFragmentManager
@@ -52,6 +61,19 @@ namespace Madamin.Unfollow
                 .Add(_container, Fragments[0])
                 .Commit();
         }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutBoolean(BACKBUTTON_VISIBLITY, _back_button_visible);
+
+            // TODO: save fragments state
+
+            SaveState?.Invoke(this, new OnSaveStateEventArgs(outState));
+
+            base.OnSaveInstanceState(outState);
+        }
+
+        private const string BACKBUTTON_VISIBLITY = "backbutton_visibility";
 
         public void NavigateTo(int index)
         {
@@ -83,23 +105,20 @@ namespace Madamin.Unfollow
 
         public void OnBackStackChanged()
         {
-            bool back_button_visible;
-            if (SupportFragmentManager.BackStackEntryCount > 0)
-            {
-                back_button_visible = true;
-            }
-            else
-            {
-                back_button_visible = false;
-            }
+            var back_button_visible = SupportFragmentManager.BackStackEntryCount > 0;
             if (back_button_visible != _back_button_visible)
             {
                 _back_button_visible = back_button_visible;
-                SupportActionBar.SetDisplayHomeAsUpEnabled(_back_button_visible);
-                BackButtonVisibilityChange?.Invoke(
-                    this,
-                    new OnBackButtonVisibilityChange(_back_button_visible));
+                OnBackButtonVisibilityChanged(_back_button_visible);
             }
+        }
+
+        protected virtual void OnBackButtonVisibilityChanged(bool visibility)
+        {
+            SupportActionBar.SetDisplayHomeAsUpEnabled(visibility);
+            BackButtonVisibilityChange?.Invoke(
+                this,
+                new OnBackButtonVisibilityChangeEventArgs(visibility));
         }
 
         public void PushFragment(FragmentBase fragment)
@@ -119,8 +138,9 @@ namespace Madamin.Unfollow
             set => SupportActionBar.Title = value;
         }
 
-        public event EventHandler Create;
-        public event EventHandler<OnBackButtonVisibilityChange> BackButtonVisibilityChange;
+        public event EventHandler<OnActivityCreateEventArgs> Create;
+        public event EventHandler<OnSaveStateEventArgs> SaveState;
+        public event EventHandler<OnBackButtonVisibilityChangeEventArgs> BackButtonVisibilityChange;
 
         public List<Fragment> Fragments { get; }
 
@@ -129,9 +149,29 @@ namespace Madamin.Unfollow
         private bool _back_button_visible = false;
     }
 
-    public class OnBackButtonVisibilityChange
+    public class OnActivityCreateEventArgs
     {
-        public OnBackButtonVisibilityChange(bool visible)
+        public OnActivityCreateEventArgs(Bundle savedInstanceBundle)
+        {
+            SavedInstanceBundle = savedInstanceBundle;
+        }
+
+        public Bundle SavedInstanceBundle { get; }
+    }
+
+    public class OnSaveStateEventArgs
+    {
+        public OnSaveStateEventArgs(Bundle state)
+        {
+            State = state;
+        }
+
+        public Bundle State { get; }
+    }
+
+    public class OnBackButtonVisibilityChangeEventArgs
+    {
+        public OnBackButtonVisibilityChangeEventArgs(bool visible)
         {
             Visible = visible;
         }

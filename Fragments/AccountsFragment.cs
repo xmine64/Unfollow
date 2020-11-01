@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Android.OS;
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
@@ -18,7 +18,7 @@ namespace Madamin.Unfollow.Fragments
             RetryClick += AccountsFragment_RetryClick;
         }
 
-        private void AccountsFragment_Create(object sender, OnCreateEventArgs e)
+        private void AccountsFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
             Title = GetString(Resource.String.app_name);
             EmptyText = GetString(Resource.String.msg_no_account);
@@ -42,8 +42,13 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemOpenUnfollowers(int position)
         {
-            var user = _adapter.GetItem(position);
-            PushFragment(new UnfollowFragment(user));
+            var bundle = new Bundle();
+            bundle.PutInt(ACCOUNT_INDEX, position);
+            var fragment = new UnfollowFragment
+            {
+                Arguments = bundle
+            };
+            PushFragment(fragment);
         }
 
         public void OnItemOpenInstagram(int position)
@@ -78,8 +83,13 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemOpenFans(int position)
         {
-            var user = _adapter.GetItem(position);
-            PushFragment(new FansFragment(user));
+            var bundle = new Bundle();
+            bundle.PutInt(ACCOUNT_INDEX, position);
+            var fragment = new FansFragment
+            {
+                Arguments = bundle
+            };
+            PushFragment(fragment);
         }
 
         private void AccountsFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)

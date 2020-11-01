@@ -41,7 +41,7 @@ namespace Madamin.Unfollow.Fragments
         {
             var view = inflater.Inflate(_layout, container, false);
             
-            Create?.Invoke(this, new OnCreateEventArgs(view));
+            Create?.Invoke(this, new OnFragmentCreateEventArgs(savedInstanceState, view));
 
             _host.ActionbarTitle = Title;
 
@@ -84,20 +84,22 @@ namespace Madamin.Unfollow.Fragments
 
         public string Title { get; set; }
 
-        public event EventHandler<OnCreateEventArgs> Create;
+        public event EventHandler<OnFragmentCreateEventArgs> Create;
         public event EventHandler<OnMenuItemSelectedEventArgs> MenuItemSelected;
 
         private int _layout, _menu;
         private IFragmentHost _host;
     }
 
-    public class OnCreateEventArgs : EventArgs
+    public class OnFragmentCreateEventArgs : EventArgs
     {
-        public OnCreateEventArgs(View view)
+        public OnFragmentCreateEventArgs(Bundle savedInstanceState, View view)
         {
+            SavedInstanceState = savedInstanceState;
             View = view;
         }
 
+        public Bundle SavedInstanceState { get; }
         public View View { get; }
     }
 

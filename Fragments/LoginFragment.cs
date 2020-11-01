@@ -17,7 +17,7 @@ namespace Madamin.Unfollow.Fragments
             Create += LoginFragment_Create;
         }
 
-        private void LoginFragment_Create(object sender, OnCreateEventArgs e)
+        private void LoginFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
             Title = GetString(Resource.String.title_addaccount);
 

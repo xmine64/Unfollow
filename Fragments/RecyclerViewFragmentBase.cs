@@ -32,7 +32,7 @@ namespace Madamin.Unfollow.Fragments
             Create += OnCreate;
         }
 
-        private void OnCreate(object sender, OnCreateEventArgs e)
+        private void OnCreate(object sender, OnFragmentCreateEventArgs e)
         {
             _recycler = e.View.FindViewById<RecyclerView>(Resource.Id.fragment_recyclerview_view);
 
@@ -183,6 +183,8 @@ namespace Madamin.Unfollow.Fragments
         {
             RetryClick?.Invoke(v, new EventArgs());
         }
+
+        public const string ACCOUNT_INDEX = "account_index";
 
         public event EventHandler RetryClick;
 

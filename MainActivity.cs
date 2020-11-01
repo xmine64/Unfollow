@@ -36,6 +36,7 @@ namespace Madamin.Unfollow
             Resource.Id.main_container)
         {
             Create += MainActivity_OnCreate;
+            SaveState += MainActivity_OnSaveState;
             BackButtonVisibilityChange += MainActivity_OnBackButtonVisibilityChange;
         }
 
@@ -72,7 +73,7 @@ namespace Madamin.Unfollow
             base.AttachBaseContext(context.CreateConfigurationContext(config));
         }
 
-        private void MainActivity_OnCreate(object sender, EventArgs e)
+        private void MainActivity_OnCreate(object sender, OnActivityCreateEventArgs e)
         {
             try
             {
@@ -92,11 +93,22 @@ namespace Madamin.Unfollow
             Fragments.Add(new AccountsFragment());
             Fragments.Add(new SettingsFragment());
 
+            if (e.SavedInstanceBundle != null)
+            {
+                // TODO: Load Accounts Data
+                return;
+            }
+
             var pref = PreferenceManager.GetDefaultSharedPreferences(this);
             if (pref.GetBoolean("auto_update_check", true))
             {
                 CheckForUpdate(false);
             }
+        }
+
+        private void MainActivity_OnSaveState(object sender, OnSaveStateEventArgs e)
+        {
+            // TODO: Save Accounts Data
         }
 
         private void Navbar_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
@@ -113,7 +125,7 @@ namespace Madamin.Unfollow
             }
         }
 
-        private void MainActivity_OnBackButtonVisibilityChange(object sender, OnBackButtonVisibilityChange e)
+        private void MainActivity_OnBackButtonVisibilityChange(object sender, OnBackButtonVisibilityChangeEventArgs e)
         {
             if (e.Visible)
             {

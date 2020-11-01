@@ -18,7 +18,7 @@ namespace Madamin.Unfollow.Fragments
             Create += AboutFragment_Create;
         }
 
-        private void AboutFragment_Create(object sender, OnCreateEventArgs e)
+        private void AboutFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
             Title = GetString(Resource.String.title_about);
             e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_version)
