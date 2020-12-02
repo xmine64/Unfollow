@@ -1,5 +1,7 @@
 ﻿using System;
+
 using Android.OS;
+
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
@@ -28,7 +30,7 @@ namespace Madamin.Unfollow.Fragments
             var accounts = ((IInstagramHost)Activity).Accounts;
 
             _adapter = new AccountAdapter(accounts, this);
-            Adapter = _adapter;
+            SetAdapter(_adapter);
 
             if (accounts.IsStateRestored)
             {
@@ -43,7 +45,7 @@ namespace Madamin.Unfollow.Fragments
         public void OnItemOpenUnfollowers(int position)
         {
             var bundle = new Bundle();
-            bundle.PutInt(ACCOUNT_INDEX, position);
+            bundle.PutInt(AccountIndex, position);
             var fragment = new UnfollowFragment
             {
                 Arguments = bundle
@@ -53,8 +55,8 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemOpenInstagram(int position)
         {
-            ((IInstagramHost)Activity).OpenInInstagram(
-                _adapter.GetItem(position).Data.User.Username);
+            var userName = _adapter.GetItem(position).Data.User.Username;
+            ((IInstagramHost)Activity).OpenInInstagram(userName);
         }
 
         public async void OnItemLogout(int position)
@@ -76,15 +78,13 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemRefresh(int position)
         {
-            DoTask(
-                _adapter.GetItem(position).RefreshAsync(),
-                _adapter.NotifyDataSetChanged);
+            DoTask(_adapter.GetItem(position).RefreshAsync(), _adapter.NotifyDataSetChanged);
         }
 
         public void OnItemOpenFans(int position)
         {
             var bundle = new Bundle();
-            bundle.PutInt(ACCOUNT_INDEX, position);
+            bundle.PutInt(AccountIndex, position);
             var fragment = new FansFragment
             {
                 Arguments = bundle

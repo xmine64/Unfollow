@@ -1,5 +1,4 @@
 ﻿using Android.Views;
-
 using AndroidX.RecyclerView.Widget;
 
 using Madamin.Unfollow.Instagram;
@@ -7,7 +6,7 @@ using Madamin.Unfollow.ViewHolders;
 
 namespace Madamin.Unfollow.Adapters
 {
-    class AccountAdapter : RecyclerView.Adapter
+    internal class AccountAdapter : RecyclerView.Adapter
     {
         public AccountAdapter(
             Accounts data,
@@ -17,20 +16,21 @@ namespace Madamin.Unfollow.Adapters
             _listener = listener;
         }
 
+        public override int ItemCount => _data.Count;
+
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var account_view_holder = holder as AccountViewHolder;
-            if (account_view_holder == null)
-                return;
-
-            account_view_holder.BindData(_data[position].Data);
+            if (holder is AccountViewHolder accountViewHolder)
+                accountViewHolder.BindData(_data[position].Data);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var view_item = LayoutInflater.From(parent.Context)
-                .Inflate(Resource.Layout.item_account, parent, false);
-            return new AccountViewHolder(view_item, _listener);
+            var viewItem = LayoutInflater.From(parent.Context)?.Inflate(
+                Resource.Layout.item_account,
+                parent,
+                false);
+            return new AccountViewHolder(viewItem, _listener);
         }
 
         public Account GetItem(int position)
@@ -38,10 +38,7 @@ namespace Madamin.Unfollow.Adapters
             return _data[position];
         }
 
-        public override int ItemCount => _data.Count;
-
-        private Accounts _data;
-
-        private IAccountItemClickListener _listener;
+        private readonly Accounts _data;
+        private readonly IAccountItemClickListener _listener;
     }
 }

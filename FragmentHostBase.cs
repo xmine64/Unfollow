@@ -22,11 +22,11 @@ namespace Madamin.Unfollow
     {
         protected FragmentHostBase(
             int layout,
-            int actionbar,
+            int actionBar,
             int container)
         {
             _layout = layout;
-            _actionbar = actionbar;
+            _actionBar = actionBar;
             _container = container;
 
             Fragments = new List<Fragment>();
@@ -40,17 +40,15 @@ namespace Madamin.Unfollow
             SupportFragmentManager.AddOnBackStackChangedListener(this);
 
             SetContentView(_layout);
-            SetSupportActionBar(FindViewById<Toolbar>(_actionbar));
+            SetSupportActionBar(FindViewById<Toolbar>(_actionBar));
 
             Create?.Invoke(this, new OnActivityCreateEventArgs(savedInstanceState));
 
             if (savedInstanceState != null)
             {
-                if (savedInstanceState.GetBoolean(BACKBUTTON_VISIBLITY))
-                {
-                    _back_button_visible = true;
-                    OnBackButtonVisibilityChanged(true);
-                }
+                if (!savedInstanceState.GetBoolean(BackButtonVisibility)) return;
+                _backButtonVisible = true;
+                OnBackButtonVisibilityChanged(true);
 
                 return;
             }
@@ -64,7 +62,7 @@ namespace Madamin.Unfollow
 
         protected override void OnSaveInstanceState(Bundle outState)
         {
-            outState.PutBoolean(BACKBUTTON_VISIBLITY, _back_button_visible);
+            outState.PutBoolean(BackButtonVisibility, _backButtonVisible);
 
             // TODO: save fragments state
 
@@ -73,9 +71,9 @@ namespace Madamin.Unfollow
             base.OnSaveInstanceState(outState);
         }
 
-        private const string BACKBUTTON_VISIBLITY = "backbutton_visibility";
+        private const string BackButtonVisibility = "backbutton_visibility";
 
-        public void NavigateTo(int index)
+        protected void NavigateTo(int index)
         {
             NavigateTo(Fragments[index], false);
         }
@@ -86,11 +84,11 @@ namespace Madamin.Unfollow
             TransitionManager.BeginDelayedTransition(rootView);
         }
 
-        public void NavigateTo(Fragment fragment, bool add_to_back_stack)
+        public void NavigateTo(Fragment fragment, bool addToBackStack)
         {
             BeginTransition();
             var tx = SupportFragmentManager.BeginTransaction().Replace(_container, fragment);
-            if (add_to_back_stack)
+            if (addToBackStack)
             { 
                 tx.AddToBackStack(null);
             }
@@ -105,15 +103,13 @@ namespace Madamin.Unfollow
 
         public void OnBackStackChanged()
         {
-            var back_button_visible = SupportFragmentManager.BackStackEntryCount > 0;
-            if (back_button_visible != _back_button_visible)
-            {
-                _back_button_visible = back_button_visible;
-                OnBackButtonVisibilityChanged(_back_button_visible);
-            }
+            var backButtonVisible = SupportFragmentManager.BackStackEntryCount > 0;
+            if (backButtonVisible == _backButtonVisible) return;
+            _backButtonVisible = backButtonVisible;
+            OnBackButtonVisibilityChanged(_backButtonVisible);
         }
 
-        protected virtual void OnBackButtonVisibilityChanged(bool visibility)
+        private void OnBackButtonVisibilityChanged(bool visibility)
         {
             SupportActionBar.SetDisplayHomeAsUpEnabled(visibility);
             BackButtonVisibilityChange?.Invoke(
@@ -132,7 +128,7 @@ namespace Madamin.Unfollow
             SupportFragmentManager.PopBackStack();
         }
 
-        public string ActionbarTitle
+        public string ActionBarTitle
         {
             get => SupportActionBar.Title;
             set => SupportActionBar.Title = value;
@@ -142,11 +138,13 @@ namespace Madamin.Unfollow
         public event EventHandler<OnSaveStateEventArgs> SaveState;
         public event EventHandler<OnBackButtonVisibilityChangeEventArgs> BackButtonVisibilityChange;
 
-        public List<Fragment> Fragments { get; }
+        protected List<Fragment> Fragments { get; }
 
-        private int _layout, _actionbar, _container;
+        private readonly int _layout;
+        private readonly int _actionBar;
+        private readonly int _container;
 
-        private bool _back_button_visible = false;
+        private bool _backButtonVisible;
     }
 
     public class OnActivityCreateEventArgs

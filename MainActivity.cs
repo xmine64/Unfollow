@@ -43,30 +43,30 @@ namespace Madamin.Unfollow
         protected override void AttachBaseContext(Context context)
         {
             var prefs = PreferenceManager.GetDefaultSharedPreferences(context);
-            var config = context.Resources.Configuration;
 
-            var apptheme = prefs.GetString("theme", "adaptive");
-            if (apptheme == "adaptive")
-            {
-                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightFollowSystem;
-            }
-            else if (apptheme == "light")
-            {
-                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
-            }
-            else if (apptheme == "dark")
-            {
-                AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightYes;
-            }
+            var config = context.Resources?.Configuration;
 
-            var applang = prefs.GetString("lang", "sysdef");
-            if (applang == "sysdef")
+            if (config == null)
+                return; // TODO: Should not be null
+
+            var appTheme = prefs.GetString("theme", "adaptive");
+            AppCompatDelegate.DefaultNightMode = appTheme switch
+            {
+                "adaptive" => AppCompatDelegate.ModeNightFollowSystem,
+                "light"    => AppCompatDelegate.ModeNightNo,
+                "dark"     => AppCompatDelegate.ModeNightYes,
+                _          => AppCompatDelegate.DefaultNightMode
+            };
+
+            var appLang = prefs.GetString("lang", "sysdef");
+            if (appLang == "sysdef" ||
+                appLang == null)
             {
                 config.SetLocale(Locale.Default);
             }
             else
             {
-                var locale = new Locale(applang);
+                var locale = new Locale(appLang);
                 config.SetLocale(locale);
             }
 
@@ -88,7 +88,10 @@ namespace Madamin.Unfollow
             }
 
             _navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
-            _navbar.NavigationItemSelected += Navbar_NavigationItemSelected;
+            if (_navbar != null)
+            {
+                _navbar.NavigationItemSelected += Navbar_NavigationItemSelected;
+            }
 
             Fragments.Add(new AccountsFragment());
             Fragments.Add(new SettingsFragment());
@@ -127,14 +130,7 @@ namespace Madamin.Unfollow
 
         private void MainActivity_OnBackButtonVisibilityChange(object sender, OnBackButtonVisibilityChangeEventArgs e)
         {
-            if (e.Visible)
-            {
-                _navbar.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                _navbar.Visibility = ViewStates.Visible;
-            }
+            _navbar.Visibility = e.Visible ? ViewStates.Gone : ViewStates.Visible;
         }
 
         public Accounts Accounts { get; private set; }
@@ -144,7 +140,7 @@ namespace Madamin.Unfollow
             var intent = Intent.ParseUri(
                 "https://instagram.com/_u/" + username,
                 IntentUriType.None);
-            intent.SetPackage("com.instagram.android");
+            intent?.SetPackage("com.instagram.android");
             try
             {
                 StartActivity(intent);
@@ -161,24 +157,22 @@ namespace Madamin.Unfollow
 
         public void SaveData(string fileName, object data)
         {
-            using (var file = new FileStream(
-                Path.Combine(DataDir.AbsolutePath, fileName),
+            var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
+            using var file = new FileStream(
+                filePath,
                 FileMode.OpenOrCreate,
-                FileAccess.Write))
-            {
-                new BinaryFormatter().Serialize(file, data);
-            }
+                FileAccess.Write);
+            new BinaryFormatter().Serialize(file, data);
         }
 
         public object LoadData(string fileName)
         {
-            using (var file = new FileStream(
-                Path.Combine(DataDir.AbsolutePath, fileName),
+            var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
+            using var file = new FileStream(
+                filePath,
                 FileMode.Open,
-                FileAccess.Read))
-            {
-                return new BinaryFormatter().Deserialize(file);
-            }
+                FileAccess.Read);
+            return new BinaryFormatter().Deserialize(file);
         }
 
         public bool DataExists(string fileName)
@@ -191,7 +185,7 @@ namespace Madamin.Unfollow
             RunOnUiThread(async () => {
                 try
                 {
-                    var result = await _update_server.CheckUpdate(
+                    var result = await _updateServer.CheckUpdate(
                         new CheckUpdateRequest { Version = 10 });
                     if (result.Status == "ok")
                     {
@@ -214,7 +208,7 @@ namespace Madamin.Unfollow
                                         ShowError(ex);
                                     }
                                 })
-                                .SetNegativeButton(Android.Resource.String.Cancel, (sener,args) => { })
+                                .SetNegativeButton(Android.Resource.String.Cancel, (sender,args) => { })
                                 .Show();
                         }
                         else
@@ -254,14 +248,14 @@ namespace Madamin.Unfollow
                             try
                             {
                                 ShowSnackbar(Resource.String.msg_sending_report);
-                                await _update_server.BugReport(
+                                await _updateServer.BugReport(
                                     new BugReportRequest
                                     {
                                         Exception = new ExceptionData
                                         {
                                             Type = exception.GetType().FullName,
                                             Message = exception.Message,
-                                            Callstack = exception.StackTrace
+                                            CallStack = exception.StackTrace
                                         }
                                     }
                                 );
@@ -290,32 +284,32 @@ namespace Madamin.Unfollow
 
         private BottomNavigationView _navbar;
 
-        // TODO: Don't hardcode this strings
-        private UpdateServerApi _update_server = 
+        // TODO: Don't hard code this strings
+        private readonly UpdateServerApi _updateServer = 
             new UpdateServerApi(
                 "https://unfollowapp.herokuapp.com/api",
                 "UnfollowApp/v0.5"
             );
     }
 
-    interface IDataContainer
+    public interface IDataContainer
     {
         void SaveData(string fileName, object data);
         object LoadData(string fileName);
         bool DataExists(string fileName);
     }
 
-    interface IUpdateServerHost
+    public interface IUpdateServerHost
     {
         void CheckForUpdate(bool verbose);
     }
 
-    interface ISnackBarHost
+    public interface ISnackBarHost
     {
         void ShowSnackbar(int res);
     }
 
-    interface IErrorHost
+    public interface IErrorHost
     {
         void ShowError(Exception ex);
     }

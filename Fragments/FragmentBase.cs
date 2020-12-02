@@ -1,23 +1,24 @@
 ﻿using System;
 
+using Android.Content;
 using Android.OS;
 using Android.Views;
-using Android.Content;
 
 using AndroidX.Fragment.App;
 
 namespace Madamin.Unfollow.Fragments
 {
-    interface IFragmentHost
+    internal interface IFragmentHost
     {
-        void NavigateTo(Fragment fragment, bool add_to_backstack);
+        string ActionBarTitle { get; set; }
+        void NavigateTo(Fragment fragment, bool addToBackStack);
         void PushFragment(FragmentBase fragment);
         void PopFragment();
-        string ActionbarTitle { get; set; }
     }
 
     public abstract class FragmentBase : Fragment
     {
+
         protected FragmentBase(int layout)
         {
             _layout = layout;
@@ -29,21 +30,26 @@ namespace Madamin.Unfollow.Fragments
             _menu = menu;
         }
 
+        protected string Title { get; set; }
+
         public override void OnAttach(Context context)
         {
             base.OnAttach(context);
-            _host = (IFragmentHost)context;
+            _host = (IFragmentHost) context;
 
             Title = GetString(Resource.String.app_name);
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View OnCreateView(
+            LayoutInflater inflater,
+            ViewGroup container, 
+            Bundle savedInstanceState)
         {
             var view = inflater.Inflate(_layout, container, false);
-            
+
             Create?.Invoke(this, new OnFragmentCreateEventArgs(savedInstanceState, view));
 
-            _host.ActionbarTitle = Title;
+            _host.ActionBarTitle = Title;
 
             return view;
         }
@@ -57,14 +63,13 @@ namespace Madamin.Unfollow.Fragments
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            if (HasOptionsMenu)
-            {
-                var e = new OnMenuItemSelectedEventArgs(item.ItemId);
-                MenuItemSelected?.Invoke(this, e);
-                if (e.Finished)
-                    return true;
-            }
-            return base.OnOptionsItemSelected(item);
+            if (!HasOptionsMenu)
+                return base.OnOptionsItemSelected(item);
+
+            var e = new OnMenuItemSelectedEventArgs(item.ItemId);
+            MenuItemSelected?.Invoke(this, e);
+
+            return e.Finished || base.OnOptionsItemSelected(item);
         }
 
         public void Refresh()
@@ -72,23 +77,23 @@ namespace Madamin.Unfollow.Fragments
             _host.NavigateTo(this, false);
         }
 
-        public void PushFragment(FragmentBase fragment)
+        protected void PushFragment(FragmentBase fragment)
         {
             _host.PushFragment(fragment);
         }
 
-        public void PopFragment()
+        protected void PopFragment()
         {
             _host.PopFragment();
         }
 
-        public string Title { get; set; }
-
         public event EventHandler<OnFragmentCreateEventArgs> Create;
         public event EventHandler<OnMenuItemSelectedEventArgs> MenuItemSelected;
 
-        private int _layout, _menu;
         private IFragmentHost _host;
+
+        private readonly int _layout;
+        private readonly int _menu;
     }
 
     public class OnFragmentCreateEventArgs : EventArgs

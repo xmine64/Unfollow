@@ -8,10 +8,11 @@ namespace Madamin.Unfollow.Instagram
 {
     public class Accounts : IEnumerable<Account>
     {
-        public Accounts(string state_path, string cache_path)
+
+        public Accounts(string statePath, string cachePath)
         {
-            DataDir = state_path;
-            CacheDir = cache_path;
+            DataDir = statePath;
+            CacheDir = cachePath;
             IsStateRestored = false;
 
             if (!Directory.Exists(DataDir))
@@ -20,6 +21,11 @@ namespace Madamin.Unfollow.Instagram
             if (!Directory.Exists(CacheDir))
                 Directory.CreateDirectory(CacheDir);
         }
+
+        private string DataDir { get; }
+        private string CacheDir { get; }
+
+        public bool IsStateRestored { get; private set; }
 
         public async Task AddAccountAsync(string username, string password)
         {
@@ -40,25 +46,22 @@ namespace Madamin.Unfollow.Instagram
 
         public async Task LogoutAccountAsync(Account account)
         {
-            await LogoutAccountAtAsync(_accounts.FindIndex(a => a == account));
+            await LogoutAccountAtAsync(_accounts.FindIndex(a => Equals(a, account)));
         }
 
         public async Task LogoutAccountAtAsync(int i)
         {
-            var state_path = GetAccountStatePath(_accounts[i]);
+            var statePath = GetAccountStatePath(_accounts[i]);
 
             await _accounts[i].LogoutAsync();
 
             _accounts.RemoveAt(i);
-            File.Delete(state_path);
+            File.Delete(statePath);
         }
 
         public async Task RefreshAllAsync()
         {
-            foreach (var account in _accounts)
-            {
-                await RefreshAccountAsync(account);
-            }
+            foreach (var account in _accounts) await RefreshAccountAsync(account);
         }
 
         public async Task RestoreStateAsync()
@@ -85,24 +88,12 @@ namespace Madamin.Unfollow.Instagram
 
                 if (_accounts.Contains(account))
                     throw new DuplicateAccountException();
+
                 _accounts.Add(account);
             }
 
             IsStateRestored = true;
         }
-
-        public void SaveCacheAll()
-        {
-            foreach (var account in _accounts)
-            {
-                SaveAccountCache(account);
-            }
-        }
-
-        public string DataDir { get; }
-        public string CacheDir { get; }
-
-        public bool IsStateRestored { get; private set; }
 
         private string GetAccountStatePath(Account account)
         {
@@ -114,7 +105,7 @@ namespace Madamin.Unfollow.Instagram
             return Path.Combine(CacheDir, account.Data.User.Id.ToString());
         }
 
-        public void SaveAccountState(Account account)
+        private void SaveAccountState(Account account)
         {
             account.SaveState(GetAccountStatePath(account));
         }
@@ -124,35 +115,44 @@ namespace Madamin.Unfollow.Instagram
             account.SaveCache(GetAccountCachePath(account));
         }
 
-        public async Task RefreshAccountAsync(Account account)
+        private async Task RefreshAccountAsync(Account account)
         {
             await account.RefreshAsync();
             SaveAccountCache(account);
         }
 
+        private readonly List<Account> _accounts = new List<Account>();
+
         #region IEnumerable implementation
+
         public int Count => _accounts.Count;
         public Account this[int i] => _accounts[i];
+
         public IEnumerator<Account> GetEnumerator()
         {
             return _accounts.GetEnumerator();
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _accounts.GetEnumerator();
         }
-        #endregion
 
-        private List<Account> _accounts = new List<Account>();
+        #endregion
     }
 
-    interface IInstagramHost
+    internal interface IInstagramHost
     {
         Accounts Accounts { get; }
 
         void OpenInInstagram(string username);
     }
 
-    public class AlreadyRestoredException : Exception { }
-    public class DuplicateAccountException : Exception { }
+    public class AlreadyRestoredException : Exception
+    {
+    }
+
+    public class DuplicateAccountException : Exception
+    {
+    }
 }

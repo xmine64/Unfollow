@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Android.Views;
-
 using AndroidX.RecyclerView.Widget;
 
 using Madamin.Unfollow.Instagram;
@@ -10,7 +9,7 @@ using Madamin.Unfollow.ViewHolders;
 
 namespace Madamin.Unfollow.Adapters
 {
-    class FansAdapter : RecyclerView.Adapter
+    internal class FansAdapter : RecyclerView.Adapter
     {
         public FansAdapter(
             Account data,
@@ -18,36 +17,41 @@ namespace Madamin.Unfollow.Adapters
         {
             _data = data;
             _listener = listener;
-            _fans_cache = new List<User>();
+            _fansCache = new List<User>();
         }
+
+        public override int ItemCount => _fansCache.Count;
+
+        public List<int> SelectedItems { get; private set; }
+
+        public List<User> Whitelist { get; } = new List<User>();
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var fan_view_holder = holder as FanViewHolder;
-            if (fan_view_holder == null)
-                return;
-
-            fan_view_holder.BindData(
-                _fans_cache[position],
-                SelectedItems.Contains(position));
+            if (holder is FanViewHolder fanViewHolder)
+                fanViewHolder.BindData(
+                    _fansCache[position], 
+                    SelectedItems.Contains(position));
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var view_item = LayoutInflater.From(parent.Context)
-                .Inflate(Resource.Layout.item_user, parent, false);
-            return new FanViewHolder(view_item, _listener);
+            var viewItem = LayoutInflater.From(parent.Context)?.Inflate(
+                Resource.Layout.item_user,
+                parent,
+                false);
+            return new FanViewHolder(viewItem, _listener);
         }
 
         public User GetItem(int position)
         {
-            return _fans_cache[position];
+            return _fansCache[position];
         }
 
         public void Refresh()
         {
-            _fans_cache.Clear();
-            _fans_cache.AddRange(_data.Data.Fans.Except(Whitelist));
+            _fansCache.Clear();
+            _fansCache.AddRange(_data.Data.Fans.Except(Whitelist));
             SelectedItems = new List<int>();
         }
 
@@ -56,6 +60,7 @@ namespace Madamin.Unfollow.Adapters
             if (SelectedItems.Contains(position))
             {
                 SelectedItems.Remove(position);
+
             }
             else
             {
@@ -67,7 +72,7 @@ namespace Madamin.Unfollow.Adapters
         public void SelectAll()
         {
             DeselectAll();
-            SelectedItems.AddRange(Enumerable.Range(0, _fans_cache.Count));
+            SelectedItems.AddRange(Enumerable.Range(0, _fansCache.Count));
             NotifyDataSetChanged();
         }
 
@@ -79,18 +84,12 @@ namespace Madamin.Unfollow.Adapters
 
         public User[] GetSelected()
         {
-            return SelectedItems.Select(pos => _fans_cache[pos]).ToArray();
+            return SelectedItems.Select(pos => _fansCache[pos]).ToArray();
         }
 
-        public override int ItemCount => _fans_cache.Count;
+        private readonly Account _data;
+        private readonly List<User> _fansCache;
 
-        public List<int> SelectedItems { get; private set; }
-
-        public List<User> Whitelist { get; } = new List<User>();
-
-        private Account _data;
-        private List<User> _fans_cache;
-
-        private IFanItemClickListener _listener;
+        private readonly IFanItemClickListener _listener;
     }
 }

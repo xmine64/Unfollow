@@ -5,9 +5,11 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
+using InstagramApiSharp;
+using InstagramApiSharp.API;
+using InstagramApiSharp.API.Builder;
 using InstagramApiSharp.Classes;
-using IInstaApi = InstagramApiSharp.API.IInstaApi;
-using InstaApiBuilder = InstagramApiSharp.API.Builder.InstaApiBuilder;
+using InstagramApiSharp.Enums;
 
 namespace Madamin.Unfollow.Instagram
 {
@@ -19,8 +21,10 @@ namespace Madamin.Unfollow.Instagram
                 .SetUser(UserSessionData.Empty)
                 .SetRequestDelay(RequestDelay.FromSeconds(0, 1))
                 .Build();
-            _api.SetApiVersion(InstagramApiSharp.Enums.InstaApiVersionType.Version126);
+            _api.SetApiVersion(InstaApiVersionType.Version126);
         }
+
+        public AccountData Data { get; private set; }
 
         internal async Task LoginAsync(string username, string password)
         {
@@ -51,7 +55,7 @@ namespace Madamin.Unfollow.Instagram
 
                 default:
                     throw result.Info.Exception ??
-                        new InstagramException(result.Info.Message);
+                          new InstagramException(result.Info.Message);
             }
         }
 
@@ -77,7 +81,7 @@ namespace Madamin.Unfollow.Instagram
 
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message);
+                      new InstagramException(result.Info.Message);
         }
 
         internal void SaveState(string path)
@@ -86,19 +90,15 @@ namespace Madamin.Unfollow.Instagram
                 throw new UserNotAuthenticatedException();
 
             var state = _api.GetStateDataAsObject();
-            using (var file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
-            {
-                new BinaryFormatter().Serialize(file, state);
-            }
+            using var file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+            new BinaryFormatter().Serialize(file, state);
         }
 
         internal void LoadState(string path)
         {
-            using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                var state = (StateData)new BinaryFormatter().Deserialize(file);
-                _api.LoadStateDataFromObject(state);
-            }
+            using var file = new FileStream(path, FileMode.Open, FileAccess.Read);
+            var state = (StateData) new BinaryFormatter().Deserialize(file);
+            _api.LoadStateDataFromObject(state);
         }
 
         internal void SaveCache(string path)
@@ -106,10 +106,8 @@ namespace Madamin.Unfollow.Instagram
             if (Data == null)
                 throw new AccountDataNotAvailableException();
 
-            using (var file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
-            {
-                new BinaryFormatter().Serialize(file, Data);
-            }
+            using var file = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+            new BinaryFormatter().Serialize(file, Data);
         }
 
         internal void LoadCache(string path)
@@ -117,10 +115,8 @@ namespace Madamin.Unfollow.Instagram
             if (!_api.IsUserAuthenticated)
                 throw new UserNotAuthenticatedException();
 
-            using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                Data = (AccountData)new BinaryFormatter().Deserialize(file);
-            }
+            using var file = new FileStream(path, FileMode.Open, FileAccess.Read);
+            Data = (AccountData) new BinaryFormatter().Deserialize(file);
         }
 
         public async Task RefreshAsync()
@@ -129,37 +125,37 @@ namespace Madamin.Unfollow.Instagram
                 throw new UserNotAuthenticatedException();
 
             // request user data
-            var user_edit_req = await _api.AccountProcessor.GetRequestForEditProfileAsync();
-            if (!user_edit_req.Succeeded)
-                throw user_edit_req.Info.Exception ??
-                    new InstagramException(user_edit_req.Info.Message);
+            var userEditReq = await _api.AccountProcessor.GetRequestForEditProfileAsync();
+            if (!userEditReq.Succeeded)
+                throw userEditReq.Info.Exception ??
+                      new InstagramException(userEditReq.Info.Message);
 
             var user = new User(
-                user_edit_req.Value.Pk,
-                user_edit_req.Value.Username,
-                user_edit_req.Value.FullName);
+                userEditReq.Value.Pk,
+                userEditReq.Value.Username,
+                userEditReq.Value.FullName);
 
             // request user followers
-            var followers_req = await _api.UserProcessor
-                .GetCurrentUserFollowersAsync(InstagramApiSharp.PaginationParameters.Empty);
-            if (!followers_req.Succeeded)
-                throw followers_req.Info.Exception ??
-                    new InstagramException(followers_req.Info.Message);
-            
-            var followers = from follower in followers_req.Value
-                            select new User(follower.Pk, follower.UserName, follower.FullName);
+            var followersReq = await _api.UserProcessor
+                .GetCurrentUserFollowersAsync(PaginationParameters.Empty);
+            if (!followersReq.Succeeded)
+                throw followersReq.Info.Exception ??
+                      new InstagramException(followersReq.Info.Message);
+
+            var followers = from follower in followersReq.Value
+                select new User(follower.Pk, follower.UserName, follower.FullName);
 
             // request user followings
-            var followings_req = await _api.UserProcessor
+            var followingsReq = await _api.UserProcessor
                 .GetUserFollowingAsync(
-                user.Username,
-                InstagramApiSharp.PaginationParameters.Empty);
-            if (!followings_req.Succeeded)
-                throw followings_req.Info.Exception ??
-                    new InstagramException(followers_req.Info.Message);
+                    user.Username,
+                    PaginationParameters.Empty);
+            if (!followingsReq.Succeeded)
+                throw followingsReq.Info.Exception ??
+                      new InstagramException(followersReq.Info.Message);
 
-            var followings = from following in followings_req.Value
-                             select new User(following.Pk, following.UserName, following.FullName);
+            var followings = from following in followingsReq.Value
+                select new User(following.Pk, following.UserName, following.FullName);
 
             // save data
             Data = new AccountData(user, followers, followings);
@@ -170,7 +166,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.UserProcessor.UnFollowUserAsync(user.Id);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message); ;
+                      new InstagramException(result.Info.Message);
 
             Data.Followings.Remove(user);
         }
@@ -180,7 +176,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.UserProcessor.FollowUserAsync(user.Id);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message); ;
+                      new InstagramException(result.Info.Message);
 
             Data.Followings.Add(user);
         }
@@ -196,9 +192,7 @@ namespace Madamin.Unfollow.Instagram
             return HashCode.Combine(Data);
         }
 
-        public AccountData Data { get; private set; }
-
-        private IInstaApi _api;
+        private readonly IInstaApi _api;
 
         [Serializable]
         public class AccountData
@@ -212,6 +206,7 @@ namespace Madamin.Unfollow.Instagram
                 Followers = followers.ToList();
                 Followings = followings.ToList();
             }
+
             public User User { get; }
 
             public List<User> Followers { get; }
@@ -262,14 +257,29 @@ namespace Madamin.Unfollow.Instagram
         }
     }
 
-    public class AccountDataNotAvailableException : Exception { }
-    public class UserNotAuthenticatedException : Exception { }
-    public class WrongPasswordException : Exception { }
-    public class ChallengeException : Exception { }
-    public class InstagramException : Exception 
-    { 
-        public InstagramException(string message) : base (message) {}
+    public class AccountDataNotAvailableException : Exception
+    {
     }
+
+    public class UserNotAuthenticatedException : Exception
+    {
+    }
+
+    public class WrongPasswordException : Exception
+    {
+    }
+
+    public class ChallengeException : Exception
+    {
+    }
+
+    public class InstagramException : Exception
+    {
+        public InstagramException(string message) : base(message)
+        {
+        }
+    }
+
     public class TwoFactorAuthException : Exception
     {
         public TwoFactorAuthException(Account account)

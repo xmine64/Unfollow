@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Android.Views;
-
 using AndroidX.RecyclerView.Widget;
 
 using Madamin.Unfollow.Instagram;
@@ -10,64 +9,68 @@ using Madamin.Unfollow.ViewHolders;
 
 namespace Madamin.Unfollow.Adapters
 {
-    class UnfollowerAdapter : RecyclerView.Adapter
+    internal class UnfollowerAdapter : RecyclerView.Adapter
     {
+
         public UnfollowerAdapter(
             Account data,
             IUnfollowerItemClickListener listener)
         {
             _data = data;
             _listener = listener;
-            _unfollowers_cache = new List<User>();
+            _unfollowersCache = new List<User>();
         }
+
+        public override int ItemCount => _unfollowersCache.Count;
+
+        public List<int> SelectedItems { get; private set; }
+
+        public List<User> Whitelist { get; } = new List<User>();
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var unfollow_view_holder = holder as UnfollowerViewHolder;
-            if (unfollow_view_holder == null)
-                return;
-
-            unfollow_view_holder.BindData(
-                _unfollowers_cache[position],
-                SelectedItems.Contains(position));
+            if (holder is UnfollowerViewHolder unfollowViewHolder)
+            {
+                unfollowViewHolder?.BindData(
+                    _unfollowersCache[position], 
+                    SelectedItems.Contains(position));
+            }
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var view_item = LayoutInflater.From(parent.Context)
-                .Inflate(Resource.Layout.item_user, parent, false);
-            return new UnfollowerViewHolder(view_item, _listener);
+            var viewItem = LayoutInflater.From(parent.Context)?.Inflate(
+                Resource.Layout.item_user,
+                parent,
+                false);
+            return new UnfollowerViewHolder(viewItem, _listener);
         }
 
         public User GetItem(int position)
         {
-            return _unfollowers_cache[position];
+            return _unfollowersCache[position];
         }
 
         public void Refresh()
         {
-            _unfollowers_cache.Clear();
-            _unfollowers_cache.AddRange(_data.Data.Unfollowers.Except(Whitelist));
+            _unfollowersCache.Clear();
+            _unfollowersCache.AddRange(_data.Data.Unfollowers.Except(Whitelist));
             SelectedItems = new List<int>();
         }
 
         public void SelectOrDeselectItem(int position)
         {
             if (SelectedItems.Contains(position))
-            {
                 SelectedItems.Remove(position);
-            }
             else
-            {
                 SelectedItems.Add(position);
-            }
             NotifyItemChanged(position);
         }
 
         public void SelectAll()
         {
             DeselectAll();
-            SelectedItems.AddRange(Enumerable.Range(0, _unfollowers_cache.Count));
+            SelectedItems.AddRange(Enumerable.Range(0, _unfollowersCache.Count));
             NotifyDataSetChanged();
         }
 
@@ -79,18 +82,12 @@ namespace Madamin.Unfollow.Adapters
 
         public User[] GetSelected()
         {
-            return SelectedItems.Select(pos => _unfollowers_cache[pos]).ToArray();
+            return SelectedItems.Select(pos => _unfollowersCache[pos]).ToArray();
         }
 
-        public override int ItemCount => _unfollowers_cache.Count;
+        private readonly Account _data;
 
-        public List<int> SelectedItems { get; private set; }
-
-        public List<User> Whitelist { get; } = new List<User>();
-
-        private Account _data;
-        private List<User> _unfollowers_cache;
-
-        private IUnfollowerItemClickListener _listener;
+        private readonly IUnfollowerItemClickListener _listener;
+        private readonly List<User> _unfollowersCache;
     }
 }
