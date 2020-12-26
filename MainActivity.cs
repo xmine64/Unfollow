@@ -47,8 +47,7 @@ namespace Madamin.Unfollow
 
             var config = context.Resources?.Configuration;
 
-            if (config == null)
-                return; // TODO: Should not be null
+            Debug.Assert(config != null);
 
             var appTheme = prefs.GetString("theme", "adaptive");
             AppCompatDelegate.DefaultNightMode = appTheme switch
