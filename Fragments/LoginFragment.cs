@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android.Text;
 using Android.Widget;
 using Google.Android.Material.Button;
@@ -60,43 +61,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (TwoFactorAuthException twoFactorAuth)
             {
-                await twoFactorAuth.Account.TwoFactorSendSms();
-
-                var input = new TextInputEditText(Activity)
-                {
-                    InputType = InputTypes.ClassNumber
-                };
-
-                new MaterialAlertDialogBuilder(Activity)
-                    .SetTitle("2FA")
-                    .SetView(input)
-                    .SetPositiveButton(
-                        Android.Resource.String.Ok,
-                        async (dialog, args) =>
-                        {
-                            var twoFactorDialog = new MaterialAlertDialogBuilder(Activity)
-                                .SetView(new ProgressBar(Activity))
-                                .Create();
-                            twoFactorDialog.Show();
-                            try
-                            {
-                                await ig.CompleteLoginAsync(twoFactorAuth.Account, input.Text);
-                            }
-                            catch (Exception ex)
-                            {
-                                ((IErrorHost) Activity).ShowError(ex);
-                            }
-                            finally
-                            {
-                                PopFragment();
-                                twoFactorDialog.Dismiss();
-                                twoFactorDialog.Dispose();
-                            }
-                        })
-                    .SetNegativeButton(
-                        Android.Resource.String.Cancel,
-                        (dialog, args) => { PopFragment(); })
-                    .Show();
+                await TwoFactorAuthenticateAsync(twoFactorAuth.Account);
             }
             catch (WrongPasswordException)
             {
@@ -142,6 +107,48 @@ namespace Madamin.Unfollow.Fragments
                 _elPassword.ErrorEnabled = false;
                 _etPassword.TextChanged -= ErrorEditLayoutChangeHandler;
             }
+        }
+
+        private async Task TwoFactorAuthenticateAsync(Account account)
+        {
+            await account.TwoFactorSendSms();
+
+            var input = new TextInputEditText(Activity)
+            {
+                InputType = InputTypes.ClassNumber
+            };
+
+            var dialog = new MaterialAlertDialogBuilder(Activity);
+            dialog.SetTitle("2FA");
+            dialog.SetView(input);
+            dialog.SetPositiveButton(
+                Android.Resource.String.Ok,
+                async (sender, args) =>
+                {
+                    var twoFactorDialog = new MaterialAlertDialogBuilder(Activity)
+                        .SetView(new ProgressBar(Activity))
+                        .Create();
+                    twoFactorDialog.Show();
+                    try
+                    {
+                        await ((IInstagramHost) Activity).Accounts
+                            .CompleteLoginAsync(account, input.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        ((IErrorHost) Activity).ShowError(ex);
+                    }
+                    finally
+                    {
+                        PopFragment();
+                        twoFactorDialog.Dismiss();
+                        twoFactorDialog.Dispose();
+                    }
+                });
+            dialog.SetNegativeButton(
+                Android.Resource.String.Cancel,
+                (sender, args) => { PopFragment(); });
+            dialog.Show();
         }
     }
 }
