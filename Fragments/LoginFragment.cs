@@ -106,8 +106,8 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (InvalidCredentialException)
             {
-                _elUserName.ErrorEnabled = true;
-                _elPassword.ErrorEnabled = true;
+                _elUserName.Error = " ";
+                _elPassword.Error = GetString(Resource.String.error_invalid_credential);
 
                 _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
                 _etPassword.TextChanged += ErrorEditLayoutChangeHandler;

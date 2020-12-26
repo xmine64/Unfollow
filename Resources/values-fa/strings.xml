@@ -60,6 +60,7 @@
 
 	<string name="error_recyclerview">خراب شد:(</string>
 	<string name="error_invalid_password">گذرواژه اشتباه</string>
+	<string name="error_invalid_credential">نام کاربری یا گذرواژه اشتباه</string>
 	<string name="error_login_failure">نمیتوان وارد حساب شد</string>
 	<string name="error_ig_not_installed">اینستاگرام نصب نشده است</string>
 
