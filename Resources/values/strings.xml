@@ -61,6 +61,7 @@
 	<string name="error_recyclerview">Something went wrong:(</string>
 	<string name="error_invalid_password">Invalid Password</string>
 	<string name="error_invalid_credential">Invalid Username/Password</string>
+	<string name="error_required_field">This field is required.</string>
 	<string name="error_login_failure">Can\'t log into your account</string>
 	<string name="error_ig_not_installed">Instagram app is not installed</string>
 	

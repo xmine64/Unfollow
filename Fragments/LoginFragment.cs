@@ -42,10 +42,37 @@ namespace Madamin.Unfollow.Fragments
 
         private async void LoginBtn_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_etUserName.Text))
-                return; // TODO: Show an error
-            if (string.IsNullOrWhiteSpace(_etPassword.Text))
-                return; // TODO: Show an error
+            var usernameIsNull = string.IsNullOrEmpty(_etUserName.Text);
+            var passwordIsNull = string.IsNullOrWhiteSpace(_etPassword.Text);
+
+            if (usernameIsNull && passwordIsNull)
+            {
+                _elUserName.Error = " ";
+                _elPassword.Error = GetString(Resource.String.error_required_field);
+
+                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
+                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+
+                return;
+            }
+
+            if (usernameIsNull)
+            {
+                _elUserName.Error = GetString(Resource.String.error_required_field);
+
+                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
+
+                return;
+            }
+
+            if (passwordIsNull)
+            {
+                _elPassword.Error = GetString(Resource.String.error_required_field);
+
+                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+
+                return;
+            }
 
             var ig = ((IInstagramHost) Activity).Accounts;
 
