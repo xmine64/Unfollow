@@ -44,6 +44,7 @@ namespace Madamin.Unfollow.ViewHolders
             var card = item.FindViewById<MaterialCardView>(Resource.Id.item_account_card);
             if (card == null) return;
             card.Click += Item_Click;
+            card.LongClick += Item_LongClick;
         }
 
         public void BindData(Account.AccountData data)
@@ -56,6 +57,11 @@ namespace Madamin.Unfollow.ViewHolders
         }
 
         private void Item_Click(object sender, EventArgs e)
+        {
+            _listener.OnItemOpenUnfollowers(AdapterPosition);
+        }
+
+        private void Item_LongClick(object sender, EventArgs e)
         {
             _popup.Show();
         }
