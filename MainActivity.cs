@@ -293,12 +293,9 @@ namespace Madamin.Unfollow
 
         private BottomNavigationView _navbar;
 
-        // TODO: Don't hard code this strings
-        private readonly UpdateServerApi _updateServer = 
-            new UpdateServerApi(
-                "https://unfollowapp.herokuapp.com/api",
-                "UnfollowApp/v0.5"
-            );
+        private readonly UpdateServerApi _updateServer = new UpdateServerApi(
+            UpdateServerApi.UPDATE_SERVER_HOST,
+            UpdateServerApi.UPDATE_SERVER_USER_AGENT);
     }
 
     public interface IDataContainer

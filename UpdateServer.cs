@@ -71,6 +71,9 @@ namespace Madamin.Unfollow
 
     internal class UpdateServerApi : IDisposable
     {
+        public const string UPDATE_SERVER_HOST = "https://unfollowapp.herokuapp.com/api";
+        public const string UPDATE_SERVER_USER_AGENT = "UnfollowApp/v0.5";
+
         public UpdateServerApi(string apiAddress, string userAgent)
         {
             _client = new HttpClient();
