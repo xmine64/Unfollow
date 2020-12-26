@@ -66,6 +66,7 @@
 	<string name="error_ig_not_installed">اینستاگرام نصب نشده است</string>
 
 	<string name="app_name_full">آنفالویاب ساده</string>
-	<string name="msg_version">نسخه {0}</string>
+	<string name="msg_app_version">نسخه {0}</string>
+	<string name="msg_instasharp_version">با {0} نسخه {1}</string>
 	<string name="msg_copyright">توسط محمدامین ملازاده؛ 2020/1399 حق کپی محفوظ است</string>
 </resources>
