@@ -11,7 +11,7 @@ namespace Madamin.Unfollow.Fragments
     internal class LoginFragment : FragmentBase
     {
         private MaterialButton _btnLogin;
-        private TextInputLayout _elPassword;
+        private TextInputLayout _elUserName, _elPassword;
         private TextInputEditText _etUserName, _etPassword;
 
         public LoginFragment() : base(Resource.Layout.fragment_login)
@@ -25,6 +25,7 @@ namespace Madamin.Unfollow.Fragments
 
             _etUserName = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_username_input);
             _etPassword = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_password_input);
+            _elUserName = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_username_layout);
             _elPassword = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_password_layout);
             _btnLogin = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
 
@@ -100,7 +101,16 @@ namespace Madamin.Unfollow.Fragments
             catch (WrongPasswordException)
             {
                 _elPassword.Error = GetString(Resource.String.error_invalid_password);
-                _etPassword.TextChanged += (et, args) => { _elPassword.ErrorEnabled = false; };
+
+                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+            }
+            catch (InvalidCredentialException)
+            {
+                _elUserName.Error = " ";
+                _elPassword.Error = GetString(Resource.String.error_invalid_credential);
+
+                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
+                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
             }
             catch (Exception ex)
             {
@@ -117,6 +127,21 @@ namespace Madamin.Unfollow.Fragments
         private void CancelBtn_Click(object sender, EventArgs e)
         {
             PopFragment();
+        }
+
+        private void ErrorEditLayoutChangeHandler(object et, TextChangedEventArgs args)
+        {
+            if (_elUserName.ErrorEnabled)
+            {
+                _elUserName.ErrorEnabled = false;
+                _etUserName.TextChanged -= ErrorEditLayoutChangeHandler;
+            }
+
+            if (_elPassword.ErrorEnabled)
+            {
+                _elPassword.ErrorEnabled = false;
+                _etPassword.TextChanged -= ErrorEditLayoutChangeHandler;
+            }
         }
     }
 }
