@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -75,6 +76,9 @@ namespace Madamin.Unfollow
 
         private void MainActivity_OnCreate(object sender, OnActivityCreateEventArgs e)
         {
+            Debug.Assert(DataDir != null);
+            Debug.Assert(CacheDir != null);
+
             try
             {
                 Accounts = new Accounts(
@@ -157,6 +161,8 @@ namespace Madamin.Unfollow
 
         public void SaveData(string fileName, object data)
         {
+            Debug.Assert(DataDir != null);
+            
             var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
             using var file = new FileStream(
                 filePath,
@@ -167,6 +173,8 @@ namespace Madamin.Unfollow
 
         public object LoadData(string fileName)
         {
+            Debug.Assert(DataDir != null);
+            
             var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
             using var file = new FileStream(
                 filePath,
@@ -177,6 +185,8 @@ namespace Madamin.Unfollow
 
         public bool DataExists(string fileName)
         {
+            Debug.Assert(DataDir != null);
+            
             return File.Exists(Path.Combine(DataDir.AbsolutePath, fileName));
         }
 
