@@ -11,7 +11,7 @@ namespace Madamin.Unfollow.Fragments
     internal class LoginFragment : FragmentBase
     {
         private MaterialButton _btnLogin;
-        private TextInputLayout _elPassword;
+        private TextInputLayout _elUserName, _elPassword;
         private TextInputEditText _etUserName, _etPassword;
 
         public LoginFragment() : base(Resource.Layout.fragment_login)
@@ -25,6 +25,7 @@ namespace Madamin.Unfollow.Fragments
 
             _etUserName = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_username_input);
             _etPassword = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_password_input);
+            _elUserName = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_username_layout);
             _elPassword = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_password_layout);
             _btnLogin = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
 
@@ -100,7 +101,31 @@ namespace Madamin.Unfollow.Fragments
             catch (WrongPasswordException)
             {
                 _elPassword.Error = GetString(Resource.String.error_invalid_password);
-                _etPassword.TextChanged += (et, args) => { _elPassword.ErrorEnabled = false; };
+
+                void ChangeHandler(object et, TextChangedEventArgs args)
+                {
+                    _elPassword.ErrorEnabled = false;
+                    _etPassword.TextChanged -= ChangeHandler;
+                }
+
+                _etPassword.TextChanged += ChangeHandler;
+            }
+            catch (InvalidCredentialException)
+            {
+                _elUserName.ErrorEnabled = true;
+                _elPassword.ErrorEnabled = true;
+
+                void ChangeHandler(object et, TextChangedEventArgs args)
+                {
+                    _elUserName.ErrorEnabled = false;
+                    _elPassword.ErrorEnabled = false;
+
+                    _etUserName.TextChanged -= ChangeHandler;
+                    _etPassword.TextChanged -= ChangeHandler;
+                }
+
+                _etUserName.TextChanged += ChangeHandler;
+                _etPassword.TextChanged += ChangeHandler;
             }
             catch (Exception ex)
             {

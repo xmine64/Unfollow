@@ -53,6 +53,9 @@ namespace Madamin.Unfollow.Instagram
                 case InstaLoginResult.ChallengeRequired:
                     throw new ChallengeException();
 
+                case InstaLoginResult.InvalidUser:
+                    throw new InvalidCredentialException();
+
                 default:
                     throw result.Info.Exception ??
                           new InstagramException(result.Info.Message);
@@ -270,6 +273,10 @@ namespace Madamin.Unfollow.Instagram
     }
 
     public class ChallengeException : Exception
+    {
+    }
+
+    public class InvalidCredentialException : Exception
     {
     }
 
