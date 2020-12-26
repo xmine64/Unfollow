@@ -40,7 +40,13 @@ namespace Madamin.Unfollow.Fragments
             {
                 DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
             }
+
+            if (accounts.Count >= 1 || _hasPushedToLoginFragment) return;
+            PushFragment(new LoginFragment());
+            _hasPushedToLoginFragment = true;
         }
+
+        private bool _hasPushedToLoginFragment;
 
         public void OnItemOpenUnfollowers(int position)
         {
@@ -98,7 +104,6 @@ namespace Madamin.Unfollow.Fragments
             {
                 case Resource.Id.appbar_home_item_addaccount:
                     PushFragment(new LoginFragment());
-                    ViewMode = RecyclerViewMode.Data;
                     break;
 
                 case Resource.Id.appbar_home_item_refresh:
