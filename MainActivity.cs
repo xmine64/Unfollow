@@ -2,20 +2,15 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
 using Java.Util;
-
 using Android.App;
 using Android.Views;
 using Android.Content;
-
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
-
 using Google.Android.Material.Dialog;
 using Google.Android.Material.Snackbar;
 using Google.Android.Material.BottomNavigation;
-
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
 
@@ -23,9 +18,9 @@ namespace Madamin.Unfollow
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
         Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
-    public class MainActivity : 
-        FragmentHostBase, 
-        IInstagramHost, 
+    public class MainActivity :
+        FragmentHostBase,
+        IInstagramHost,
         IDataContainer,
         IUpdateServerHost,
         IErrorHost,
@@ -53,9 +48,9 @@ namespace Madamin.Unfollow
             AppCompatDelegate.DefaultNightMode = appTheme switch
             {
                 "adaptive" => AppCompatDelegate.ModeNightFollowSystem,
-                "light"    => AppCompatDelegate.ModeNightNo,
-                "dark"     => AppCompatDelegate.ModeNightYes,
-                _          => AppCompatDelegate.DefaultNightMode
+                "light" => AppCompatDelegate.ModeNightNo,
+                "dark" => AppCompatDelegate.ModeNightYes,
+                _ => AppCompatDelegate.DefaultNightMode
             };
 
             var appLang = prefs.GetString("lang", "sysdef");
@@ -117,7 +112,8 @@ namespace Madamin.Unfollow
             // TODO: Save Accounts Data
         }
 
-        private void Navbar_NavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
+        private void Navbar_NavigationItemSelected(object sender,
+            BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
             switch (e.Item.ItemId)
             {
@@ -161,7 +157,7 @@ namespace Madamin.Unfollow
         public void SaveData(string fileName, object data)
         {
             Debug.Assert(DataDir != null);
-            
+
             var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
             using var file = new FileStream(
                 filePath,
@@ -173,7 +169,7 @@ namespace Madamin.Unfollow
         public object LoadData(string fileName)
         {
             Debug.Assert(DataDir != null);
-            
+
             var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
             using var file = new FileStream(
                 filePath,
@@ -185,25 +181,33 @@ namespace Madamin.Unfollow
         public bool DataExists(string fileName)
         {
             Debug.Assert(DataDir != null);
-            
+
             return File.Exists(Path.Combine(DataDir.AbsolutePath, fileName));
         }
 
         public void CheckForUpdate(bool verbose)
         {
-            RunOnUiThread(async () => {
+            RunOnUiThread(async () =>
+            {
                 try
                 {
-                    var result = await _updateServer.CheckUpdate(
-                        new CheckUpdateRequest { Version = 10 });
+                    var package = PackageManager?.GetPackageInfo(PackageName, 0);
+                    Debug.Assert(package != null);
+                    var request = new CheckUpdateRequest
+                    {
+                        Version = (int) package.LongVersionCode
+                    };
+                    var result = await _updateServer.CheckUpdate(request);
                     if (result.Status == "ok")
                     {
                         if (result.Result.Update.Available)
                         {
-                            new MaterialAlertDialogBuilder(this)
-                                .SetTitle(Resource.String.title_update_available)
-                                .SetMessage(result.Result.Update.Message)
-                                .SetPositiveButton(result.Result.Update.Label, (sender, args) =>
+                            var dialog = new MaterialAlertDialogBuilder(this);
+                            dialog.SetTitle(Resource.String.title_update_available);
+                            dialog.SetMessage(result.Result.Update.Message);
+                            dialog.SetPositiveButton(
+                                result.Result.Update.Label,
+                                (sender, args) =>
                                 {
                                     if (result.Result.Update.Url == "unfollow:ok")
                                         return;
@@ -216,9 +220,11 @@ namespace Madamin.Unfollow
                                     {
                                         ShowError(ex);
                                     }
-                                })
-                                .SetNegativeButton(Android.Resource.String.Cancel, (sender,args) => { })
-                                .Show();
+                                });
+                            dialog.SetNegativeButton(
+                                Android.Resource.String.Cancel,
+                                (sender, args) => { });
+                            dialog.Show();
                         }
                         else
                         {
@@ -246,36 +252,42 @@ namespace Madamin.Unfollow
         public void ShowError(Exception exception)
         {
             var container = FindViewById(Resource.Id.main_container);
-            var snack = Snackbar.Make(container, Resource.String.msg_error, Snackbar.LengthLong);
+            var snack = Snackbar.Make(
+                container, 
+                Resource.String.msg_error, 
+                Snackbar.LengthLong);
             snack.SetAnchorView(Resource.Id.main_navbar);
             snack.SetAction(Resource.String.button_text_details, view =>
             {
-                new MaterialAlertDialogBuilder(this)
-                        .SetTitle(Resource.String.title_error)
-                        .SetMessage(exception.ToString())
-                        .SetPositiveButton(Resource.String.button_text_report, async (dialog, args) => {
-                            try
+                var dialog = new MaterialAlertDialogBuilder(this);
+                dialog.SetTitle(Resource.String.title_error);
+                dialog.SetMessage(exception.ToString());
+                dialog.SetPositiveButton(Resource.String.button_text_report, async (sender, args) =>
+                {
+                    try
+                    {
+                        ShowSnackbar(Resource.String.msg_sending_report);
+                        await _updateServer.BugReport(
+                            new BugReportRequest
                             {
-                                ShowSnackbar(Resource.String.msg_sending_report);
-                                await _updateServer.BugReport(
-                                    new BugReportRequest
-                                    {
-                                        Exception = new ExceptionData
-                                        {
-                                            Type = exception.GetType().FullName,
-                                            Message = exception.Message,
-                                            CallStack = exception.StackTrace
-                                        }
-                                    }
-                                );
+                                Exception = new ExceptionData
+                                {
+                                    Type = exception.GetType().FullName,
+                                    Message = exception.Message,
+                                    CallStack = exception.StackTrace
+                                }
                             }
-                            catch (Exception ex)
-                            {
-                                ShowError(ex);
-                            }
-                        })
-                        .SetNegativeButton(Android.Resource.String.Cancel, (dialog, args) => { })
-                        .Show();
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowError(ex);
+                    }
+                });
+                dialog.SetNegativeButton(
+                    Android.Resource.String.Cancel,
+                    (sender, args) => { });
+                dialog.Show();
             });
             if (_navbar.Visibility == ViewStates.Visible)
                 snack.SetAnchorView(_navbar);
@@ -287,15 +299,15 @@ namespace Madamin.Unfollow
             var rootView = FindViewById(Resource.Id.root);
             var snack = Snackbar.Make(rootView, res, Snackbar.LengthLong);
             //if (_navbar.Visibility == ViewStates.Visible)
-                //snack.SetAnchorView(_navbar);
+            //snack.SetAnchorView(_navbar);
             snack.Show();
         }
 
         private BottomNavigationView _navbar;
 
         private readonly UpdateServerApi _updateServer = new UpdateServerApi(
-            UpdateServerApi.UPDATE_SERVER_HOST,
-            UpdateServerApi.UPDATE_SERVER_USER_AGENT);
+            UpdateServerApi.UpdateServerHost,
+            UpdateServerApi.UpdateServerUserAgent);
     }
 
     public interface IDataContainer
@@ -320,4 +332,3 @@ namespace Madamin.Unfollow
         void ShowError(Exception ex);
     }
 }
-
