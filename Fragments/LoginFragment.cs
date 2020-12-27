@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Android.Text;
 using Android.Widget;
@@ -30,14 +31,9 @@ namespace Madamin.Unfollow.Fragments
             _elPassword = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_password_layout);
             _btnLogin = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
 
-            var btnCancel = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_cancel);
-
-            if (_btnLogin == null ||
-                btnCancel == null)
-                return;
-
+            Debug.Assert(_btnLogin != null);
+            
             _btnLogin.Click += LoginBtn_Click;
-            btnCancel.Click += CancelBtn_Click;
         }
 
         private async void LoginBtn_Click(object sender, EventArgs e)

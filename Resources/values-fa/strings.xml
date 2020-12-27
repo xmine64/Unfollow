@@ -40,6 +40,8 @@
 	<string name="title_about">درباره</string>
 	<string name="title_exit">خروج</string>
 
+	<string name="title_welcome">خوش آمدید!</string>
+
 	<string name="button_text_login">ورود</string>
 	<string name="button_text_retry">تلاش مجدد</string>
 	<string name="button_text_telegram">کانال تلگرام</string>
@@ -57,6 +59,7 @@
 	<string name="msg_sending_report">درحال ارسال گزارش خطا...</string>
 	<string name="msg_no_unfollower">کسانی که به شما فالوبک نداده‌اند اینجا نمایش داده می‌شوند.</string>
 	<string name="msg_no_fan">کسانی که شما به آنها فالوبک نداده‌اید اینجا نمایش داده می‌شوند.</string>
+	<string name="msg_login">وارد حسابتان شوید</string>
 
 	<string name="error_recyclerview">خراب شد:(</string>
 	<string name="error_invalid_password">گذرواژه اشتباه</string>

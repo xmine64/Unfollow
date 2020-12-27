@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,80 +11,88 @@
         android:id="@+id/fragment_login_flow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         android:orientation="vertical"
-        app:flow_wrapMode="chain"
+        app:flow_wrapMode="aligned"
         app:flow_verticalStyle="packed"
-        app:flow_verticalBias="0"
-        app:flow_horizontalAlign="start"
-        app:constraint_referenced_ids="fragment_login_input_flow,fragment_login_buttons_flow"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalGap="8dp"
+        app:constraint_referenced_ids="fragment_login_title,fragment_login_subtitle,fragment_login_input_flow,fragment_login_login"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/fragment_login_input_flow"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
+        app:flow_wrapMode="aligned"
+        app:flow_verticalStyle="packed"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalGap="4dp"
+        app:flow_horizontalGap="8dp"
         app:constraint_referenced_ids="fragment_login_username_layout,fragment_login_password_layout" />
 
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/fragment_login_buttons_flow"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingEnd="8dp"
-        android:orientation="horizontal"
-        app:flow_wrapMode="chain"
-        app:flow_horizontalStyle="packed"
-        app:flow_horizontalBias="1"
-        app:flow_verticalAlign="top"
-        app:constraint_referenced_ids="fragment_login_cancel,fragment_login_login" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/fragment_login_header"
+        android:layout_width="500dp"
+        android:layout_height="250dp"
+        android:padding="0dp"
+        android:src="@drawable/ic_header"
+        android:translationY="-50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.MaterialComponents.Headline3"
+        android:text="@string/title_welcome" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_login_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.MaterialComponents.Subtitle2"
+        android:text="@string/msg_login" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_login_username_layout"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="@string/input_hint_username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:paddingStart="10dp"
-        android:paddingEnd="8dp">
+        app:startIconDrawable="@drawable/ic_account_circle_black_18dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fragment_login_username_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"/>
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_login_password_layout"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="@string/input_hint_password"
         app:endIconMode="password_toggle"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:paddingStart="10dp"
-        android:paddingEnd="8dp">
+        app:startIconDrawable="@drawable/ic_vpn_key_black_18dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fragment_login_password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_login_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
         android:text="@string/button_text_login"
-        style="@style/Widget.MaterialComponents.Button" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fragment_login_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@android:string/cancel"
-        style="@style/Widget.MaterialComponents.Button.TextButton" />
+        style="@style/Widget.MaterialComponents.Button"
+        app:cornerRadius="21dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
