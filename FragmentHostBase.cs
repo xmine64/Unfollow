@@ -101,6 +101,18 @@ namespace Madamin.Unfollow
             return true;
         }
 
+        public override void OnBackPressed()
+        {
+            if (_backButtonVisible)
+            {
+                PopFragment();
+            }
+            else
+            {
+                Finish();
+            }
+        }
+
         public void OnBackStackChanged()
         {
             var backButtonVisible = SupportFragmentManager.BackStackEntryCount > 0;
