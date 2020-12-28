@@ -75,4 +75,7 @@
 
 	<string name="desc_logo">Logo</string>
 	<string name="desc_avatar">Avatar</string>
+
+	<string name="title_tip">Tip</string>
+	<string name="msg_tip">Press on your account to see your unfollowers,\nPress and Hold to see other options.\nPress on "+" (Plus) button to add more accounts.</string>
 </resources>

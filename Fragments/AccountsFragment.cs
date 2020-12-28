@@ -1,7 +1,8 @@
 ﻿using System;
 
 using Android.OS;
-
+using AndroidX.Preference;
+using Google.Android.Material.Dialog;
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
@@ -41,11 +42,30 @@ namespace Madamin.Unfollow.Fragments
                 DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
             }
 
-            if (accounts.Count >= 1 || _hasPushedToLoginFragment) return;
-            ((IFragmentHost)Activity)
-                .PushFullScreenFragment(new LoginFragment());
-            _hasPushedToLoginFragment = true;
+            if (accounts.Count < 1 && !_hasPushedToLoginFragment)
+            {
+                ((IFragmentHost) Activity)
+                    .PushFullScreenFragment(new LoginFragment());
+                _hasPushedToLoginFragment = true;
+                return;
+            }
+
+            var pfman = PreferenceManager
+                .GetDefaultSharedPreferences(Activity);
+            if (!pfman.GetBoolean(TipIsShownKey, false))
+            {
+                var dialog = new MaterialAlertDialogBuilder(Activity);
+                dialog.SetTitle(Resource.String.title_tip);
+                dialog.SetMessage(Resource.String.msg_tip);
+                dialog.Show();
+
+                var pfedit = pfman.Edit();
+                pfedit.PutBoolean(TipIsShownKey, true);
+                pfedit.Apply();
+            }
         }
+
+        private const string TipIsShownKey = "tip_is_shown";
 
         private bool _hasPushedToLoginFragment;
 
