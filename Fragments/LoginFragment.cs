@@ -112,11 +112,6 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        private void CancelBtn_Click(object sender, EventArgs e)
-        {
-            PopFragment();
-        }
-
         private void ErrorEditLayoutChangeHandler(object et, TextChangedEventArgs args)
         {
             if (_elUserName.ErrorEnabled)
