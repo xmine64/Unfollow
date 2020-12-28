@@ -39,7 +39,7 @@ namespace Madamin.Unfollow.Fragments
             };
             FindPreference("about").PreferenceClick += (sender, args) =>
             {
-                ((IFragmentHost) Activity).PushFragment(new AboutFragment());
+                ((IFragmentHost) Activity).PushFullScreenFragment(new AboutFragment());
             };
             FindPreference("exit").PreferenceClick += (sender, args) => { Activity.Finish(); };
         }
