@@ -11,9 +11,13 @@ namespace Madamin.Unfollow.Fragments
     internal interface IFragmentHost
     {
         string ActionBarTitle { get; set; }
+
         void NavigateTo(Fragment fragment, bool addToBackStack);
+
         void PushFragment(FragmentBase fragment);
         void PopFragment();
+
+        void PushFullScreenFragment(FragmentBase fragment);
     }
 
     public abstract class FragmentBase : Fragment

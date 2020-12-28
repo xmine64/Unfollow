@@ -42,7 +42,8 @@ namespace Madamin.Unfollow.Fragments
             }
 
             if (accounts.Count >= 1 || _hasPushedToLoginFragment) return;
-            PushFragment(new LoginFragment());
+            ((IFragmentHost)Activity)
+                .PushFullScreenFragment(new LoginFragment());
             _hasPushedToLoginFragment = true;
         }
 
@@ -103,7 +104,8 @@ namespace Madamin.Unfollow.Fragments
             switch (e.ItemId)
             {
                 case Resource.Id.appbar_home_item_addaccount:
-                    PushFragment(new LoginFragment());
+                    ((IFragmentHost)Activity)
+                        .PushFullScreenFragment(new LoginFragment());
                     break;
 
                 case Resource.Id.appbar_home_item_refresh:

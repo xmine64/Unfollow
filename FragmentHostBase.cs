@@ -125,7 +125,28 @@ namespace Madamin.Unfollow
         public void PopFragment()
         {
             BeginTransition();
+            if (_isFullScreen)
+            {
+                var actionBar = FindViewById(_actionBar);
+                if (actionBar != null)
+                {
+                    actionBar.Visibility = ViewStates.Visible;
+                }
+
+                _isFullScreen = false;
+            }
             SupportFragmentManager.PopBackStack();
+        }
+
+        public void PushFullScreenFragment(FragmentBase fragment)
+        {
+            var actionBar = FindViewById(_actionBar);
+            if (actionBar != null)
+            {
+                actionBar.Visibility = ViewStates.Gone;
+            }
+            _isFullScreen = true;
+            PushFragment(fragment);
         }
 
         public string ActionBarTitle
@@ -144,7 +165,7 @@ namespace Madamin.Unfollow
         private readonly int _actionBar;
         private readonly int _container;
 
-        private bool _backButtonVisible;
+        private bool _backButtonVisible, _isFullScreen;
     }
 
     public class OnActivityCreateEventArgs
