@@ -1,78 +1,82 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-	<!-- Adaptive Theme -->
-	<style name="AppTheme" parent="AppTheme.Light">
-	</style>
-	
-	<!-- Light Theme -->
-	<style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
-		<item name="colorPrimary">@color/primaryColor</item>
-		<item name="colorPrimaryDark">@color/primaryDarkColor</item>
-		<item name="colorOnPrimary">@color/primaryTextColor</item>
+    <!-- Adaptive Theme -->
+    <style name="AppTheme" parent="AppTheme.Light">
+    </style>
+    
+    <!-- Light Theme -->
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@color/backgroundColor</item>
 
-		<item name="colorSecondary">@color/secondaryColor</item>
-		<item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
-		<item name="colorOnSecondary">@color/secondaryTextColor</item>
-		<item name="colorAccent">@color/accentColor</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
 
-		<item name="android:navigationBarColor">@android:color/transparent</item>
-		<item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorAccent">@color/accentColor</item>
 
-		<item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
-		<item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
-		
-		<item name="windowActionModeOverlay">true</item>
-		<item name="actionModeStyle">@style/AppTheme.Light.Widget.ActionMode</item>
-		<item name="actionModeCloseDrawable">@drawable/ic_close_black_24dp</item>
-		<item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
-		
-		<item name="toolbarStyle">@style/AppTheme.Light.Widget.MaterialComponents.Toolbar</item>
-		<item name="bottomNavigationStyle">@style/AppTheme.Light.Widget.MaterialComponents.BottomNavigationView</item>
-	</style>
-	
-	<style name="AppTheme.Light.Widget.MaterialComponents.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
-	</style>
-	
-	<style name="AppTheme.Light.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
-	</style>
-	
-	<style name="AppTheme.Light.Widget.ActionMode" parent="Widget.AppCompat.ActionMode">
-		<item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
-		<item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
-		<item name="background">@color/material_grey_300</item>
-	</style>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
 
-	<!-- Dark Theme -->
-	<style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-		<item name="colorPrimary">@color/primaryColor</item>
-		<item name="colorPrimaryDark">@color/primaryDarkColor</item>
-		<item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/AppTheme.Light.Widget.ActionMode</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_close_black_24dp</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
+        
+        <item name="toolbarStyle">@style/AppTheme.Light.Widget.MaterialComponents.Toolbar</item>
+        <item name="bottomNavigationStyle">@style/AppTheme.Light.Widget.MaterialComponents.BottomNavigationView</item>
+    </style>
+    
+    <style name="AppTheme.Light.Widget.MaterialComponents.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+    </style>
+    
+    <style name="AppTheme.Light.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+    </style>
+    
+    <style name="AppTheme.Light.Widget.ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
+        <item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
+        <item name="background">@color/material_grey_300</item>
+    </style>
 
-		<item name="colorSecondary">@color/secondaryColor</item>
-		<item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
-		<item name="colorOnSecondary">@color/secondaryTextColor</item>
-		<item name="colorAccent">@color/accentColor</item>
+    <!-- Dark Theme -->
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/backgroundColor</item>
 
-		<item name="android:navigationBarColor">@android:color/transparent</item>
-		<item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
 
-		<item name="windowActionModeOverlay">true</item>
-		<item name="actionModeStyle">@style/AppTheme.Dark.Widget.ActionMode</item>
-		<item name="actionModeCloseDrawable">@drawable/ic_close_black_24dp</item>
-		<item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <item name="colorAccent">@color/accentColor</item>
 
-		<item name="toolbarStyle">@style/AppTheme.Dark.Widget.MaterialComponents.Toolbar</item>
-		<item name="bottomNavigationStyle">@style/AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView</item>
-	</style>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
 
-	<style name="AppTheme.Dark.Widget.MaterialComponents.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
-	</style>
-	
-	<style name="AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
-	</style>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/AppTheme.Dark.Widget.ActionMode</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_close_black_24dp</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar.Surface</item>
 
-	<style name="AppTheme.Dark.Widget.ActionMode" parent="Widget.AppCompat.ActionMode">
-		<item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
-		<item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
-		<item name="background">@color/material_grey_900</item>
-	</style>
+        <item name="toolbarStyle">@style/AppTheme.Dark.Widget.MaterialComponents.Toolbar</item>
+        <item name="bottomNavigationStyle">@style/AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView</item>
+    </style>
+
+    <style name="AppTheme.Dark.Widget.MaterialComponents.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+    </style>
+    
+    <style name="AppTheme.Dark.Widget.MaterialComponents.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+    </style>
+
+    <style name="AppTheme.Dark.Widget.ActionMode" parent="Widget.AppCompat.ActionMode">
+        <item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
+        <item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
+        <item name="background">@color/material_grey_900</item>
+    </style>
 </resources>
