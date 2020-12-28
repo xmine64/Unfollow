@@ -52,9 +52,11 @@ namespace Madamin.Unfollow
                     OnBackButtonVisibilityChanged(true);
                 }
 
-                if (savedInstanceState.GetBoolean(ActionBarVisibilityStateKey)) return;
-                _actionBarVisible = false;
-                OnActionBarVisibilityChanged(false);
+                if (!savedInstanceState.GetBoolean(ActionBarVisibilityStateKey))
+                {
+                    _actionBarVisible = false;
+                    OnActionBarVisibilityChanged(false);
+                }
 
                 return;
             }
@@ -140,17 +142,10 @@ namespace Madamin.Unfollow
         private void OnActionBarVisibilityChanged(bool visible)
         {
             var actionBar = FindViewById(_actionBar);
-            if (actionBar != null)
-            {
-                if (visible)
-                {
-                    actionBar.Visibility = ViewStates.Visible;
-                }
-                else
-                {
-                    actionBar.Visibility = ViewStates.Gone;
-                }
-            }
+            if (actionBar == null) return;
+            actionBar.Visibility = visible ?
+                ViewStates.Visible :
+                ViewStates.Gone;
         }
 
         public void PushFragment(FragmentBase fragment)
@@ -161,12 +156,18 @@ namespace Madamin.Unfollow
         public void PopFragment()
         {
             BeginTransition();
-            OnActionBarVisibilityChanged(true);
+            if (!_actionBarVisible)
+            {
+                _actionBarVisible = true;
+                OnActionBarVisibilityChanged(true);
+            }
+
             SupportFragmentManager.PopBackStack();
         }
 
         public void PushFullScreenFragment(FragmentBase fragment)
         {
+            _actionBarVisible = false;
             OnActionBarVisibilityChanged(false);
             PushFragment(fragment);
         }
@@ -187,7 +188,8 @@ namespace Madamin.Unfollow
         private readonly int _actionBar;
         private readonly int _container;
 
-        private bool _backButtonVisible, _actionBarVisible;
+        private bool _backButtonVisible,
+            _actionBarVisible = true;
     }
 
     public class OnActivityCreateEventArgs
