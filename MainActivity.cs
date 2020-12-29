@@ -17,7 +17,8 @@ using Madamin.Unfollow.Instagram;
 namespace Madamin.Unfollow
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true,
-        Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round")]
+        Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round",
+        WindowSoftInputMode = SoftInput.AdjustResize)]
     public class MainActivity :
         FragmentHostBase,
         IInstagramHost,
