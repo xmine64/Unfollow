@@ -79,6 +79,7 @@
     <Compile Include="Adapters\FansAdapter.cs" />
     <Compile Include="Fragments\AboutFragment.cs" />
     <Compile Include="Fragments\FansFragment.cs" />
+    <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
     <Compile Include="UpdateServer.cs" />
     <Compile Include="ViewHolders\AccountViewHolder.cs" />
     <Compile Include="ViewHolders\FanViewHolder.cs" />
@@ -798,6 +799,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_header.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_login_2fa.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

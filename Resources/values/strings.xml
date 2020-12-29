@@ -78,4 +78,10 @@
 
 	<string name="title_tip">Tip</string>
 	<string name="msg_tip">Press on your account to see your unfollowers,\nPress and Hold to see other options.\nPress on "+" (Plus) button to add more accounts.</string>
+
+	<string name="title_2fa">Two Factor Authentication</string>
+	<string name="msg_2fa_details">A message containing an OTP code has been sent to you.</string>
+	<string name="button_text_resend">Resend Code</string>
+	<string name="button_text_verify">Verify</string>
+	<string name="input_hint_otp">OTP Code</string>
 </resources>

@@ -75,4 +75,10 @@
 
 	<string name="title_tip">نکته</string>
 	<string name="msg_tip">برای مشاهده آنفالورها، حسابتان را لمس کنید؛\n برای مشاهده گزینه‌های بیشتر، حسابتان را لمس کنید و انگشتتان را نگه دارید.\nبرای افزودن حساب‌های بیشتر، دکمه "+" (مثبت) را لمس کنید.</string>
+
+    <string name="title_2fa">احراز هویت دومرحله‌ای</string>
+    <string name="msg_2fa_details">یک پیام حاوی یک گذرواژه یکبار مصرف برای شما ارسال شد.</string>
+    <string name="button_text_resend">ارسال مجدد</string>
+    <string name="button_text_verify">تایید</string>
+    <string name="input_hint_otp">گذرواژه یکبار مصرف</string>
 </resources>

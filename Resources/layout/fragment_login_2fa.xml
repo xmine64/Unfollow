@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:flow_wrapMode="aligned"
+        app:flow_verticalStyle="packed"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalGap="8dp"
+        app:constraint_referenced_ids="fragment_login_2fa_title,fragment_login_2fa_details,fragment_login_2fa_code_input_layout,fragment_login_2fa_buttons_flow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/fragment_login_2fa_buttons_flow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:flow_verticalAlign="center"
+        app:flow_horizontalStyle="packed"
+        app:flow_wrapMode="aligned"
+        app:flow_verticalGap="10dp"
+        app:flow_horizontalGap="8dp"
+        app:constraint_referenced_ids="fragment_login_2fa_resend,fragment_login_2fa_verify" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_login_2fa_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_2fa"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        style="@style/TextAppearance.MaterialComponents.Headline4" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_login_2fa_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_2fa_details"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_login_2fa_code_input_layout"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/input_hint_otp"
+        android:autofillHints="smsOTPCode">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragment_login_2fa_code_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:maxLines="1"
+            android:maxLength="6" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_login_2fa_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_text_verify"
+        style="@style/Widget.MaterialComponents.Button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_login_2fa_resend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:text="@string/button_text_resend" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

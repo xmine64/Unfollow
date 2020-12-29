@@ -64,6 +64,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="@string/input_hint_username"
+        android:autofillHints="username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:startIconDrawable="@drawable/ic_account_circle_black_18dp">
         <com.google.android.material.textfield.TextInputEditText
@@ -77,6 +78,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="@string/input_hint_password"
+        android:autofillHints="password"
         app:endIconMode="password_toggle"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:startIconDrawable="@drawable/ic_vpn_key_black_18dp">

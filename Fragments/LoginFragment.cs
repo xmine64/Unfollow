@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Android.Text;
-using Android.Widget;
 using Google.Android.Material.Button;
-using Google.Android.Material.Dialog;
 using Google.Android.Material.TextField;
 using Madamin.Unfollow.Instagram;
 
@@ -84,7 +81,11 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (TwoFactorAuthException twoFactorAuth)
             {
-                await TwoFactorAuthenticateAsync(twoFactorAuth.Account);
+                var authFragment = 
+                    new TwoFactorAuthFragment(twoFactorAuth.Account);
+
+                PopFragment();
+                PushFragment(authFragment);
             }
             catch (WrongPasswordException)
             {
@@ -125,48 +126,6 @@ namespace Madamin.Unfollow.Fragments
                 _elPassword.ErrorEnabled = false;
                 _etPassword.TextChanged -= ErrorEditLayoutChangeHandler;
             }
-        }
-
-        private async Task TwoFactorAuthenticateAsync(Account account)
-        {
-            await account.TwoFactorSendSms();
-
-            var input = new TextInputEditText(Activity)
-            {
-                InputType = InputTypes.ClassNumber
-            };
-
-            var dialog = new MaterialAlertDialogBuilder(Activity);
-            dialog.SetTitle("2FA");
-            dialog.SetView(input);
-            dialog.SetPositiveButton(
-                Android.Resource.String.Ok,
-                async (sender, args) =>
-                {
-                    var twoFactorDialog = new MaterialAlertDialogBuilder(Activity)
-                        .SetView(new ProgressBar(Activity))
-                        .Create();
-                    twoFactorDialog.Show();
-                    try
-                    {
-                        await ((IInstagramHost) Activity).Accounts
-                            .CompleteLoginAsync(account, input.Text);
-                    }
-                    catch (Exception ex)
-                    {
-                        ((IErrorHost) Activity).ShowError(ex);
-                    }
-                    finally
-                    {
-                        PopFragment();
-                        twoFactorDialog.Dismiss();
-                        twoFactorDialog.Dispose();
-                    }
-                });
-            dialog.SetNegativeButton(
-                Android.Resource.String.Cancel,
-                (sender, args) => { PopFragment(); });
-            dialog.Show();
         }
     }
 }
