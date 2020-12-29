@@ -30,10 +30,10 @@
 	<string name="title_unfollowers">آنفالورها</string>
 
 	<string name="title_themes">تم‌ها</string>
-	<string name="title_prefered_theme">تم ترجیحی</string>
+	<string name="title_preferred_theme">تم ترجیحی</string>
 	<string name="title_empty">خالی\!</string>
 	<string name="title_langs">زبان‌ها</string>
-	<string name="title_prefered_lang">زبان ترجیحی</string>
+	<string name="title_preferred_lang">زبان ترجیحی</string>
 	<string name="title_more">بیشتر</string>
 	<string name="title_auto_update_check">بررسی برای نسخه به‌روز خودکار</string>
 	<string name="title_update_check">بررسی نسخه به‌روز...</string>

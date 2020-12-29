@@ -30,10 +30,10 @@
 	<string name="title_unfollowers">UNFOLLOWERS</string>
 	
 	<string name="title_themes">Themes</string>
-	<string name="title_prefered_theme">Prefered Theme</string>
+	<string name="title_preferred_theme">Preferred Theme</string>
 	<string name="title_empty">Empty\!</string>
 	<string name="title_langs">Languages</string>
-	<string name="title_prefered_lang">Prefered Language</string>
+	<string name="title_preferred_lang">Preferred Language</string>
 	<string name="title_more">More</string>
 	<string name="title_auto_update_check">Automatically Check for Update</string>
 	<string name="title_update_check">Check for update...</string>
@@ -55,7 +55,7 @@
 
 	<string name="msg_no_account">No Account found, Press + button to login.</string>
 	<string name="msg_up_to_date">You\'re up to date!</string>
-	<string name="msg_error">An error occured!</string>
+	<string name="msg_error">An error occurred!</string>
 	<string name="msg_sending_report">Sending Bug Report...</string>
 	<string name="msg_no_unfollower">People who didn\'t follow you back will show up here.</string>
 	<string name="msg_no_fan">People whom you didn\'t follow back will show up here.</string>

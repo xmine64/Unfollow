@@ -7877,10 +7877,10 @@ namespace Madamin.Unfollow
 			public const int title_open_unfollowers = 2131755157;
 			
 			// aapt resource value: 0x7F100096
-			public const int title_prefered_lang = 2131755158;
+			public const int title_preferred_lang = 2131755158;
 			
 			// aapt resource value: 0x7F100097
-			public const int title_prefered_theme = 2131755159;
+			public const int title_preferred_theme = 2131755159;
 			
 			// aapt resource value: 0x7F100098
 			public const int title_refresh = 2131755160;
