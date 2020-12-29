@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/fragment_login_header"
+        android:layout_width="500dp"
+        android:layout_height="250dp"
+        android:padding="0dp"
+        android:src="@drawable/ic_header"
+        android:translationY="-50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/fragment_about_flow"
@@ -15,71 +27,73 @@
         app:flow_wrapMode="aligned"
         app:flow_verticalStyle="packed"
         app:flow_verticalGap="10dp"
+        app:flow_horizontalGap="15dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/fragment_about_logo"
-        android:layout_width="144dp"
-        android:layout_height="144dp"
-        android:src="@drawable/ic_person_remove_black_48dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/ic_person_remove_black_48dp"
         android:contentDescription="@string/desc_logo"
-        android:tint="?android:attr/colorForeground"/>
+        android:tint="?android:attr/colorForeground" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/fragment_about_info_flow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:constraint_referenced_ids="fragment_about_fullname,fragment_about_app_version,fragment_about_instasharp_version,fragment_about_copyright"
-        app:flow_wrapMode="aligned"/>
-    
+        app:constraint_referenced_ids="fragment_about_fullname,fragment_about_app_version,fragment_about_instasharp_version"
+        app:flow_wrapMode="aligned" />
+
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/fragment_about_follow_buttons_flow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         app:constraint_referenced_ids="fragment_about_telegram,fragment_about_instagram,fragment_about_github"
-        app:flow_wrapMode="aligned"/>
+        app:flow_wrapMode="aligned" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_about_fullname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:text="@string/app_name_full"
         android:gravity="center"
-        android:maxLines="1"/>
+        android:maxLines="1" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_about_app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-	    android:layout_marginTop="8dp"
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:gravity="center"
         android:maxLines="1"
-        tools:text="v0.0"/>
+        tools:text="v0.0" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_about_instasharp_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:gravity="center"
         android:maxLines="1"
-        tools:text="Using InstaSharp v0.0"/>
+        tools:text="Using InstaSharp v0.0" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_about_copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:text="@string/msg_copyright"
         android:gravity="center"
-        android:maxLines="1"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_about_telegram"
@@ -101,6 +115,7 @@
         android:textColor="#ffffff"
         android:backgroundTint="#C13584"
         android:maxLines="1" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_about_github"
         android:layout_width="150dp"
@@ -109,5 +124,5 @@
         android:text="@string/button_text_github"
         android:textColor="#ffffff"
         android:backgroundTint="#24292e"
-        android:maxLines="1"/>
+        android:maxLines="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
