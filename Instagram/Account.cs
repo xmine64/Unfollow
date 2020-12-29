@@ -184,6 +184,19 @@ namespace Madamin.Unfollow.Instagram
             Data.Followings.Add(user);
         }
 
+        public async Task BlockAsync(User user)
+        {
+            var result = await _api.UserProcessor.BlockUserAsync(user.Id);
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                      new InstagramException(result.Info.Message);
+
+            Data.Followings.Remove(user);
+            var followerIndex = Data.Followers.IndexOf(user);
+            if (followerIndex < 0) return;
+            Data.Followers.RemoveAt(followerIndex);
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Account account &&

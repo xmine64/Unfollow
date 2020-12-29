@@ -1,15 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/popup_unfollower_item_open"
-		  android:title="@string/title_open_ig"
-		  android:icon="@drawable/ic_launch_black_24dp" />
-	<item android:id="@+id/popup_unfollower_item_select"
-		  android:title="@string/title_select"
-		  android:icon="@drawable/ic_check_box_black_24dp" />
-	<item android:id="@+id/popup_unfollower_item_unfollow"
-		  android:title="@string/title_unfollow"
-		  android:icon="@drawable/ic_person_remove_black_24dp" />
-	<item android:id="@+id/popup_unfollower_item_add_whitelist"
-		  android:title="@string/title_add_whitelist"
-		  android:icon="@drawable/ic_close_black_24dp" />
+    <item
+        android:id="@+id/popup_unfollower_item_open"
+        android:title="@string/title_open_ig"
+        android:icon="@drawable/ic_launch_black_24dp" />
+    <item
+        android:id="@+id/popup_unfollower_item_select"
+        android:title="@string/title_select"
+        android:icon="@drawable/ic_check_box_black_24dp" />
+    <item
+        android:id="@+id/popup_unfollower_item_unfollow"
+        android:title="@string/title_unfollow"
+        android:icon="@drawable/ic_person_remove_black_24dp" />
+    <item
+        android:id="@+id/popup_unfollower_item_add_whitelist"
+        android:title="@string/title_add_whitelist"
+        android:icon="@drawable/ic_close_black_24dp" />
+    <item
+        android:id="@+id/popup_unfollower_item_block"
+        android:title="@string/title_block"
+        android:icon="@drawable/ic_block_black_24dp" />
 </menu>

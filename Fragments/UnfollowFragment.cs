@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Android.Views;
-
 using AndroidX.AppCompat.App;
-
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
-
 using ActionMode = AndroidX.AppCompat.View.ActionMode;
 
 namespace Madamin.Unfollow.Fragments
@@ -25,13 +21,14 @@ namespace Madamin.Unfollow.Fragments
         {
             Create += UnfollowFragment_Create;
             MenuItemSelected += UnfollowFragment_MenuItemSelected;
+            RetryClick += UnfollowFragment_RetryClick;
         }
 
         public bool OnActionItemClicked(ActionMode mode, IMenuItem item)
         {
             switch (item.ItemId)
             {
-                case Resource.Id.appbar_unfollow_item_selectall:
+                case Resource.Id.appbar_unfollow_item_select_all:
                     _adapter.SelectAll();
                     _actionMode.Subtitle = string.Format(
                         GetString(Resource.String.title_selected),
@@ -40,6 +37,12 @@ namespace Madamin.Unfollow.Fragments
                 case Resource.Id.appbar_unfollow_item_unfollow:
                     DoTask(
                         BatchUnfollowAsync(_adapter.GetSelected()),
+                        RefreshAdapterData);
+                    mode.Finish();
+                    return true;
+                case Resource.Id.appbar_unfollow_item_block:
+                    DoTask(
+                        BatchBlockAsync(_adapter.GetSelected()),
                         RefreshAdapterData);
                     mode.Finish();
                     return true;
@@ -72,7 +75,6 @@ namespace Madamin.Unfollow.Fragments
             if (_actionMode == null) return false;
             SelectOrDeselectItem(position);
             return true;
-
         }
 
         public void OnItemLongClick(int position)
@@ -93,18 +95,9 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemUnfollow(int position)
         {
-            //_btn_unfollow.Enabled = false;
-            try
-            {
-                DoTask(
-                    _account.UnfollowAsync(_adapter.GetItem(position)),
-                    RefreshAdapterData);
-            }
-            catch (Exception ex)
-            {
-                //_btn_unfollow.Enabled = true;
-                ((IErrorHost) Activity).ShowError(ex);
-            }
+            DoTask(
+                _account.UnfollowAsync(_adapter.GetItem(position)),
+                RefreshAdapterData);
         }
 
         public void OnItemAddToWhitelist(int position)
@@ -112,6 +105,13 @@ namespace Madamin.Unfollow.Fragments
             _adapter.Whitelist.Add(_adapter.GetItem(position));
             ((IDataContainer) Activity).SaveData(_account.Data.User.Id + ".whitelist", _adapter.Whitelist);
             RefreshAdapterData();
+        }
+
+        public void OnItemBlock(int position)
+        {
+            DoTask(
+                _account.BlockAsync(_adapter.GetItem(position)),
+                RefreshAdapterData);
         }
 
         private void UnfollowFragment_Create(object sender, OnFragmentCreateEventArgs e)
@@ -171,13 +171,18 @@ namespace Madamin.Unfollow.Fragments
                 case Resource.Id.appbar_unfollow_item_logout:
                     var ig = ((IInstagramHost) Activity).Accounts;
                     DoTask(
-                        ig.LogoutAccountAsync(_account), 
+                        ig.LogoutAccountAsync(_account),
                         () => { ((IFragmentHost) Activity).PopFragment(); });
                     break;
                 default:
                     e.Finished = false;
                     break;
             }
+        }
+
+        private void UnfollowFragment_RetryClick(object sender, EventArgs e)
+        {
+            DoTask(_account.RefreshAsync(), RefreshAdapterData);
         }
 
         private void SelectOrDeselectItem(int pos)
@@ -205,17 +210,32 @@ namespace Madamin.Unfollow.Fragments
         {
             for (var i = 0; i < users.Length; i++)
             {
-                UpdateProgress(i, users.Length);
+                UpdateProgress(i, 
+                    users.Length,
+                    Resource.String.title_batch_unfollow);
                 await _account.UnfollowAsync(users[i]);
             }
 
             ProgressText = GetString(Resource.String.title_loading);
         }
 
-        private void UpdateProgress(int i, int total)
+        private async Task BatchBlockAsync(User[] users)
+        {
+            for (var i = 0; i < users.Length; i++)
+            {
+                UpdateProgress(i, 
+                    users.Length,
+                    Resource.String.title_batch_block);
+                await _account.BlockAsync(users[i]);
+            }
+
+            ProgressText = GetString(Resource.String.title_loading);
+        }
+
+        private void UpdateProgress(int i, int total, int textFormatResource)
         {
             ProgressText = string.Format(
-                GetString(Resource.String.title_batch_unfollow), i, total);
+                GetString(textFormatResource), i, total);
         }
 
         private void RefreshAdapterData()

@@ -1,80 +1,81 @@
 <resources>
-	<string name="app_name">آنفالویاب</string>
-	<string name="title_selected">{0} انتخاب شده</string>
+    <string name="app_name">آنفالویاب</string>
+    <string name="title_selected">{0} انتخاب شده</string>
 
-	<string name="title_accounts">حساب‌ها</string>
-	<string name="title_settings">تنظیمات</string>
-	<string name="title_update_available">به‌روزرسانی موجود است!</string>
+    <string name="title_accounts">حساب‌ها</string>
+    <string name="title_settings">تنظیمات</string>
+    <string name="title_update_available">به‌روزرسانی موجود است!</string>
 
-	<string name="title_error">خطا</string>
-	<string name="title_loading">درحال بارگیری...</string>
-	<string name="title_batch_unfollow">درحال آنفالو کردن ({0}/{1})...</string>
+    <string name="title_error">خطا</string>
+    <string name="title_loading">درحال بارگیری...</string>
+    <string name="title_batch_unfollow">درحال آنفالو کردن ({0}/{1})...</string>
 
-	<string name="title_addaccount">افزودن حساب</string>
-	<string name="title_refresh">بروزرسانی</string>
-	<string name="title_unfollow_all">آنفالو کردن همه</string>
-	<string name="title_clear_whitelist">پاک کردن لیست سفید</string>
-	<string name="title_follow_all">فالو کردن همه</string>
+    <string name="title_addaccount">افزودن حساب</string>
+    <string name="title_refresh">بروزرسانی</string>
+    <string name="title_unfollow_all">آنفالو کردن همه</string>
+    <string name="title_clear_whitelist">پاک کردن لیست سفید</string>
+    <string name="title_follow_all">فالو کردن همه</string>
 
-	<string name="title_open_unfollowers">نمایش آنفالورها</string>
-	<string name="title_open_fans">نمایش طرفدارها</string>
-	<string name="title_open_ig">بازکردن در اینستاگرام</string>
-	<string name="title_logout">خروج از حساب</string>
-	<string name="title_select">انتخاب کردن</string>
-	<string name="title_add_whitelist">افزودن به لیست سفید</string>
-	<string name="title_unfollow">آنفالو کردن</string>
-	<string name="title_follow">فالو کردن</string>
+    <string name="title_open_unfollowers">نمایش آنفالورها</string>
+    <string name="title_open_fans">نمایش طرفدارها</string>
+    <string name="title_open_ig">بازکردن در اینستاگرام</string>
+    <string name="title_logout">خروج از حساب</string>
+    <string name="title_select">انتخاب کردن</string>
+    <string name="title_add_whitelist">افزودن به لیست سفید</string>
+    <string name="title_unfollow">آنفالو کردن</string>
+    <string name="title_follow">فالو کردن</string>
+    <string name="title_block">بلاک کردن</string>
 
-	<string name="title_followings">فالویینگ‌ها</string>
-	<string name="title_followers">فالورها</string>
-	<string name="title_unfollowers">آنفالورها</string>
+    <string name="title_followings">فالویینگ‌ها</string>
+    <string name="title_followers">فالورها</string>
+    <string name="title_unfollowers">آنفالورها</string>
 
-	<string name="title_themes">تم‌ها</string>
-	<string name="title_preferred_theme">تم ترجیحی</string>
-	<string name="title_empty">خالی\!</string>
-	<string name="title_langs">زبان‌ها</string>
-	<string name="title_preferred_lang">زبان ترجیحی</string>
-	<string name="title_more">بیشتر</string>
-	<string name="title_auto_update_check">بررسی برای نسخه به‌روز خودکار</string>
-	<string name="title_update_check">بررسی نسخه به‌روز...</string>
-	<string name="title_about">درباره</string>
-	<string name="title_exit">خروج</string>
+    <string name="title_themes">تم‌ها</string>
+    <string name="title_preferred_theme">تم ترجیحی</string>
+    <string name="title_empty">خالی\!</string>
+    <string name="title_langs">زبان‌ها</string>
+    <string name="title_preferred_lang">زبان ترجیحی</string>
+    <string name="title_more">بیشتر</string>
+    <string name="title_auto_update_check">بررسی برای نسخه به‌روز خودکار</string>
+    <string name="title_update_check">بررسی نسخه به‌روز...</string>
+    <string name="title_about">درباره</string>
+    <string name="title_exit">خروج</string>
 
-	<string name="title_welcome">خوش آمدید!</string>
+    <string name="title_welcome">خوش آمدید!</string>
 
-	<string name="button_text_login">ورود</string>
-	<string name="button_text_retry">تلاش مجدد</string>
-	<string name="button_text_telegram">کانال تلگرام</string>
-	<string name="button_text_instagram">اینستاگرام</string>
-	<string name="button_text_github">مخزن گیتهاب</string>
-	<string name="button_text_details">جزییات</string>
-	<string name="button_text_report">گزارش خطا</string>
+    <string name="button_text_login">ورود</string>
+    <string name="button_text_retry">تلاش مجدد</string>
+    <string name="button_text_telegram">کانال تلگرام</string>
+    <string name="button_text_instagram">اینستاگرام</string>
+    <string name="button_text_github">مخزن گیتهاب</string>
+    <string name="button_text_details">جزییات</string>
+    <string name="button_text_report">گزارش خطا</string>
 
-	<string name="input_hint_username">نام کاربری</string>
-	<string name="input_hint_password">گذرواژه</string>
+    <string name="input_hint_username">نام کاربری</string>
+    <string name="input_hint_password">گذرواژه</string>
 
-	<string name="msg_no_account">اکانتی پیدا نشد، برای ورود به سیستم دکمه + را فشار دهید.</string>
-	<string name="msg_up_to_date">شما به‌روز هستید!</string>
-	<string name="msg_error">خطایی رخ داده است!</string>
-	<string name="msg_sending_report">درحال ارسال گزارش خطا...</string>
-	<string name="msg_no_unfollower">کسانی که به شما فالوبک نداده‌اند اینجا نمایش داده می‌شوند.</string>
-	<string name="msg_no_fan">کسانی که شما به آنها فالوبک نداده‌اید اینجا نمایش داده می‌شوند.</string>
-	<string name="msg_login">وارد حسابتان شوید</string>
+    <string name="msg_no_account">اکانتی پیدا نشد، برای ورود به سیستم دکمه + را فشار دهید.</string>
+    <string name="msg_up_to_date">شما به‌روز هستید!</string>
+    <string name="msg_error">خطایی رخ داده است!</string>
+    <string name="msg_sending_report">درحال ارسال گزارش خطا...</string>
+    <string name="msg_no_unfollower">کسانی که به شما فالوبک نداده‌اند اینجا نمایش داده می‌شوند.</string>
+    <string name="msg_no_fan">کسانی که شما به آنها فالوبک نداده‌اید اینجا نمایش داده می‌شوند.</string>
+    <string name="msg_login">وارد حسابتان شوید</string>
 
-	<string name="error_recyclerview">خراب شد:(</string>
-	<string name="error_invalid_password">گذرواژه اشتباه</string>
-	<string name="error_invalid_credential">نام کاربری یا گذرواژه اشتباه</string>
-	<string name="error_required_field">پر کردن این خانه ضروری است.</string>
-	<string name="error_login_failure">نمیتوان وارد حساب شد</string>
-	<string name="error_ig_not_installed">اینستاگرام نصب نشده است</string>
+    <string name="error_recyclerview">خراب شد:(</string>
+    <string name="error_invalid_password">گذرواژه اشتباه</string>
+    <string name="error_invalid_credential">نام کاربری یا گذرواژه اشتباه</string>
+    <string name="error_required_field">پر کردن این خانه ضروری است.</string>
+    <string name="error_login_failure">نمیتوان وارد حساب شد</string>
+    <string name="error_ig_not_installed">اینستاگرام نصب نشده است</string>
 
-	<string name="app_name_full">آنفالویاب ساده</string>
-	<string name="msg_app_version">نسخه {0}</string>
-	<string name="msg_instasharp_version">با {0} نسخه {1}</string>
-	<string name="msg_copyright">توسط محمدامین ملازاده؛ 2020/1399 حق کپی محفوظ است</string>
+    <string name="app_name_full">آنفالویاب ساده</string>
+    <string name="msg_app_version">نسخه {0}</string>
+    <string name="msg_instasharp_version">با {0} نسخه {1}</string>
+    <string name="msg_copyright">توسط محمدامین ملازاده؛ 2020/1399 حق کپی محفوظ است</string>
 
-	<string name="title_tip">نکته</string>
-	<string name="msg_tip">برای مشاهده آنفالورها، حسابتان را لمس کنید؛\n برای مشاهده گزینه‌های بیشتر، حسابتان را لمس کنید و انگشتتان را نگه دارید.\nبرای افزودن حساب‌های بیشتر، دکمه "+" (مثبت) را لمس کنید.</string>
+    <string name="title_tip">نکته</string>
+    <string name="msg_tip">برای مشاهده آنفالورها، حسابتان را لمس کنید؛\n برای مشاهده گزینه‌های بیشتر، حسابتان را لمس کنید و انگشتتان را نگه دارید.\nبرای افزودن حساب‌های بیشتر، دکمه "+" (مثبت) را لمس کنید.</string>
 
     <string name="title_2fa">احراز هویت دومرحله‌ای</string>
     <string name="msg_2fa_details">یک پیام حاوی یک گذرواژه یکبار مصرف برای شما ارسال شد.</string>

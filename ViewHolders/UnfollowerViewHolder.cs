@@ -83,6 +83,9 @@ namespace Madamin.Unfollow.ViewHolders
                 case Resource.Id.popup_unfollower_item_add_whitelist:
                     _listener.OnItemAddToWhitelist(AdapterPosition);
                     return true;
+                case Resource.Id.popup_unfollower_item_block:
+                    _listener.OnItemBlock(AdapterPosition);
+                    return true;
                 default:
                     return false;
             }
@@ -109,5 +112,6 @@ namespace Madamin.Unfollow.ViewHolders
         void OnItemSelect(int position);
         void OnItemUnfollow(int position);
         void OnItemAddToWhitelist(int position);
+        void OnItemBlock(int position);
     }
 }

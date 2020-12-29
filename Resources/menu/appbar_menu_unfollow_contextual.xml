@@ -1,11 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/appbar_unfollow_item_unfollow"
-		  android:showAsAction="always"
-		  android:text="@string/title_unfollow"
-		  android:icon="@drawable/ic_person_remove_black_24dp"/>
-	<item android:id="@+id/appbar_unfollow_item_selectall"
-		  android:showAsAction="always"
-		  android:text="@android:string/selectAll"
-		  android:icon="@drawable/ic_select_all_black_24dp"/>
+    <item
+        android:id="@+id/appbar_unfollow_item_unfollow"
+        android:showAsAction="always"
+        android:text="@string/title_unfollow"
+        android:icon="@drawable/ic_person_remove_black_24dp" />
+    <item
+        android:id="@+id/appbar_unfollow_item_block"
+        android:showAsAction="always"
+        android:text="@string/title_block"
+        android:icon="@drawable/ic_block_black_24dp" />
+    <item
+        android:id="@+id/appbar_unfollow_item_select_all"
+        android:showAsAction="always"
+        android:text="@android:string/selectAll"
+        android:icon="@drawable/ic_select_all_black_24dp" />
 </menu>
