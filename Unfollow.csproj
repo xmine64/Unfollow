@@ -80,6 +80,7 @@
     <Compile Include="Fragments\AboutFragment.cs" />
     <Compile Include="Fragments\FansFragment.cs" />
     <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="UpdateServer.cs" />
     <Compile Include="ViewHolders\AccountViewHolder.cs" />
     <Compile Include="ViewHolders\FanViewHolder.cs" />
@@ -92,14 +93,12 @@
     <Compile Include="Fragments\LoginFragment.cs" />
     <Compile Include="Fragments\AccountsFragment.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fragments\SettingsFragment.cs" />
     <Compile Include="Adapters\UnfollowerAdapter.cs" />
     <Compile Include="Fragments\UnfollowFragment.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </None>
