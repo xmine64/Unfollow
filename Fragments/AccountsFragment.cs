@@ -86,26 +86,16 @@ namespace Madamin.Unfollow.Fragments
             ((IInstagramHost)Activity).OpenInInstagram(userName);
         }
 
-        public async void OnItemLogout(int position)
+        public void OnItemLogout(int position)
         {
-            //var button = (MaterialButton)sender;
-            //button.Enabled = false;
-            try
-            {
-                await ((IInstagramHost)Activity).Accounts.LogoutAccountAtAsync(position);
-                _adapter.NotifyDataSetChanged();
-                ViewMode = RecyclerViewMode.Data;
-            }
-            catch (Exception ex)
-            {
-                //button.Enabled = true;
-                ((IErrorHost)Activity).ShowError(ex);
-            }
+            DoTask(((IInstagramHost)Activity).Accounts.LogoutAccountAtAsync(position),
+                _adapter.NotifyDataSetChanged);
         }
 
         public void OnItemRefresh(int position)
         {
-            DoTask(_adapter.GetItem(position).RefreshAsync(), _adapter.NotifyDataSetChanged);
+            DoTask(_adapter.GetItem(position).RefreshAsync(),
+                _adapter.NotifyDataSetChanged);
         }
 
         public void OnItemOpenFans(int position)

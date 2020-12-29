@@ -114,9 +114,9 @@ namespace Madamin.Unfollow.Fragments
 
     public class OnMenuItemSelectedEventArgs : EventArgs
     {
-        public OnMenuItemSelectedEventArgs(int item_id)
+        public OnMenuItemSelectedEventArgs(int itemId)
         {
-            ItemId = item_id;
+            ItemId = itemId;
             Finished = true;
         }
 
