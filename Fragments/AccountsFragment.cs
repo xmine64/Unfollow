@@ -3,6 +3,7 @@
 using Android.OS;
 using AndroidX.Preference;
 using Google.Android.Material.Dialog;
+
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
@@ -36,32 +37,33 @@ namespace Madamin.Unfollow.Fragments
             if (accounts.IsStateRestored)
             {
                 ViewMode = RecyclerViewMode.Data;
+
+                if (accounts.Count < 1 && !_hasPushedToLoginFragment)
+                {
+                    ((IFragmentHost) Activity)
+                        .PushFullScreenFragment(new LoginFragment());
+                    _hasPushedToLoginFragment = true;
+                    return;
+                }
             }
             else
             {
                 DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
             }
 
-            if (accounts.Count < 1 && !_hasPushedToLoginFragment)
-            {
-                ((IFragmentHost) Activity)
-                    .PushFullScreenFragment(new LoginFragment());
-                _hasPushedToLoginFragment = true;
-                return;
-            }
-
-            var pfman = PreferenceManager
+            var prefs = PreferenceManager
                 .GetDefaultSharedPreferences(Activity);
-            if (!pfman.GetBoolean(TipIsShownKey, false))
+            if (!prefs.GetBoolean(TipIsShownKey, false))
             {
                 var dialog = new MaterialAlertDialogBuilder(Activity);
                 dialog.SetTitle(Resource.String.title_tip);
                 dialog.SetMessage(Resource.String.msg_tip);
                 dialog.Show();
 
-                var pfedit = pfman.Edit();
-                pfedit.PutBoolean(TipIsShownKey, true);
-                pfedit.Apply();
+                var prefEditor = prefs.Edit();
+                System.Diagnostics.Debug.Assert(prefEditor != null);
+                prefEditor.PutBoolean(TipIsShownKey, true);
+                prefEditor.Apply();
             }
         }
 
