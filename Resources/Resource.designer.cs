@@ -5244,43 +5244,43 @@ namespace Madamin.Unfollow
 			public const int ic_launch_black_24dp = 2131230838;
 			
 			// aapt resource value: 0x7F080077
-			public const int ic_more_vert_black_24dp = 2131230839;
+			public const int ic_menu_black_24dp = 2131230839;
 			
 			// aapt resource value: 0x7F080078
-			public const int ic_mtrl_checked_circle = 2131230840;
+			public const int ic_more_vert_black_24dp = 2131230840;
 			
 			// aapt resource value: 0x7F080079
-			public const int ic_mtrl_chip_checked_black = 2131230841;
+			public const int ic_mtrl_checked_circle = 2131230841;
 			
 			// aapt resource value: 0x7F08007A
-			public const int ic_mtrl_chip_checked_circle = 2131230842;
+			public const int ic_mtrl_chip_checked_black = 2131230842;
 			
 			// aapt resource value: 0x7F08007B
-			public const int ic_mtrl_chip_close_circle = 2131230843;
+			public const int ic_mtrl_chip_checked_circle = 2131230843;
 			
 			// aapt resource value: 0x7F08007C
-			public const int ic_person_add_black_24dp = 2131230844;
+			public const int ic_mtrl_chip_close_circle = 2131230844;
 			
 			// aapt resource value: 0x7F08007D
-			public const int ic_person_add_black_48dp = 2131230845;
+			public const int ic_person_add_black_24dp = 2131230845;
 			
 			// aapt resource value: 0x7F08007E
-			public const int ic_person_black_48dp = 2131230846;
+			public const int ic_person_add_black_48dp = 2131230846;
 			
 			// aapt resource value: 0x7F08007F
-			public const int ic_person_remove_black_24dp = 2131230847;
+			public const int ic_person_black_48dp = 2131230847;
 			
 			// aapt resource value: 0x7F080080
-			public const int ic_person_remove_black_48dp = 2131230848;
+			public const int ic_person_remove_black_24dp = 2131230848;
 			
 			// aapt resource value: 0x7F080081
-			public const int ic_refresh_black_24dp = 2131230849;
+			public const int ic_person_remove_black_48dp = 2131230849;
 			
 			// aapt resource value: 0x7F080082
-			public const int ic_select_all_black_24dp = 2131230850;
+			public const int ic_refresh_black_24dp = 2131230850;
 			
 			// aapt resource value: 0x7F080083
-			public const int ic_settings_black_24dp = 2131230851;
+			public const int ic_select_all_black_24dp = 2131230851;
 			
 			// aapt resource value: 0x7F080084
 			public const int ic_vpn_key_black_18dp = 2131230852;
