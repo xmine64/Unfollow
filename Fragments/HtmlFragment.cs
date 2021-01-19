@@ -6,8 +6,6 @@ using Android.OS;
 using Android.Views;
 using AndroidX.Fragment.App;
 using Android.Webkit;
-using AndroidX.Preference;
-using Java.Util;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -66,6 +64,11 @@ namespace Madamin.Unfollow.Fragments
 
             var view = new WebView(Context);
             view.LoadData(_source.GetHtml(), "text/html", "utf-8");
+
+            if (Resources.Configuration?.IsNightModeActive ?? false)
+            {
+                view.Settings.ForceDark = ForceDarkMode.On;
+            }
 
             return view;
         }
