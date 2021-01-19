@@ -16,7 +16,7 @@
         app:flow_verticalStyle="packed"
         app:flow_horizontalAlign="center"
         app:flow_verticalGap="8dp"
-        app:constraint_referenced_ids="fragment_login_title,fragment_login_subtitle,fragment_login_input_flow,fragment_login_login"
+        app:constraint_referenced_ids="fragment_login_title,fragment_login_subtitle,fragment_login_input_flow,fragment_login_terms,fragment_login_login"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,5 +96,12 @@
         android:text="@string/button_text_login"
         style="@style/Widget.MaterialComponents.Button"
         app:cornerRadius="21dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fragment_login_terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:linksClickable="true"
+        tools:text="By login, you accept terms of service."/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

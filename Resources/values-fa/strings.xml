@@ -83,4 +83,7 @@
     <string name="button_text_resend">ارسال مجدد</string>
     <string name="button_text_verify">تایید</string>
     <string name="input_hint_otp">گذرواژه یکبار مصرف</string>
+
+    <string name="msg_terms0">با ورود به حساب، شما با&#160;</string>
+    <string name="msg_terms1">&#160;موافقت می‌کنید.</string>
 </resources>

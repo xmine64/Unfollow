@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using Android.Text;
+using Android.Text.Method;
+using Android.Views;
+using Android.Text.Style;
+using Android.Widget;
+using AndroidX.Core.Text;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
+using Google.Android.Material.TextView;
 using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.Fragments
@@ -12,10 +18,26 @@ namespace Madamin.Unfollow.Fragments
         private MaterialButton _btnLogin;
         private TextInputLayout _elUserName, _elPassword;
         private TextInputEditText _etUserName, _etPassword;
+        private MaterialTextView _tvTerms;
 
         public LoginFragment() : base(Resource.Layout.fragment_login)
         {
             Create += LoginFragment_Create;
+        }
+
+        private class TermsSpan : ClickableSpan
+        {
+            private readonly IFragmentHost _fragmentHost;
+
+            public TermsSpan(IFragmentHost fragmentHost)
+            {
+                _fragmentHost = fragmentHost;
+            }
+
+            public override void OnClick(View widget)
+            {
+                _fragmentHost.NavigateTo(new TermsFragment(), true);
+            }
         }
 
         private void LoginFragment_Create(object sender, OnFragmentCreateEventArgs e)
@@ -27,10 +49,26 @@ namespace Madamin.Unfollow.Fragments
             _elUserName = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_username_layout);
             _elPassword = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_password_layout);
             _btnLogin = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
+            _tvTerms = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_terms);
 
-            Debug.Assert(_btnLogin != null);
-            
+            Debug.Assert(_btnLogin != null &&
+                         _tvTerms != null);
+
             _btnLogin.Click += LoginBtn_Click;
+
+            var termsText = new SpannableStringBuilder();
+            termsText.Append(GetString(Resource.String.msg_terms0));
+            var spanStart = termsText.Length();
+            termsText.Append(GetString((Resource.String.title_terms)));
+            var spanEnd = termsText.Length();
+            termsText.Append(GetString(Resource.String.msg_terms1));
+            termsText.SetSpan(
+                new TermsSpan((IFragmentHost)Activity), 
+                spanStart,
+                spanEnd,
+                SpanTypes.InclusiveExclusive);
+            _tvTerms.SetText(termsText, TextView.BufferType.Spannable);
+            _tvTerms.MovementMethod = LinkMovementMethod.Instance;
         }
 
         private async void LoginBtn_Click(object sender, EventArgs e)
@@ -81,7 +119,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (TwoFactorAuthException twoFactorAuth)
             {
-                var authFragment = 
+                var authFragment =
                     new TwoFactorAuthFragment(twoFactorAuth.Account);
 
                 PopFragment();
