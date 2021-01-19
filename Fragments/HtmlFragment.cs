@@ -11,12 +11,13 @@ namespace Madamin.Unfollow.Fragments
 {
     internal class HtmlFragment : Fragment
     {
-        private readonly string _path;
+        private readonly string _title, _path;
         private readonly HtmlSource _source;
         private WebView _webView;
 
-        private HtmlFragment(string path, HtmlSource source)
+        private HtmlFragment(string title, string path, HtmlSource source)
         {
+            _title = title;
             _path = path;
             _source = source;
         }
@@ -36,7 +37,7 @@ namespace Madamin.Unfollow.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            ((IFragmentHost) Activity).ActionBarTitle = GetString(Resource.String.title_terms);
+            ((IFragmentHost) Activity).ActionBarTitle = _title;
 
             _webView = new WebView(Context);
 
@@ -59,6 +60,7 @@ namespace Madamin.Unfollow.Fragments
         public static HtmlFragment NewTermsFragment(Context context)
         {
             return new HtmlFragment(
+                context.GetString(Resource.String.title_terms),
                 context.GetString(Resource.String.url_terms),
                 HtmlSource.Assets);
         }
@@ -66,6 +68,7 @@ namespace Madamin.Unfollow.Fragments
         public static HtmlFragment NewDonateFragment(Context context)
         {
             return new HtmlFragment(
+                context.GetString(Resource.String.title_donate),
                 context.GetString(Resource.String.url_donate),
                 HtmlSource.Url);
         }
