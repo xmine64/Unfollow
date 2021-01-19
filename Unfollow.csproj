@@ -79,6 +79,7 @@
     <Compile Include="Adapters\FansAdapter.cs" />
     <Compile Include="Fragments\AboutFragment.cs" />
     <Compile Include="Fragments\FansFragment.cs" />
+    <Compile Include="Fragments\TermsFragment.cs" />
     <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="UpdateServer.cs" />
@@ -830,6 +831,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v24\ic_block_black_24dp.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\terms_en.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\terms_fa.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

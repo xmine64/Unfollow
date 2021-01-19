@@ -42,6 +42,10 @@ namespace Madamin.Unfollow.Fragments
                 ((IFragmentHost) Activity).PushFullScreenFragment(new AboutFragment());
             };
             FindPreference("exit").PreferenceClick += (sender, args) => { Activity.Finish(); };
+            FindPreference("terms").PreferenceClick += (sender, args) =>
+            {
+                ((IFragmentHost) Activity).NavigateTo(new TermsFragment(), true);
+            };
         }
     }
 }

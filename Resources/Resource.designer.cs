@@ -7910,34 +7910,37 @@ namespace Madamin.Unfollow
 			public const int title_settings = 2131755165;
 			
 			// aapt resource value: 0x7F10009E
-			public const int title_themes = 2131755166;
+			public const int title_terms = 2131755166;
 			
 			// aapt resource value: 0x7F10009F
-			public const int title_tip = 2131755167;
+			public const int title_themes = 2131755167;
 			
 			// aapt resource value: 0x7F1000A0
-			public const int title_unfollow = 2131755168;
-			
-			// aapt resource value: 0x7F1000A2
-			public const int title_unfollowers = 2131755170;
+			public const int title_tip = 2131755168;
 			
 			// aapt resource value: 0x7F1000A1
-			public const int title_unfollow_all = 2131755169;
+			public const int title_unfollow = 2131755169;
 			
 			// aapt resource value: 0x7F1000A3
-			public const int title_update_available = 2131755171;
+			public const int title_unfollowers = 2131755171;
+			
+			// aapt resource value: 0x7F1000A2
+			public const int title_unfollow_all = 2131755170;
 			
 			// aapt resource value: 0x7F1000A4
-			public const int title_update_check = 2131755172;
+			public const int title_update_available = 2131755172;
 			
 			// aapt resource value: 0x7F1000A5
-			public const int title_welcome = 2131755173;
+			public const int title_update_check = 2131755173;
 			
 			// aapt resource value: 0x7F1000A6
-			public const int v7_preference_off = 2131755174;
+			public const int title_welcome = 2131755174;
 			
 			// aapt resource value: 0x7F1000A7
-			public const int v7_preference_on = 2131755175;
+			public const int v7_preference_off = 2131755175;
+			
+			// aapt resource value: 0x7F1000A8
+			public const int v7_preference_on = 2131755176;
 			
 			static String()
 			{

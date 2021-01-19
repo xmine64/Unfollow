@@ -39,6 +39,7 @@
     <string name="title_more">More</string>
     <string name="title_auto_update_check">Automatically Check for Update</string>
     <string name="title_update_check">Check for update...</string>
+	<string name="title_terms">Terms of Service</string>
     <string name="title_about">About</string>
     <string name="title_exit">Exit</string>
 
