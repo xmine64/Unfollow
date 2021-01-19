@@ -94,5 +94,6 @@
     <string name="msg_terms0">By login, you accept&#160;</string>
     <string name="msg_terms1">.</string>
 
+    <string name="url_terms">en/terms.html</string>
     <string name="url_donate">https://unfollowapp.herokuapp.com/docs/en/donate.html</string>
 </resources>

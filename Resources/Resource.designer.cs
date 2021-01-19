@@ -7946,10 +7946,13 @@ namespace Madamin.Unfollow
 			public const int url_donate = 2131755176;
 			
 			// aapt resource value: 0x7F1000A9
-			public const int v7_preference_off = 2131755177;
+			public const int url_terms = 2131755177;
 			
 			// aapt resource value: 0x7F1000AA
-			public const int v7_preference_on = 2131755178;
+			public const int v7_preference_off = 2131755178;
+			
+			// aapt resource value: 0x7F1000AB
+			public const int v7_preference_on = 2131755179;
 			
 			static String()
 			{

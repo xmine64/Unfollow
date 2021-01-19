@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Android.Content;
 using Android.Text;
 using Android.Text.Method;
 using Android.Views;
@@ -26,17 +27,22 @@ namespace Madamin.Unfollow.Fragments
 
         private class TermsSpan : ClickableSpan
         {
-            private readonly IFragmentHost _fragmentHost;
-
-            public TermsSpan(IFragmentHost fragmentHost)
+            public TermsSpan(Context context, IFragmentHost fragmentHost)
             {
                 _fragmentHost = fragmentHost;
+                _context = context;
             }
 
             public override void OnClick(View widget)
             {
-                _fragmentHost.NavigateTo(new TermsFragment(), false, true);
+                _fragmentHost.NavigateTo(
+                    HtmlFragment.NewTermsFragment(_context),
+                    false,
+                    true);
             }
+
+            private readonly IFragmentHost _fragmentHost;
+            private readonly Context _context;
         }
 
         private void LoginFragment_Create(object sender, OnFragmentCreateEventArgs e)
@@ -62,7 +68,7 @@ namespace Madamin.Unfollow.Fragments
             var spanEnd = termsText.Length();
             termsText.Append(GetString(Resource.String.msg_terms1));
             termsText.SetSpan(
-                new TermsSpan((IFragmentHost)Activity), 
+                new TermsSpan(Context, (IFragmentHost)Activity), 
                 spanStart,
                 spanEnd,
                 SpanTypes.InclusiveExclusive);

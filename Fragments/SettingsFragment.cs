@@ -40,11 +40,17 @@ namespace Madamin.Unfollow.Fragments
             };
             FindPreference("terms").PreferenceClick += (sender, args) =>
             {
-                ((IFragmentHost) Activity).NavigateTo(new TermsFragment(), false, true);
+                ((IFragmentHost) Activity).NavigateTo(
+                    HtmlFragment.NewTermsFragment(Context),
+                    false,
+                    true);
             };
             FindPreference("donate").PreferenceClick += (sender, args) =>
             {
-                var intent = new Intent(Intent.ActionView, Uri.Parse(GetString(Resource.String.url_donate)));
+                ((IFragmentHost) Activity).NavigateTo(
+                    HtmlFragment.NewDonateFragment(Context),
+                    false,
+                    true);
             };
             FindPreference("about").PreferenceClick += (sender, args) =>
             {
