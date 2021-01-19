@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:key="theme_category"
-        app:title="@string/title_themes">
+        app:title="@string/title_preferences">
         <ListPreference
             app:key="theme"
             app:title="@string/title_preferred_theme"
@@ -11,11 +11,6 @@
             app:entries="@array/settings_themes"
             app:entryValues="@array/settings_themes_values"
             app:defaultValue="adaptive"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:key="lang_category"
-        app:title="@string/title_langs">
         <ListPreference
             app:key="lang"
             app:title="@string/title_preferred_lang"
@@ -26,7 +21,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/title_more">
+        app:title="@string/title_update">
         <SwitchPreference
             app:key="auto_update_check"
             app:title="@string/title_auto_update_check"
@@ -34,14 +29,15 @@
         <Preference
             app:key="update_check"
             app:title="@string/title_update_check" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/title_about">
         <Preference
             app:key="terms"
             app:title="@string/title_terms" />
         <Preference
             app:key="about"
             app:title="@string/title_about" />
-        <Preference
-            app:key="exit"
-            app:title="@string/title_exit" />
     </PreferenceCategory>
 </PreferenceScreen>

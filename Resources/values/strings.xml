@@ -31,17 +31,19 @@
     <string name="title_followers">FOLLOWERS</string>
     <string name="title_unfollowers">UNFOLLOWERS</string>
 
-    <string name="title_themes">Themes</string>
+    <string name="title_preferences">Preferences</string>
+    <string name="title_update">Update</string>
+    <string name="title_about">About</string>
+
     <string name="title_preferred_theme">Preferred Theme</string>
-    <string name="title_empty">Empty\!</string>
-    <string name="title_langs">Languages</string>
     <string name="title_preferred_lang">Preferred Language</string>
-    <string name="title_more">More</string>
+
     <string name="title_auto_update_check">Automatically Check for Update</string>
     <string name="title_update_check">Check for update...</string>
+
     <string name="title_terms">Terms of Service</string>
-    <string name="title_about">About</string>
-    <string name="title_exit">Exit</string>
+
+    <string name="title_empty">Empty\!</string>
 
     <string name="title_welcome">Welcome!</string>
 

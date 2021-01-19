@@ -30,17 +30,19 @@
     <string name="title_followers">فالورها</string>
     <string name="title_unfollowers">آنفالورها</string>
 
-    <string name="title_themes">تم‌ها</string>
+    <string name="title_preferences">تنظیمات</string>
+    <string name="title_update">به‌روزرسانی</string>
+    <string name="title_about">درباره</string>
+
     <string name="title_preferred_theme">تم ترجیحی</string>
-    <string name="title_empty">خالی\!</string>
-    <string name="title_langs">زبان‌ها</string>
     <string name="title_preferred_lang">زبان ترجیحی</string>
-    <string name="title_more">بیشتر</string>
+
     <string name="title_auto_update_check">بررسی برای نسخه به‌روز خودکار</string>
     <string name="title_update_check">بررسی نسخه به‌روز...</string>
-	<string name="title_terms">شرایط استفاده</string>
-    <string name="title_about">درباره</string>
-    <string name="title_exit">خروج</string>
+
+    <string name="title_terms">شرایط استفاده</string>
+
+    <string name="title_empty">خالی\!</string>
 
     <string name="title_welcome">خوش آمدید!</string>
 
