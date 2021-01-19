@@ -192,6 +192,8 @@ namespace Madamin.Unfollow
             {
                 try
                 {
+                    Debug.Assert(PackageName != null);
+
                     var package = PackageManager?.GetPackageInfo(PackageName, 0);
                     Debug.Assert(package != null);
                     var request = new CheckUpdateRequest

@@ -5,7 +5,6 @@ using Android.Text.Method;
 using Android.Views;
 using Android.Text.Style;
 using Android.Widget;
-using AndroidX.Core.Text;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
 using Google.Android.Material.TextView;

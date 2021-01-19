@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
 using Android.Content;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
