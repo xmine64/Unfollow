@@ -37,6 +37,9 @@
             app:key="terms"
             app:title="@string/title_terms" />
         <Preference
+            app:key="donate"
+            app:title="@string/title_donate" />
+        <Preference
             app:key="about"
             app:title="@string/title_about" />
     </PreferenceCategory>

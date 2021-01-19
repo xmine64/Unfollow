@@ -42,6 +42,7 @@
     <string name="title_update_check">Check for update...</string>
 
     <string name="title_terms">Terms of Service</string>
+    <string name="title_donate">Donate</string>
 
     <string name="title_empty">Empty\!</string>
 
@@ -92,4 +93,6 @@
 
     <string name="msg_terms0">By login, you accept&#160;</string>
     <string name="msg_terms1">.</string>
+
+    <string name="url_donate">https://unfollowapp.herokuapp.com/docs/en/donate.html</string>
 </resources>

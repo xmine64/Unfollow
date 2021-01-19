@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 using Android.Content;
+using Android.Net;
 using Android.OS;
 using Android.Views;
 
@@ -40,6 +41,10 @@ namespace Madamin.Unfollow.Fragments
             FindPreference("terms").PreferenceClick += (sender, args) =>
             {
                 ((IFragmentHost) Activity).NavigateTo(new TermsFragment(), false, true);
+            };
+            FindPreference("donate").PreferenceClick += (sender, args) =>
+            {
+                var intent = new Intent(Intent.ActionView, Uri.Parse(GetString(Resource.String.url_donate)));
             };
             FindPreference("about").PreferenceClick += (sender, args) =>
             {

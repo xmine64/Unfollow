@@ -41,6 +41,7 @@
     <string name="title_update_check">بررسی نسخه به‌روز...</string>
 
     <string name="title_terms">شرایط استفاده</string>
+    <string name="title_donate">حمایت</string>
 
     <string name="title_empty">خالی\!</string>
 
@@ -88,4 +89,6 @@
 
     <string name="msg_terms0">با ورود به حساب، شما با&#160;</string>
     <string name="msg_terms1">&#160;موافقت می‌کنید.</string>
+
+    <string name="url_donate">https://unfollowapp.herokuapp.com/docs/fa/donate.html</string>
 </resources>
