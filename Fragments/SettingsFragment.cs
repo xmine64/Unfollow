@@ -37,14 +37,17 @@ namespace Madamin.Unfollow.Fragments
             {
                 ((IUpdateServerHost) Activity).CheckForUpdate(true);
             };
+            FindPreference("terms").PreferenceClick += (sender, args) =>
+            {
+                ((IFragmentHost) Activity).NavigateTo(new TermsFragment(), false, true);
+            };
             FindPreference("about").PreferenceClick += (sender, args) =>
             {
                 ((IFragmentHost) Activity).PushFullScreenFragment(new AboutFragment());
             };
-            FindPreference("exit").PreferenceClick += (sender, args) => { Activity.Finish(); };
-            FindPreference("terms").PreferenceClick += (sender, args) =>
+            FindPreference("exit").PreferenceClick += (sender, args) =>
             {
-                ((IFragmentHost) Activity).NavigateTo(new TermsFragment(), true);
+                Activity.Finish();
             };
         }
     }

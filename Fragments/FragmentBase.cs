@@ -12,7 +12,7 @@ namespace Madamin.Unfollow.Fragments
     {
         string ActionBarTitle { get; set; }
 
-        void NavigateTo(Fragment fragment, bool addToBackStack);
+        void NavigateTo(Fragment fragment, bool fullscreen, bool addToBackStack);
 
         void PushFragment(FragmentBase fragment);
         void PopFragment();
@@ -74,11 +74,6 @@ namespace Madamin.Unfollow.Fragments
             MenuItemSelected?.Invoke(this, e);
 
             return e.Finished || base.OnOptionsItemSelected(item);
-        }
-
-        public void Refresh()
-        {
-            _host.NavigateTo(this, false);
         }
 
         protected void PushFragment(FragmentBase fragment)

@@ -54,8 +54,7 @@ namespace Madamin.Unfollow
 
                 if (!savedInstanceState.GetBoolean(ActionBarVisibilityStateKey))
                 {
-                    _actionBarVisible = false;
-                    OnActionBarVisibilityChanged(false);
+                    ActionBarVisible = false;
                 }
 
                 return;
@@ -71,7 +70,7 @@ namespace Madamin.Unfollow
         protected override void OnSaveInstanceState(Bundle outState)
         {
             outState.PutBoolean(BackButtonVisibilityStateKey, _backButtonVisible);
-            outState.PutBoolean(ActionBarVisibilityStateKey, _actionBarVisible);
+            outState.PutBoolean(ActionBarVisibilityStateKey, ActionBarVisible);
 
             // TODO: save fragments state
 
@@ -85,7 +84,7 @@ namespace Madamin.Unfollow
 
         protected void NavigateTo(int index)
         {
-            NavigateTo(Fragments[index], false);
+            NavigateTo(Fragments[index], false, false);
         }
 
         private void BeginTransition()
@@ -94,14 +93,18 @@ namespace Madamin.Unfollow
             TransitionManager.BeginDelayedTransition(rootView);
         }
 
-        public void NavigateTo(Fragment fragment, bool addToBackStack)
+        public void NavigateTo(Fragment fragment, bool fullscreen, bool addToBackStack)
         {
             BeginTransition();
             var tx = SupportFragmentManager.BeginTransaction().Replace(_container, fragment);
+
             if (addToBackStack)
-            { 
+            {
                 tx.AddToBackStack(null);
             }
+
+            ActionBarVisible = !fullscreen;
+
             tx.Commit();
         }
 
@@ -150,32 +153,36 @@ namespace Madamin.Unfollow
 
         public void PushFragment(FragmentBase fragment)
         {
-            NavigateTo(fragment, true);
+            NavigateTo(fragment, false, true);
         }
 
         public void PopFragment()
         {
             BeginTransition();
-            if (!_actionBarVisible)
-            {
-                _actionBarVisible = true;
-                OnActionBarVisibilityChanged(true);
-            }
-
+            ActionBarVisible = true;
             SupportFragmentManager.PopBackStack();
         }
 
         public void PushFullScreenFragment(FragmentBase fragment)
         {
-            _actionBarVisible = false;
-            OnActionBarVisibilityChanged(false);
-            PushFragment(fragment);
+            NavigateTo(fragment, true, true);
         }
 
         public string ActionBarTitle
         {
             get => SupportActionBar.Title;
             set => SupportActionBar.Title = value;
+        }
+
+        public bool ActionBarVisible
+        {
+            get => _actionBarVisible;
+            set
+            {
+                if (ActionBarVisible == value) return;
+                _actionBarVisible = value;
+                OnActionBarVisibilityChanged(value);
+            }
         }
 
         public event EventHandler<OnActivityCreateEventArgs> Create;

@@ -36,7 +36,7 @@ namespace Madamin.Unfollow.Fragments
 
             public override void OnClick(View widget)
             {
-                _fragmentHost.NavigateTo(new TermsFragment(), true);
+                _fragmentHost.NavigateTo(new TermsFragment(), false, true);
             }
         }
 
