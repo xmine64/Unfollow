@@ -242,6 +242,11 @@ namespace Madamin.Unfollow.Instagram
                 return HashCode.Combine(User);
             }
         }
+
+        public long GetPk()
+        {
+            return _api.GetLoggedUser().LoggedInUser.Pk;
+        }
     }
 
     [Serializable]

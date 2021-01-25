@@ -74,8 +74,7 @@ namespace Madamin.Unfollow.Instagram
                 var account = new Account();
                 account.LoadState(file);
 
-                // can't use GetAccountCachePath() because account.Data is null
-                var cache = Path.Combine(CacheDir, Path.GetFileName(file));
+                var cache = GetAccountCachePath(account);
 
                 if (File.Exists(cache))
                 {
@@ -97,12 +96,12 @@ namespace Madamin.Unfollow.Instagram
 
         private string GetAccountStatePath(Account account)
         {
-            return Path.Combine(DataDir, account.Data.User.Id.ToString());
+            return Path.Combine(DataDir, account.GetPk().ToString());
         }
 
         private string GetAccountCachePath(Account account)
         {
-            return Path.Combine(CacheDir, account.Data.User.Id.ToString());
+            return Path.Combine(CacheDir, account.GetPk().ToString());
         }
 
         private void SaveAccountState(Account account)
