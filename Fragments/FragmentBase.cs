@@ -36,23 +36,14 @@ namespace Madamin.Unfollow.Fragments
             set => _host.ActionBarVisible = value;
         }
 
-        public override void OnAttach(Context context)
-        {
-            base.OnAttach(context);
-            _host = (IFragmentHost) context;
-
-            Title = GetString(Resource.String.app_name);
-        }
-
         public override View OnCreateView(
             LayoutInflater inflater,
             ViewGroup container,
             Bundle savedInstanceState)
         {
+            _host = (IFragmentHost) Context;
             var view = inflater.Inflate(_layout, container, false);
-
             Create?.Invoke(this, new OnFragmentCreateEventArgs(savedInstanceState, view));
-
             return view;
         }
 
