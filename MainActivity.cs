@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using Java.Util;
 using Android.App;
@@ -25,7 +26,8 @@ namespace Madamin.Unfollow
         IUpdateServerHost,
         IErrorHost,
         ISnackBarHost,
-        IPreferenceManager
+        IPreferenceManager,
+        IVersionProvider
     {
         public MainActivity() : base(
             Resource.Layout.activity_main,
@@ -115,6 +117,10 @@ namespace Madamin.Unfollow
             {
                 CheckForUpdate(false);
             }
+
+            if (PackageName == null) return;
+            var package = PackageManager?.GetPackageInfo(PackageName, 0);
+            _currentPackage = package;
         }
 
         private void MainActivity_OnSaveState(object sender, OnSaveStateEventArgs e)
@@ -202,11 +208,6 @@ namespace Madamin.Unfollow
         {
             try
             {
-                // Get app version
-                if (PackageName == null) return;
-                var package = PackageManager?.GetPackageInfo(PackageName, 0);
-                if (package == null) return;
-
                 // Request update information
 #if TGBUILD
                 var lang = Resources?.Configuration?.Locales.Get(0)?.Language ?? 
@@ -214,7 +215,8 @@ namespace Madamin.Unfollow
 #else
                 var lang = UpdateServerApi.LanguageGithubChannel;
 #endif
-                var result = await _updateServer.CheckUpdate(package.LongVersionCode, lang);
+                var result = await _updateServer.CheckUpdate(
+                    ((IVersionProvider) this).GetAppVersionCode(), lang);
 
                 // Check response
                 if (result.Status != UpdateServerApi.StatusOk)
@@ -262,12 +264,7 @@ namespace Madamin.Unfollow
 
         public async void DidLogin()
         {
-            // Get app version
-            if (PackageName == null) return;
-            var package = PackageManager?.GetPackageInfo(PackageName, 0);
-            if (package == null) return;
-
-            await _updateServer.DidLogin(package.LongVersionCode);
+            await _updateServer.DidLogin(((IVersionProvider) this).GetAppVersionCode());
         }
 
         public void ShowError(Exception exception)
@@ -358,6 +355,32 @@ namespace Madamin.Unfollow
         {
             _preferences.Edit()?.PutBoolean(key, value)?.Apply();
         }
+
+        private Android.Content.PM.PackageInfo _currentPackage;
+
+        public long GetAppVersionCode()
+        {
+            if (_currentPackage == null)
+                return -1;
+            return _currentPackage.LongVersionCode;
+        }
+
+        public string GetAppVersionName()
+        {
+            if (_currentPackage == null)
+                return string.Empty;
+            return _currentPackage.VersionName;
+        }
+
+        public AssemblyName GetAppAssemblyName()
+        {
+            return GetType().Assembly.GetName();
+        }
+
+        public AssemblyName GetLibraryAssemblyName()
+        {
+            return typeof(InstagramApiSharp.API.IInstaApi).Assembly.GetName();
+        }
     }
 
     public interface IDataContainer
@@ -390,5 +413,13 @@ namespace Madamin.Unfollow
         bool GetBoolean(string key, bool defaultValue);
         void SetString(string key, string value);
         void SetBoolean(string key, bool value);
+    }
+
+    public interface IVersionProvider
+    {
+        long GetAppVersionCode();
+        string GetAppVersionName();
+        AssemblyName GetAppAssemblyName();
+        AssemblyName GetLibraryAssemblyName();
     }
 }

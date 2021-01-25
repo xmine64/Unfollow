@@ -20,17 +20,6 @@ namespace Madamin.Unfollow.Fragments
             Title = GetString(Resource.String.title_about);
             ActionBarVisible = false;
 
-            // Find package information
-            if (Activity?.PackageName == null || Activity.PackageManager == null)
-                return;
-            var package = Activity.PackageManager.GetPackageInfo(Activity.PackageName, 0);
-            if (package == null)
-                return;
-
-            // Find Instagram library version
-            var igVersion = typeof(InstagramApiSharp.API.IInstaApi)
-                .Assembly.GetName();
-
             // Find views
             var tvVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_app_version);
             var tvLibVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_instasharp_version);
@@ -47,12 +36,14 @@ namespace Madamin.Unfollow.Fragments
                 return;
 
             // Show versions
-            tvVersion.Text = GetString(Resource.String.msg_app_version, package.VersionName);
+            var versionProvider = (IVersionProvider) Activity;
+            tvVersion.Text = GetString(Resource.String.msg_app_version, 
+                versionProvider.GetAppVersionName());
 
             tvLibVersion.Text = GetString(
                 Resource.String.msg_instasharp_version,
-                igVersion.Name,
-                igVersion.Version.ToString()
+                versionProvider.GetLibraryAssemblyName().Name,
+                versionProvider.GetLibraryAssemblyName().Version.ToString()
             );
 
             // Add click handlers
