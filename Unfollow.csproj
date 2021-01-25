@@ -1,846 +1,878 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}</ProjectGuid>
-    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TemplateGuid>{e0dc9abc-7303-488b-8af1-61e341bd2a32}</TemplateGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Madamin.Unfollow</RootNamespace>
-    <AssemblyName>Madamin.Unfollow</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>True</Deterministic>
-    <AndroidApplication>True</AndroidApplication>
-    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
-    <AndroidResgenClass>Resource</AndroidResgenClass>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
-    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-    <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
-    <AndroidLinkMode>None</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <BundleAssemblies>false</BundleAssemblies>
-    <MandroidI18n />
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>True</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AndroidManagedSymbols>true</AndroidManagedSymbols>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <AotAssemblies>false</AotAssemblies>
-    <EnableLLVM>false</EnableLLVM>
-    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-    <BundleAssemblies>false</BundleAssemblies>
-    <AndroidLinkTool>r8</AndroidLinkTool>
-    <MandroidI18n />
-    <AndroidSupportedAbis />
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Mono.Android" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Adapters\AccountAdapter.cs" />
-    <Compile Include="Adapters\FansAdapter.cs" />
-    <Compile Include="Fragments\AboutFragment.cs" />
-    <Compile Include="Fragments\FansFragment.cs" />
-    <Compile Include="Fragments\HtmlFragment.cs" />
-    <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="UpdateServer.cs" />
-    <Compile Include="ViewHolders\AccountViewHolder.cs" />
-    <Compile Include="ViewHolders\FanViewHolder.cs" />
-    <Compile Include="ViewHolders\UnfollowerViewHolder.cs" />
-    <Compile Include="FragmentHostBase.cs" />
-    <Compile Include="Fragments\FragmentBase.cs" />
-    <Compile Include="Fragments\RecyclerViewFragmentBase.cs" />
-    <Compile Include="Instagram\Account.cs" />
-    <Compile Include="Instagram\Accounts.cs" />
-    <Compile Include="Fragments\LoginFragment.cs" />
-    <Compile Include="Fragments\AccountsFragment.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Fragments\SettingsFragment.cs" />
-    <Compile Include="Adapters\UnfollowerAdapter.cs" />
-    <Compile Include="Fragments\UnfollowFragment.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_main.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\values\colors.xml" />
-    <AndroidResource Include="Resources\values\styles.xml" />
-    <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
-    <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_round.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_round.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_round.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="InstagramApiSharp">
-      <Version>1.5.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat">
-      <Version>1.2.0.6</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Browser">
-      <Version>1.3.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout">
-      <Version>2.0.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.UI">
-      <Version>1.0.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
-      <Version>2.2.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.Preference">
-      <Version>1.1.1.6</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.RecyclerView">
-      <Version>1.1.0.6</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
-    <PackageReference Include="Xamarin.Google.Android.Material">
-      <Version>1.2.1.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\navbar_main.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values-night\styles.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_recyclerview.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_login.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_person_remove_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_person_remove_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_person_remove_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_remove_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_remove_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_person_remove_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_person_remove_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_person_remove_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_person_remove_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values-night\colors.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_foreground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_foreground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_foreground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_foreground.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\xml\settings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\arrays.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\item_account.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_refresh_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_refresh_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_refresh_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_refresh_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_refresh_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_refresh_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_refresh_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_refresh_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_refresh_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\appbar_menu_accounts.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_group_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_group_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_group_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_group_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_group_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_group_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_group_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_group_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_group_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_recyclerview_loading.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_recyclerview_empty.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_person_add_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_person_add_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_person_add_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_add_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_add_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_person_add_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_person_add_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_person_add_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_person_add_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_person_remove_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_person_remove_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_person_remove_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_remove_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_remove_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_person_remove_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_person_remove_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_person_remove_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_person_remove_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_recyclerview_error.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_wifi_off_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_wifi_off_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_wifi_off_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_wifi_off_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_wifi_off_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_wifi_off_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_wifi_off_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_wifi_off_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_wifi_off_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_error_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_error_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_error_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_error_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_error_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_error_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_error_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_error_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_error_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\appbar_menu_unfollow.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values-fa\strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values-fa\arrays.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\appbar_menu_unfollow_contextual.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_close_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_close_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_close_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_close_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_close_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_close_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_close_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_close_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_close_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_select_all_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_select_all_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_select_all_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_select_all_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_select_all_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_select_all_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_select_all_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_select_all_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_select_all_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_about.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\popup_account.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_launch_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_launch_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_launch_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_launch_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launch_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_launch_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_launch_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_launch_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_launch_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_exit_to_app_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_exit_to_app_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_exit_to_app_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_exit_to_app_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_exit_to_app_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_exit_to_app_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_exit_to_app_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_exit_to_app_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_exit_to_app_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\popup_unfollower.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_check_box_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_check_box_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_check_box_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_check_box_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_check_box_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_check_box_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_check_box_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_check_box_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_check_box_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\abc_list_menu_item_icon.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\popup_fan.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\appbar_menu_fans.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\menu\appbar_menu_fans_contextual.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\item_user.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_person_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_person_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_person_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_black_48dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_person_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_person_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_person_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_person_black_48dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_more_vert_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_more_vert_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_more_vert_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_more_vert_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_more_vert_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_more_vert_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_more_vert_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_more_vert_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_more_vert_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_person_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_person_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_person_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_add_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_person_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_person_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_person_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_person_add_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_account_circle_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_account_circle_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_account_circle_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_account_circle_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_account_circle_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_account_circle_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_account_circle_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_account_circle_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_account_circle_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_vpn_key_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_vpn_key_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_vpn_key_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_vpn_key_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_vpn_key_black_18dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_vpn_key_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_vpn_key_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_vpn_key_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_vpn_key_black_18dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_header.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_login_2fa.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_block_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_block_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_block_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_block_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_block_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_block_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_block_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_block_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_block_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\en\terms.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\fa\terms.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_menu_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_menu_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_menu_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_menu_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_menu_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_menu_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-anydpi\ic_menu_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\ic_menu_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v24\ic_menu_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProductVersion>8.0.30703</ProductVersion>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{7CAE2E9C-A8E8-4DFB-8E12-0DC8762F8E66}</ProjectGuid>
+        <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <TemplateGuid>{e0dc9abc-7303-488b-8af1-61e341bd2a32}</TemplateGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Madamin.Unfollow</RootNamespace>
+        <AssemblyName>Madamin.Unfollow</AssemblyName>
+        <FileAlignment>512</FileAlignment>
+        <Deterministic>True</Deterministic>
+        <AndroidApplication>True</AndroidApplication>
+        <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
+        <AndroidResgenClass>Resource</AndroidResgenClass>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
+        <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+        <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
+        <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+        <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+        <AndroidUseAapt2>true</AndroidUseAapt2>
+        <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>True</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <Optimize>False</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+        <AndroidLinkMode>None</AndroidLinkMode>
+        <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+        <AotAssemblies>false</AotAssemblies>
+        <EnableLLVM>false</EnableLLVM>
+        <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+        <BundleAssemblies>false</BundleAssemblies>
+        <MandroidI18n />
+        <LangVersion>8.0</LangVersion>
+        <AndroidManifest>Properties\AndroidManifest.debug.xml</AndroidManifest>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugSymbols>false</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <Optimize>True</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <AndroidManagedSymbols>true</AndroidManagedSymbols>
+        <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+        <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+        <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+        <AotAssemblies>true</AotAssemblies>
+        <EnableLLVM>false</EnableLLVM>
+        <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+        <BundleAssemblies>false</BundleAssemblies>
+        <AndroidLinkTool>r8</AndroidLinkTool>
+        <MandroidI18n />
+        <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a</AndroidSupportedAbis>
+        <LangVersion>8.0</LangVersion>
+        <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
+        <AndroidManifest>Properties\AndroidManifest.release.xml</AndroidManifest>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'tgbuild|AnyCPU'">
+        <OutputPath>bin\tgbuild\</OutputPath>
+        <DefineConstants>TGBUILD</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>portable</DebugType>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <LangVersion>8.0</LangVersion>
+        <ErrorReport>prompt</ErrorReport>
+        <AotAssemblies>true</AotAssemblies>
+        <EnableLLVM>false</EnableLLVM>
+        <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+        <BundleAssemblies>false</BundleAssemblies>
+        <AndroidLinkTool>r8</AndroidLinkTool>
+        <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+        <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+        <MandroidI18n />
+        <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
+        <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a</AndroidSupportedAbis>
+        <AndroidManifest>Properties\AndroidManifest.tgbuild.xml</AndroidManifest>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System" />
+        <Reference Include="System.Xml" />
+        <Reference Include="System.Core" />
+        <Reference Include="Mono.Android" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Numerics.Vectors" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Adapters\AccountAdapter.cs" />
+        <Compile Include="Adapters\FansAdapter.cs" />
+        <Compile Include="Fragments\AboutFragment.cs" />
+        <Compile Include="Fragments\FansFragment.cs" />
+        <Compile Include="Fragments\HtmlFragment.cs" />
+        <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
+        <Compile Include="Resources\Resource.designer.cs" />
+        <Compile Include="UpdateServer.cs" />
+        <Compile Include="ViewHolders\AccountViewHolder.cs" />
+        <Compile Include="ViewHolders\FanViewHolder.cs" />
+        <Compile Include="ViewHolders\UnfollowerViewHolder.cs" />
+        <Compile Include="FragmentHostBase.cs" />
+        <Compile Include="Fragments\FragmentBase.cs" />
+        <Compile Include="Fragments\RecyclerViewFragmentBase.cs" />
+        <Compile Include="Instagram\Account.cs" />
+        <Compile Include="Instagram\Accounts.cs" />
+        <Compile Include="Fragments\LoginFragment.cs" />
+        <Compile Include="Fragments\AccountsFragment.cs" />
+        <Compile Include="MainActivity.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Fragments\SettingsFragment.cs" />
+        <Compile Include="Adapters\UnfollowerAdapter.cs" />
+        <Compile Include="Fragments\UnfollowFragment.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Properties\AndroidManifest.debug.xml">
+            <SubType>Designer</SubType>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\activity_main.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+        <AndroidResource Include="Resources\values\colors.xml" />
+        <AndroidResource Include="Resources\values\styles.xml" />
+        <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
+        <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
+        <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
+        <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png" />
+        <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
+        <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_round.png" />
+        <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
+        <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_round.png" />
+        <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
+        <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_round.png" />
+        <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
+        <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="InstagramApiSharp">
+            <Version>1.5.0.1</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.AndroidX.AppCompat">
+            <Version>1.2.0.6</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.AndroidX.Browser">
+            <Version>1.3.0.4</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.AndroidX.ConstraintLayout">
+            <Version>2.0.4.1</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.UI">
+            <Version>1.0.0.7</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
+            <Version>2.2.0.4</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.AndroidX.Preference">
+            <Version>1.1.1.6</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.AndroidX.RecyclerView">
+            <Version>1.1.0.6</Version>
+        </PackageReference>
+        <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
+        <PackageReference Include="Xamarin.Google.Android.Material">
+            <Version>1.2.1.1</Version>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\navbar_main.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\values-night\styles.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\fragment_recyclerview.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\fragment_login.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_person_remove_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_person_remove_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_person_remove_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_remove_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_remove_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_person_remove_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_person_remove_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_person_remove_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_person_remove_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\values-night\colors.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_foreground.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_foreground.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_foreground.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_foreground.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\xml\settings.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\values\arrays.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\item_account.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_refresh_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_refresh_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_refresh_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_refresh_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_refresh_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_refresh_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_refresh_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_refresh_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_refresh_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\appbar_menu_accounts.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_group_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_group_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_group_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_group_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_group_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_group_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_group_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_group_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_group_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\fragment_recyclerview_loading.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\fragment_recyclerview_empty.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_person_add_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_person_add_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_person_add_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_add_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_add_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_person_add_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_person_add_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_person_add_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_person_add_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_person_remove_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_person_remove_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_person_remove_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_remove_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_remove_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_person_remove_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_person_remove_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_person_remove_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_person_remove_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\fragment_recyclerview_error.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_wifi_off_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_wifi_off_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_wifi_off_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_wifi_off_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_wifi_off_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_wifi_off_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_wifi_off_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_wifi_off_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_wifi_off_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_error_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_error_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_error_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_error_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_error_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_error_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_error_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_error_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_error_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\values\strings.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\appbar_menu_unfollow.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\values-fa\strings.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\values-fa\arrays.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\appbar_menu_unfollow_contextual.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_close_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_close_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_close_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_close_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_close_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_close_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_close_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_close_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_close_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_select_all_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_select_all_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_select_all_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_select_all_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_select_all_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_select_all_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_select_all_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_select_all_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_select_all_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\fragment_about.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\popup_account.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_launch_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_launch_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_launch_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_launch_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launch_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_launch_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_launch_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_launch_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_launch_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_exit_to_app_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_exit_to_app_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_exit_to_app_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_exit_to_app_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_exit_to_app_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_exit_to_app_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_exit_to_app_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_exit_to_app_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_exit_to_app_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\popup_unfollower.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_check_box_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_check_box_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_check_box_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_check_box_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_check_box_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_check_box_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_check_box_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_check_box_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_check_box_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\abc_list_menu_item_icon.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\popup_fan.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\appbar_menu_fans.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\menu\appbar_menu_fans_contextual.xml">
+            <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\item_user.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_person_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_person_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_person_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_black_48dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_person_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_person_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_person_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_person_black_48dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_more_vert_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_more_vert_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_more_vert_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_more_vert_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_more_vert_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_more_vert_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_more_vert_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_more_vert_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_more_vert_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_person_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_person_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_person_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_person_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_person_add_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_person_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_person_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_person_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_person_add_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_account_circle_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_account_circle_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_account_circle_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_account_circle_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_account_circle_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_account_circle_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_account_circle_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_account_circle_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_account_circle_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_vpn_key_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_vpn_key_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_vpn_key_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_vpn_key_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_vpn_key_black_18dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_vpn_key_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_vpn_key_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_vpn_key_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_vpn_key_black_18dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_header.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\layout\fragment_login_2fa.xml">
+            <SubType>Designer</SubType>
+        </AndroidResource>
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_block_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_block_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_block_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_block_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_block_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_block_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_block_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_block_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_block_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidAsset Include="Assets\en\terms.html" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidAsset Include="Assets\fa\terms.html" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-mdpi\ic_menu_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\ic_menu_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xhdpi\ic_menu_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxhdpi\ic_menu_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-xxxhdpi\ic_menu_black_24dp.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable\ic_menu_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-anydpi\ic_menu_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v21\ic_menu_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidResource Include="Resources\drawable-v24\ic_menu_black_24dp.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Properties\AndroidManifest.release.xml">
+            <SubType>Designer</SubType>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="Properties\AndroidManifest.tgbuild.xml">
+            <SubType>Designer</SubType>
+        </None>
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
     </Target>
