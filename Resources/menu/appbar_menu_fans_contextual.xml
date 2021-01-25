@@ -4,7 +4,7 @@
 		  android:showAsAction="always"
 		  android:text="@string/title_follow"
 		  android:icon="@drawable/ic_person_remove_black_24dp"/>
-	<item android:id="@+id/appbar_fans_item_selectall"
+	<item android:id="@+id/appbar_fans_item_select_all"
 		  android:showAsAction="always"
 		  android:text="@android:string/selectAll"
 		  android:icon="@drawable/ic_select_all_black_24dp"/>

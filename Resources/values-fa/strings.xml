@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">آنفالویاب</string>
-    <string name="title_selected">{0} انتخاب شده</string>
+    <string name="title_selected">%1$d انتخاب شده</string>
 
     <string name="title_accounts">حساب‌ها</string>
     <string name="title_settings">گزینه‌ها</string>
@@ -8,7 +8,8 @@
 
     <string name="title_error">خطا</string>
     <string name="title_loading">درحال بارگیری...</string>
-    <string name="title_batch_unfollow">درحال آنفالو کردن ({0}/{1})...</string>
+    <string name="title_batch_unfollow">درحال آنفالو کردن (%1$d/%2$d)...</string>
+    <string name="title_batch_block">درحال بلاک کردن (%1$d/%2$d)...</string>
 
     <string name="title_addaccount">افزودن حساب</string>
     <string name="title_refresh">بروزرسانی</string>
@@ -62,6 +63,7 @@
     <string name="msg_up_to_date">شما به‌روز هستید!</string>
     <string name="msg_error">خطایی رخ داده است!</string>
     <string name="msg_sending_report">درحال ارسال گزارش خطا...</string>
+    <string name="msg_report_sent">گزارش ارسال شد!</string>
     <string name="msg_no_unfollower">کسانی که به شما فالوبک نداده‌اند اینجا نمایش داده می‌شوند.</string>
     <string name="msg_no_fan">کسانی که شما به آنها فالوبک نداده‌اید اینجا نمایش داده می‌شوند.</string>
     <string name="msg_login">وارد حسابتان شوید</string>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
 using Madamin.Unfollow.Instagram;
@@ -8,6 +7,11 @@ namespace Madamin.Unfollow.Fragments
 {
     public class TwoFactorAuthFragment : FragmentBase
     {
+        private readonly Account _account;
+
+        private MaterialButton _btnVerify, _btnResend;
+        private TextInputEditText _textInput;
+
         public TwoFactorAuthFragment(Account account) :
             base(Resource.Layout.fragment_login_2fa)
         {
@@ -18,15 +22,20 @@ namespace Madamin.Unfollow.Fragments
 
         private void TwoFactorAuthFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
+            // Fragment setup
             Title = GetString(Resource.String.title_2fa);
+            ActionBarVisible = false;
 
-            _btnResend = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_resend);
+            // Find views
             _textInput = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_2fa_code_input);
+            _btnResend = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_resend);
             _btnVerify = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_verify);
 
-            Debug.Assert(_btnVerify != null &&
-                         _btnResend != null);
+            if (_btnVerify == null ||
+                _btnResend == null)
+                return;
 
+            // Setup click handlers
             _btnVerify.Click += VerifyButton_OnClick;
             _btnResend.Click += ResendTextView_OnClick;
         }
@@ -38,8 +47,8 @@ namespace Madamin.Unfollow.Fragments
             _btnVerify.Enabled = false;
             try
             {
-                var ig = ((IInstagramHost) Activity).Accounts;
-                await ig.CompleteLoginAsync(
+                var instagram = ((IInstagramHost) Activity).Accounts;
+                await instagram.CompleteLoginAsync(
                     _account,
                     _textInput.Text);
 
@@ -67,10 +76,5 @@ namespace Madamin.Unfollow.Fragments
                 ((IErrorHost) Activity).ShowError(ex);
             }
         }
-
-        private readonly Account _account;
-
-        private MaterialButton _btnVerify, _btnResend;
-        private TextInputEditText _textInput;
     }
 }

@@ -17,11 +17,11 @@ namespace Madamin.Unfollow.Fragments
         ActionMode.ICallback
     {
         private Account _account;
-
-        private UnfollowerAdapter _adapter;
         private int _accountPosition;
 
         private ActionMode _actionMode;
+
+        private UnfollowerAdapter _adapter;
 
         public UnfollowFragment() :
             base(Resource.Menu.appbar_menu_unfollow)
@@ -31,81 +31,14 @@ namespace Madamin.Unfollow.Fragments
             RetryClick += UnfollowFragment_RetryClick;
         }
 
-        private void UnfollowFragment_Create(object sender, OnFragmentCreateEventArgs e)
+        private UnfollowerAdapter UnfollowerAdapter
         {
-            if (e.SavedInstanceState != null)
+            get => _adapter;
+            set
             {
-                PopFragment();
-                return;
+                _adapter = value;
+                SetAdapter(_adapter);
             }
-
-            _accountPosition = Arguments.GetInt(BundleKeyAccountIndex, -1);
-            if (_accountPosition < 0)
-                throw new ArgumentException(); // TODO
-            _account = ((IInstagramHost) Activity).Accounts[_accountPosition];
-
-            Title = _account.Data.User.Fullname;
-            // TODO: set ErrorText
-            EmptyText = GetString(Resource.String.msg_no_unfollower);
-            SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
-
-            _adapter = new UnfollowerAdapter(_account, this);
-
-            var wlFileName = GetString(
-                Resource.String.filename_unfollowers_whitelist,
-                _account.Data.User.Id);
-            var dataContainer = (IDataContainer) Activity;
-
-            if (dataContainer.DataExists(wlFileName))
-            {
-                var wl = (List<User>) dataContainer.LoadData(wlFileName);
-                _adapter.Whitelist.AddRange(wl);
-            }
-
-            _adapter.Refresh();
-            SetAdapter(_adapter);
-
-            ViewMode = RecyclerViewMode.Data;
-        }
-
-        private void UnfollowFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
-        {
-            switch (e.ItemId)
-            {
-                case Resource.Id.appbar_unfollow_item_refresh:
-                    DoTask(_account.RefreshAsync(), RefreshAdapterData);
-                    break;
-                case Resource.Id.appbar_unfollow_item_unfollowall:
-                    DoTask(
-                        BatchUnfollowAsync(
-                            _account.Data.Unfollowers.Except(_adapter.Whitelist).ToArray()),
-                            RefreshAdapterData);
-                    break;
-                case Resource.Id.appbar_unfollow_item_clear_whitelist:
-                    _adapter.Whitelist.Clear();
-
-                    var wlFileName = GetString(
-                        Resource.String.filename_unfollowers_whitelist,
-                        _account.Data.User.Id);
-                    ((IDataContainer) Activity).SaveData(wlFileName, _adapter.Whitelist);
-
-                    RefreshAdapterData();
-                    break;
-                case Resource.Id.appbar_unfollow_item_logout:
-                    var ig = ((IInstagramHost) Activity).Accounts;
-                    DoTask(
-                        ig.LogoutAccountAsync(_account),
-                        () => { ((IFragmentHost) Activity).PopFragment(); });
-                    break;
-                default:
-                    e.Finished = false;
-                    break;
-            }
-        }
-
-        private void UnfollowFragment_RetryClick(object sender, EventArgs e)
-        {
-            DoTask(_account.RefreshAsync(), RefreshAdapterData);
         }
 
         public bool OnPrepareActionMode(ActionMode mode, IMenu menu)
@@ -132,23 +65,25 @@ namespace Madamin.Unfollow.Fragments
             switch (item.ItemId)
             {
                 case Resource.Id.appbar_unfollow_item_select_all:
-                    _adapter.SelectAll();
-                    _actionMode.Subtitle = string.Format(
-                        GetString(Resource.String.title_selected),
-                        _adapter.SelectedItems.Count);
+                    UnfollowerAdapter.SelectAll();
+                    _actionMode.Subtitle = GetString(Resource.String.title_selected,
+                        UnfollowerAdapter.SelectedItems.Count);
                     return true;
+
                 case Resource.Id.appbar_unfollow_item_unfollow:
                     DoTask(
-                        BatchUnfollowAsync(_adapter.GetSelected()),
+                        BatchUnfollowAsync(UnfollowerAdapter.GetSelected()),
                         RefreshAdapterData);
                     mode.Finish();
                     return true;
+
                 case Resource.Id.appbar_unfollow_item_block:
                     DoTask(
-                        BatchBlockAsync(_adapter.GetSelected()),
+                        BatchBlockAsync(UnfollowerAdapter.GetSelected()),
                         RefreshAdapterData);
                     mode.Finish();
                     return true;
+
                 default:
                     return false;
             }
@@ -186,9 +121,10 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemAddToWhitelist(int position)
         {
-            _adapter.Whitelist.Add(_adapter.GetItem(position));
-            ((IDataContainer) Activity).SaveData(_account.Data.User.Id + ".whitelist", _adapter.Whitelist);
-            RefreshAdapterData();
+            UnfollowerAdapter.Whitelist.Add(_adapter.GetItem(position));
+            ((IDataContainer) Activity).SaveData(GetWhitelistFileName(), UnfollowerAdapter.Whitelist);
+            UnfollowerAdapter.Refresh();
+            UnfollowerAdapter.NotifyDataSetChanged();
         }
 
         public void OnItemBlock(int position)
@@ -198,11 +134,87 @@ namespace Madamin.Unfollow.Fragments
                 RefreshAdapterData);
         }
 
+        private void UnfollowFragment_Create(object sender, OnFragmentCreateEventArgs e)
+        {
+            // Right now, reloading from SavedInstanceState is not supported
+            if (e.SavedInstanceState != null)
+            {
+                PopFragment();
+                return;
+            }
+
+            _accountPosition = Arguments.GetInt(BundleKeyAccountIndex, -1);
+            if (_accountPosition < 0)
+                throw new ArgumentException();
+            _account = ((IInstagramHost) Activity).Accounts[_accountPosition];
+
+            // Setup fragment
+            Title = _account.Data.User.Fullname;
+            ActionBarVisible = true;
+            EmptyText = GetString(Resource.String.msg_no_unfollower);
+            SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
+
+            // Setup adapter
+            UnfollowerAdapter = new UnfollowerAdapter(_account, this);
+
+            // Load whitelist
+            var whitelistFileName = GetWhitelistFileName();
+            var dataContainer = (IDataContainer) Activity;
+            if (dataContainer.DataExists(whitelistFileName))
+            {
+                var wl = (List<User>) dataContainer.LoadData(whitelistFileName);
+                _adapter.Whitelist.AddRange(wl);
+            }
+
+            UnfollowerAdapter.Refresh();
+
+            ViewMode = RecyclerViewMode.Data;
+        }
+
+        private void UnfollowFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
+        {
+            switch (e.ItemId)
+            {
+                case Resource.Id.appbar_unfollow_item_refresh:
+                    DoTask(_account.RefreshAsync(), RefreshAdapterData);
+                    break;
+
+                case Resource.Id.appbar_unfollow_item_unfollowall:
+                    DoTask(
+                        BatchUnfollowAsync(
+                            _account.Data.Unfollowers.Except(UnfollowerAdapter.Whitelist).ToArray()),
+                        RefreshAdapterData);
+                    break;
+
+                case Resource.Id.appbar_unfollow_item_clear_whitelist:
+                    UnfollowerAdapter.Whitelist.Clear();
+                    ((IDataContainer) Activity).SaveData(GetWhitelistFileName(), _adapter.Whitelist);
+                    RefreshAdapterData();
+                    break;
+
+                case Resource.Id.appbar_unfollow_item_logout:
+                    var ig = ((IInstagramHost) Activity).Accounts;
+                    DoTask(
+                        ig.LogoutAccountAsync(_account),
+                        ((IFragmentHost) Activity).PopFragment);
+                    break;
+
+                default:
+                    e.Finished = false;
+                    break;
+            }
+        }
+
+        private void UnfollowFragment_RetryClick(object sender, EventArgs e)
+        {
+            DoTask(_account.RefreshAsync(), RefreshAdapterData);
+        }
+
         private void SelectOrDeselectItem(int pos)
         {
-            _adapter.SelectOrDeselectItem(pos);
+            UnfollowerAdapter.SelectOrDeselectItem(pos);
 
-            if (_adapter.SelectedItems.Count <= 0)
+            if (UnfollowerAdapter.SelectedItems.Count <= 0)
             {
                 _actionMode?.Finish();
                 return;
@@ -214,17 +226,15 @@ namespace Madamin.Unfollow.Fragments
                 _actionMode.Title = _account.Data.User.Fullname;
             }
 
-            _actionMode.Subtitle = string.Format(
-                GetString(Resource.String.title_selected),
-                _adapter.SelectedItems.Count);
+            _actionMode.Subtitle = GetString(Resource.String.title_selected, _adapter.SelectedItems.Count);
         }
 
-        private async Task BatchUnfollowAsync(User[] users)
+        private async Task BatchUnfollowAsync(IReadOnlyList<User> users)
         {
-            for (var i = 0; i < users.Length; i++)
+            for (var i = 0; i < users.Count; i++)
             {
                 UpdateProgress(i,
-                    users.Length,
+                    users.Count,
                     Resource.String.title_batch_unfollow);
                 await _account.UnfollowAsync(users[i]);
             }
@@ -232,12 +242,12 @@ namespace Madamin.Unfollow.Fragments
             ProgressText = GetString(Resource.String.title_loading);
         }
 
-        private async Task BatchBlockAsync(User[] users)
+        private async Task BatchBlockAsync(IReadOnlyList<User> users)
         {
-            for (var i = 0; i < users.Length; i++)
+            for (var i = 0; i < users.Count; i++)
             {
                 UpdateProgress(i,
-                    users.Length,
+                    users.Count,
                     Resource.String.title_batch_block);
                 await _account.BlockAsync(users[i]);
             }
@@ -247,8 +257,7 @@ namespace Madamin.Unfollow.Fragments
 
         private void UpdateProgress(int i, int total, int textFormatResource)
         {
-            ProgressText = string.Format(
-                GetString(textFormatResource), i, total);
+            ProgressText = GetString(textFormatResource, i, total);
         }
 
         private void RefreshAdapterData()
@@ -256,6 +265,13 @@ namespace Madamin.Unfollow.Fragments
             _adapter.Refresh();
             _adapter.NotifyDataSetChanged();
             ((IInstagramHost) Activity).Accounts.SaveAccountCache(_account);
+        }
+
+        private string GetWhitelistFileName()
+        {
+            return GetString(
+                Resource.String.filename_unfollowers_whitelist,
+                _account.Data.User.Id);
         }
     }
 }

@@ -27,19 +27,24 @@ namespace Madamin.Unfollow.Fragments
         private const string PreferenceKeyDonate = "donate";
         private const string PreferenceKeyAbout = "about";
 
+        private IFragmentHost _host;
+
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            ((IFragmentHost) Activity).ActionBarTitle = 
-                GetString(Resource.String.title_settings);
+            _host = (IFragmentHost) Activity;
+
+            // Fragment setup
+            _host.ActionBarTitle = GetString(Resource.String.title_settings);
+            _host.ActionBarVisible = true;
         }
 
         public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)
         {
             SetPreferencesFromResource(Resource.Xml.settings, rootKey);
 
-            PreferenceManager.GetDefaultSharedPreferences(Activity)
+            PreferenceManager.GetDefaultSharedPreferences(Context)
                 .RegisterOnSharedPreferenceChangeListener(this);
 
             FindPreference(PreferenceKeyUpdateCheck).PreferenceClick += UpdateCheck_Click;
@@ -67,17 +72,25 @@ namespace Madamin.Unfollow.Fragments
 
         private void About_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            ((IFragmentHost) Activity).PushFullScreenFragment(new AboutFragment());
+            _host.PushFragment(new AboutFragment());
         }
 
         private void Terms_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            ((IFragmentHost) Activity).NavigateTo(HtmlFragment.NewTermsFragment(Context), false, true);
+            var fragment = new HtmlFragment(
+                GetString(Resource.String.title_terms),
+                GetString(Resource.String.url_terms),
+                HtmlFragment.HtmlSource.Assets);
+            _host.PushFragment(fragment);
         }
 
         private void Donate_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            ((IFragmentHost) Activity).NavigateTo(HtmlFragment.NewDonateFragment(Context), false, true);
+            var fragment = new HtmlFragment(
+                GetString(Resource.String.title_donate),
+                GetString(Resource.String.url_donate),
+                HtmlFragment.HtmlSource.Url);
+            ((IFragmentHost) Activity).PushFragment(fragment);
         }
     }
 }

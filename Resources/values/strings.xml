@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Unfollow Tracker</string>
-    <string name="title_selected">{0} Selected</string>
+    <string name="title_selected">%1$d Selected</string>
 
     <string name="title_accounts">Accounts</string>
     <string name="title_settings">Options</string>
@@ -8,8 +8,8 @@
 
     <string name="title_error">Error</string>
     <string name="title_loading">Loading...</string>
-    <string name="title_batch_unfollow">Unfollowing ({0}/{1})...</string>
-    <string name="title_batch_block">Blocking ({0}/{1})...</string>
+    <string name="title_batch_unfollow">Unfollowing (%1$d/%2$d)...</string>
+    <string name="title_batch_block">Blocking (%1$d/%2$d)...</string>
 
     <string name="title_addaccount">Add Account</string>
     <string name="title_refresh">Refresh</string>
@@ -63,6 +63,7 @@
     <string name="msg_up_to_date">You\'re up to date!</string>
     <string name="msg_error">An error occurred!</string>
     <string name="msg_sending_report">Sending Bug Report...</string>
+    <string name="msg_report_sent">Report sent!</string>
     <string name="msg_no_unfollower">People who didn\'t follow you back will show up here.</string>
     <string name="msg_no_fan">People whom you didn\'t follow back will show up here.</string>
     <string name="msg_login">login to continue</string>

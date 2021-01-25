@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Android.Content;
 using Android.OS;
 using Android.Views;
@@ -11,11 +12,13 @@ namespace Madamin.Unfollow.Fragments
 {
     internal class HtmlFragment : Fragment
     {
+        private const string HtmlMimeType = "text/html";
+
         private readonly string _title, _path;
         private readonly HtmlSource _source;
         private WebView _webView;
 
-        private HtmlFragment(string title, string path, HtmlSource source)
+        public HtmlFragment(string title, string path, HtmlSource source)
         {
             _title = title;
             _path = path;
@@ -24,10 +27,10 @@ namespace Madamin.Unfollow.Fragments
 
         private void LoadAsset()
         {
-            System.Diagnostics.Debug.Assert(Context.Assets != null);
-            using var asset = new StreamReader(
-                Context.Assets.Open(_path));
-            _webView.LoadData(asset.ReadToEnd(), "text/html", "utf-8");
+            if (Context.Assets == null)
+                return;
+            using var asset = new StreamReader(Context.Assets.Open(_path));
+            _webView.LoadData(asset.ReadToEnd(), HtmlMimeType, Encoding.UTF8.WebName);
         }
 
         private void LoadUrl()
@@ -37,16 +40,20 @@ namespace Madamin.Unfollow.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            ((IFragmentHost) Activity).ActionBarTitle = _title;
+            // Fragment setup
+            var host = (IFragmentHost) Activity;
+            host.ActionBarTitle = _title;
+            host.ActionBarVisible = true;
 
             _webView = new WebView(Context);
 
+            // Enable dark mode
             if (Resources.Configuration?.IsNightModeActive ?? false)
             {
                 _webView.Settings.ForceDark = ForceDarkMode.On;
             }
 
-            var sources = new Dictionary<HtmlSource, Action>()
+            var sources = new Dictionary<HtmlSource, Action>
             {
                 {HtmlSource.Assets, LoadAsset},
                 {HtmlSource.Url, LoadUrl}
@@ -57,26 +64,10 @@ namespace Madamin.Unfollow.Fragments
             return _webView;
         }
 
-        public static HtmlFragment NewTermsFragment(Context context)
+        internal enum HtmlSource
         {
-            return new HtmlFragment(
-                context.GetString(Resource.String.title_terms),
-                context.GetString(Resource.String.url_terms),
-                HtmlSource.Assets);
+            Assets,
+            Url
         }
-
-        public static HtmlFragment NewDonateFragment(Context context)
-        {
-            return new HtmlFragment(
-                context.GetString(Resource.String.title_donate),
-                context.GetString(Resource.String.url_donate),
-                HtmlSource.Url);
-        }
-    }
-
-    internal enum HtmlSource
-    {
-        Assets,
-        Url
     }
 }

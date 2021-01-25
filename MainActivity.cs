@@ -25,7 +25,8 @@ namespace Madamin.Unfollow
         IDataContainer,
         IUpdateServerHost,
         IErrorHost,
-        ISnackBarHost
+        ISnackBarHost,
+        IPreferenceManager
     {
         public MainActivity() : base(
             Resource.Layout.activity_main,
@@ -39,13 +40,13 @@ namespace Madamin.Unfollow
 
         protected override void AttachBaseContext(Context context)
         {
-            var prefs = PreferenceManager.GetDefaultSharedPreferences(context);
+            _preferences = PreferenceManager.GetDefaultSharedPreferences(context);
 
             var config = context.Resources?.Configuration;
 
             Debug.Assert(config != null);
 
-            var appTheme = prefs.GetString(
+            var appTheme = ((IPreferenceManager)this).GetString(
                 SettingsFragment.PreferenceKeyTheme,
                 SettingsFragment.ThemeAdaptive);
             AppCompatDelegate.DefaultNightMode = appTheme switch
@@ -56,7 +57,7 @@ namespace Madamin.Unfollow
                 _ => AppCompatDelegate.DefaultNightMode
             };
 
-            var appLang = prefs.GetString(
+            var appLang = ((IPreferenceManager)this).GetString(
                 SettingsFragment.PreferenceKeyLanguage,
                 SettingsFragment.LanguageSystem);
             if (appLang == SettingsFragment.LanguageSystem ||
@@ -107,8 +108,7 @@ namespace Madamin.Unfollow
                 return;
             }
 
-            var pref = PreferenceManager.GetDefaultSharedPreferences(this);
-            if (pref.GetBoolean(
+            if (((IPreferenceManager)this).GetBoolean(
                 SettingsFragment.PreferenceKeyAutoUpdate,
                 true))
             {
@@ -155,11 +155,11 @@ namespace Madamin.Unfollow
             }
             catch (ActivityNotFoundException)
             {
-                ShowSnackbar(Resource.String.error_ig_not_installed);
+                ((ISnackBarHost)this).ShowSnackbar(Resource.String.error_ig_not_installed);
             }
             catch (Exception ex)
             {
-                ShowError(ex);
+                ((IErrorHost)this).ShowError(ex);
             }
         }
 
@@ -194,91 +194,87 @@ namespace Madamin.Unfollow
             return File.Exists(Path.Combine(DataDir.AbsolutePath, fileName));
         }
 
-        public void CheckForUpdate(bool verbose)
+        public async void CheckForUpdate(bool verbose)
         {
-            RunOnUiThread(async () =>
-            {
-                try
-                {
-                    Debug.Assert(PackageName != null);
+            // Get app version
+            if (PackageName == null)  return;
+            var package = PackageManager?.GetPackageInfo(PackageName, 0);
+            if (package == null) return;
 
-                    var package = PackageManager?.GetPackageInfo(PackageName, 0);
-                    Debug.Assert(package != null);
-                    var request = new CheckUpdateRequest
-                    {
-                        Version = (int) package.LongVersionCode
-                    };
-                    var result = await _updateServer.CheckUpdate(request);
-                    if (result.Status == "ok")
-                    {
-                        if (result.Result.Update.Available)
-                        {
-                            var dialog = new MaterialAlertDialogBuilder(this);
-                            dialog.SetTitle(Resource.String.title_update_available);
-                            dialog.SetMessage(result.Result.Update.Message);
-                            dialog.SetPositiveButton(
-                                result.Result.Update.Label,
-                                (sender, args) =>
-                                {
-                                    if (result.Result.Update.Url == "unfollow:ok")
-                                        return;
-                                    var intent = Intent.ParseUri(result.Result.Update.Url, IntentUriType.None);
-                                    try
-                                    {
-                                        StartActivity(intent);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ShowError(ex);
-                                    }
-                                });
-                            dialog.SetNegativeButton(
-                                Android.Resource.String.Cancel,
-                                (sender, args) => { });
-                            dialog.Show();
-                        }
-                        else
-                        {
-                            if (verbose)
-                            {
-                                ShowSnackbar(Resource.String.msg_up_to_date);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception(result.Error);
-                    }
-                }
-                catch (Exception ex)
+            // Check for update
+            var request = new CheckUpdateRequest
+            {
+                Version = (int) package.LongVersionCode
+            };
+            var result = await _updateServer.CheckUpdate(request);
+
+            // Check response
+            if (result.Status != UpdateServerApi.StatusOk)
+                throw new Exception(result.Error);
+
+            // Stop if update is not available
+            if (!result.Result.Update.Available)
+            {
+                if (verbose) 
+                    ((ISnackBarHost)this).ShowSnackbar(Resource.String.msg_up_to_date);
+                return;
+            }
+
+            // Show an update dialog
+            var dialog = new MaterialAlertDialogBuilder(this);
+            dialog.SetTitle(Resource.String.title_update_available);
+            dialog.SetMessage(result.Result.Update.Message);
+
+            dialog.SetPositiveButton(
+                result.Result.Update.Label,
+                (sender, args) =>
                 {
-                    if (verbose)
+                    if (result.Result.Update.Url == UpdateServerApi.ButtonOk)
+                        return;
+
+                    var intent = Intent.ParseUri(result.Result.Update.Url, IntentUriType.None);
+                    try
+                    {
+                        StartActivity(intent);
+                    }
+                    catch (Exception ex)
                     {
                         ShowError(ex);
                     }
-                }
-            });
+                });
+
+            dialog.SetNegativeButton(
+                Android.Resource.String.Cancel,
+                (sender, args) => { });
+
+            dialog.Show();
         }
 
         public void ShowError(Exception exception)
         {
             var container = FindViewById(Resource.Id.main_container);
+
             var snack = Snackbar.Make(
                 container, 
                 Resource.String.msg_error, 
                 Snackbar.LengthLong);
             snack.SetAnchorView(Resource.Id.main_navbar);
+
             snack.SetAction(Resource.String.button_text_details, view =>
             {
+                // Show error details in an alert dialog
                 var dialog = new MaterialAlertDialogBuilder(this);
                 dialog.SetTitle(Resource.String.title_error);
                 dialog.SetMessage(exception.ToString());
+
+                // Send bug report
                 dialog.SetPositiveButton(Resource.String.button_text_report, async (sender, args) =>
                 {
                     try
                     {
-                        ShowSnackbar(Resource.String.msg_sending_report);
-                        await _updateServer.BugReport(
+                        ((ISnackBarHost)this).ShowSnackbar(Resource.String.msg_sending_report);
+
+                        var response = await _updateServer.BugReport(
                             new BugReportRequest
                             {
                                 Exception = new ExceptionData
@@ -289,19 +285,28 @@ namespace Madamin.Unfollow
                                 }
                             }
                         );
+
+                        if (response.Status == UpdateServerApi.StatusOk)
+                        {
+                            ((ISnackBarHost)this).ShowSnackbar(Resource.String.msg_report_sent);
+                        }
                     }
                     catch (Exception ex)
                     {
                         ShowError(ex);
                     }
                 });
+                
                 dialog.SetNegativeButton(
                     Android.Resource.String.Cancel,
-                    (sender, args) => { });
+                    (sender, args) => {});
+
                 dialog.Show();
             });
+            
             if (_navbar.Visibility == ViewStates.Visible)
                 snack.SetAnchorView(_navbar);
+
             snack.Show();
         }
 
@@ -317,6 +322,28 @@ namespace Madamin.Unfollow
         private BottomNavigationView _navbar;
 
         private UpdateServerApi _updateServer;
+
+        private ISharedPreferences _preferences;
+
+        public string GetString(string key, string defaultValue)
+        {
+            return _preferences.GetString(key, defaultValue) ?? defaultValue;
+        }
+
+        public bool GetBoolean(string key, bool defaultValue)
+        {
+            return _preferences.GetBoolean(key, defaultValue);
+        }
+
+        public void SetString(string key, string value)
+        {
+            _preferences.Edit()?.PutString(key, value)?.Apply();
+        }
+
+        public void SetBoolean(string key, bool value)
+        {
+            _preferences.Edit()?.PutBoolean(key, value)?.Apply();
+        }
     }
 
     public interface IDataContainer
@@ -339,5 +366,13 @@ namespace Madamin.Unfollow
     public interface IErrorHost
     {
         void ShowError(Exception ex);
+    }
+
+    public interface IPreferenceManager
+    {
+        string GetString(string key, string defaultValue);
+        bool GetBoolean(string key, bool defaultValue);
+        void SetString(string key, string value);
+        void SetBoolean(string key, bool value);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Android.Content;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
@@ -17,45 +16,46 @@ namespace Madamin.Unfollow.Fragments
 
         private void AboutFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
+            // Setup fragment
             Title = GetString(Resource.String.title_about);
+            ActionBarVisible = false;
 
-            Debug.Assert(
-                Activity?.PackageManager != null &&
-                Activity.PackageName != null
-            );
+            // Find package information
+            if (Activity?.PackageName == null || Activity.PackageManager == null)
+                return;
+            var package = Activity.PackageManager.GetPackageInfo(Activity.PackageName, 0);
+            if (package == null)
+                return;
 
-            var package = Activity.PackageManager.GetPackageInfo(
-                Activity.PackageName,
-                0);
-
-            Debug.Assert(package != null);
-
+            // Find Instagram library version
             var igVersion = typeof(InstagramApiSharp.API.IInstaApi)
                 .Assembly.GetName();
 
+            // Find views
             var tvVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_app_version);
-            var tvIgShVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_instasharp_version);
+            var tvLibVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_instasharp_version);
 
             var btnTelegram = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_about_telegram);
             var btnInstagram = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_about_instagram);
             var btnGithub = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_about_github);
 
-            Debug.Assert(
-                tvVersion != null &&
-                tvIgShVersion != null &&
-                btnTelegram != null &&
-                btnInstagram != null &&
-                btnGithub != null
-            );
+            if (tvVersion == null ||
+                tvLibVersion == null ||
+                btnTelegram == null ||
+                btnInstagram == null ||
+                btnGithub == null)
+                return;
 
+            // Show versions
             tvVersion.Text = GetString(Resource.String.msg_app_version, package.VersionName);
 
-            tvIgShVersion.Text = GetString(
+            tvLibVersion.Text = GetString(
                 Resource.String.msg_instasharp_version,
                 igVersion.Name,
                 igVersion.Version.ToString()
             );
 
+            // Add click handlers
             btnTelegram.Click += Telegram_Click;
             btnInstagram.Click += Instagram_Click;
             btnGithub.Click += Github_Click;
@@ -70,9 +70,9 @@ namespace Madamin.Unfollow.Fragments
                     IntentUriType.AndroidAppScheme);
                 Activity.StartActivity(intent);
             }
-            catch
+            catch (Exception ex)
             {
-                // ignore
+                ((IErrorHost) Activity).ShowError(ex);
             }
         }
 
@@ -91,9 +91,9 @@ namespace Madamin.Unfollow.Fragments
                     IntentUriType.AndroidAppScheme);
                 Activity.StartActivity(intent);
             }
-            catch
+            catch (Exception ex)
             {
-                // ignore
+                ((IErrorHost) Activity).ShowError(ex);
             }
         }
     }

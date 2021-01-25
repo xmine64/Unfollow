@@ -1,27 +1,17 @@
 ﻿using System;
-
 using Android.Content;
 using Android.OS;
 using Android.Views;
-
 using AndroidX.Fragment.App;
 
 namespace Madamin.Unfollow.Fragments
 {
-    internal interface IFragmentHost
-    {
-        string ActionBarTitle { get; set; }
-
-        void NavigateTo(Fragment fragment, bool fullscreen, bool addToBackStack);
-
-        void PushFragment(FragmentBase fragment);
-        void PopFragment();
-
-        void PushFullScreenFragment(FragmentBase fragment);
-    }
-
     public abstract class FragmentBase : Fragment
     {
+        private readonly int _layout;
+        private readonly int _menu;
+
+        private IFragmentHost _host;
 
         protected FragmentBase(int layout)
         {
@@ -34,7 +24,17 @@ namespace Madamin.Unfollow.Fragments
             _menu = menu;
         }
 
-        protected string Title { get; set; }
+        protected string Title
+        {
+            get => _host.ActionBarTitle;
+            set => _host.ActionBarTitle = value;
+        }
+
+        protected bool ActionBarVisible
+        {
+            get => _host.ActionBarVisible;
+            set => _host.ActionBarVisible = value;
+        }
 
         public override void OnAttach(Context context)
         {
@@ -46,14 +46,12 @@ namespace Madamin.Unfollow.Fragments
 
         public override View OnCreateView(
             LayoutInflater inflater,
-            ViewGroup container, 
+            ViewGroup container,
             Bundle savedInstanceState)
         {
             var view = inflater.Inflate(_layout, container, false);
 
             Create?.Invoke(this, new OnFragmentCreateEventArgs(savedInstanceState, view));
-
-            _host.ActionBarTitle = Title;
 
             return view;
         }
@@ -76,7 +74,7 @@ namespace Madamin.Unfollow.Fragments
             return e.Finished || base.OnOptionsItemSelected(item);
         }
 
-        protected void PushFragment(FragmentBase fragment)
+        protected void PushFragment(Fragment fragment)
         {
             _host.PushFragment(fragment);
         }
@@ -86,13 +84,13 @@ namespace Madamin.Unfollow.Fragments
             _host.PopFragment();
         }
 
+        protected void NavigateTo(Fragment fragment, bool addToBackStack)
+        {
+            _host.NavigateTo(fragment, addToBackStack);
+        }
+
         public event EventHandler<OnFragmentCreateEventArgs> Create;
         public event EventHandler<OnMenuItemSelectedEventArgs> MenuItemSelected;
-
-        private IFragmentHost _host;
-
-        private readonly int _layout;
-        private readonly int _menu;
     }
 
     public class OnFragmentCreateEventArgs : EventArgs

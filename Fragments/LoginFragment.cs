@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using Android.Content;
 using Android.Text;
 using Android.Text.Method;
-using Android.Views;
 using Android.Text.Style;
+using Android.Views;
 using Android.Widget;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
@@ -25,30 +24,13 @@ namespace Madamin.Unfollow.Fragments
             Create += LoginFragment_Create;
         }
 
-        private class TermsSpan : ClickableSpan
-        {
-            public TermsSpan(Context context, IFragmentHost fragmentHost)
-            {
-                _fragmentHost = fragmentHost;
-                _context = context;
-            }
-
-            public override void OnClick(View widget)
-            {
-                _fragmentHost.NavigateTo(
-                    HtmlFragment.NewTermsFragment(_context),
-                    false,
-                    true);
-            }
-
-            private readonly IFragmentHost _fragmentHost;
-            private readonly Context _context;
-        }
-
         private void LoginFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
+            // Setup fragment
             Title = GetString(Resource.String.title_addaccount);
+            ActionBarVisible = false;
 
+            // Find views
             _etUserName = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_username_input);
             _etPassword = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_password_input);
             _elUserName = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_username_layout);
@@ -56,22 +38,27 @@ namespace Madamin.Unfollow.Fragments
             _btnLogin = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
             _tvTerms = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_terms);
 
-            Debug.Assert(_btnLogin != null &&
-                         _tvTerms != null);
+            if (_btnLogin == null ||
+                _tvTerms == null)
+                return;
 
             _btnLogin.Click += LoginBtn_Click;
 
+            // Show a "Terms of service" link and handle clicking on it
             var termsText = new SpannableStringBuilder();
+            
             termsText.Append(GetString(Resource.String.msg_terms0));
             var spanStart = termsText.Length();
-            termsText.Append(GetString((Resource.String.title_terms)));
+            termsText.Append(GetString(Resource.String.title_terms));
             var spanEnd = termsText.Length();
             termsText.Append(GetString(Resource.String.msg_terms1));
+
             termsText.SetSpan(
-                new TermsSpan(Context, (IFragmentHost)Activity), 
+                new TermsSpan(Context, (IFragmentHost) Activity),
                 spanStart,
                 spanEnd,
                 SpanTypes.InclusiveExclusive);
+
             _tvTerms.SetText(termsText, TextView.BufferType.Spannable);
             _tvTerms.MovementMethod = LinkMovementMethod.Instance;
         }
@@ -124,11 +111,11 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (TwoFactorAuthException twoFactorAuth)
             {
+                // Navigate to 2FA fragment
                 var authFragment =
                     new TwoFactorAuthFragment(twoFactorAuth.Account);
 
-                PopFragment();
-                PushFragment(authFragment);
+                NavigateTo(authFragment, false);
             }
             catch (WrongPasswordException)
             {
@@ -168,6 +155,28 @@ namespace Madamin.Unfollow.Fragments
             {
                 _elPassword.ErrorEnabled = false;
                 _etPassword.TextChanged -= ErrorEditLayoutChangeHandler;
+            }
+        }
+
+        private class TermsSpan : ClickableSpan
+        {
+            private readonly Context _context;
+
+            private readonly IFragmentHost _fragmentHost;
+
+            public TermsSpan(Context context, IFragmentHost fragmentHost)
+            {
+                _fragmentHost = fragmentHost;
+                _context = context;
+            }
+
+            public override void OnClick(View widget)
+            {
+                var fragment = new HtmlFragment(
+                    _context.GetString(Resource.String.title_terms),
+                    _context.GetString(Resource.String.url_terms),
+                    HtmlFragment.HtmlSource.Assets);
+                _fragmentHost.PushFragment(fragment);
             }
         }
     }
