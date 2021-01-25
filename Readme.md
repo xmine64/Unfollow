@@ -1,27 +1,21 @@
-# Minimal Unfollow App
+# Unfollowers
 
 [![telegram channel](https://patrolavia.github.io/telegram-badge/follow.png)](https://t.me/unfollowapp)
 
-A small application to track the people who unfollowed you on Instagram.
+Small application to find the people who didn't follow you back, 
+and unfollow them one by one or batch.
 
 Based on Xamarin and [InstaSharpApi](https://github.com/ramtinak/InstagramApiSharp)
 Update Checker Server from [UpdateServer](https://github.com/mmdmine/updateserver)
 
 # Features
-* No Ads and Open Source
 * Log in multiple accounts at same time
-* Batch unfollow
+* Show Unfollowers, and Fans
+* Batch Unfollow and Block
 * Whitelist
 * 2 Factor Authentication support
-* Show fans, people who you didn't follow back
+* Dark Theme and Multi Language
 
 # TODO
-* Block unfollowers or fans, one by one or batch
 * Implement account data as IParcelable to save them in bundle as instance data
 * Reimplement a simpler and cheaper version of Instagram API (newapi branch)
-
-# Contribute
-You can translate app in your native language.
-
-To do that, copy Resources/values/arrays.xml and Resource/values/strings.xml
-to Resources/values-\<ISO language code\>/ and edit it.
