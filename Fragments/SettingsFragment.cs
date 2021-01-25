@@ -12,49 +12,72 @@ namespace Madamin.Unfollow.Fragments
         PreferenceFragmentCompat,
         ISharedPreferencesOnSharedPreferenceChangeListener
     {
-        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
-        {
-            var keys = new[] {"theme", "lang"};
+        public const string PreferenceKeyTheme = "theme";
+        public const string PreferenceKeyLanguage = "lang";
+        public const string PreferenceKeyAutoUpdate = "auto_update_check";
 
-            if (keys.Contains(key))
-            {
-                Activity?.Recreate();
-            }
-        }
+        public const string ThemeAdaptive = "adaptive";
+        public const string ThemeLight = "light";
+        public const string ThemeDark = "dark";
+
+        public const string LanguageSystem = "sysdef";
+
+        private const string PreferenceKeyUpdateCheck = "update_check";
+        private const string PreferenceKeyTerms = "terms";
+        private const string PreferenceKeyDonate = "donate";
+        private const string PreferenceKeyAbout = "about";
 
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            ((IFragmentHost) Activity).ActionBarTitle = GetString(Resource.String.title_settings);
+
+            ((IFragmentHost) Activity).ActionBarTitle = 
+                GetString(Resource.String.title_settings);
         }
 
         public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)
         {
             SetPreferencesFromResource(Resource.Xml.settings, rootKey);
+
             PreferenceManager.GetDefaultSharedPreferences(Activity)
                 .RegisterOnSharedPreferenceChangeListener(this);
-            FindPreference("update_check").PreferenceClick += (sender, args) =>
+
+            FindPreference(PreferenceKeyUpdateCheck).PreferenceClick += UpdateCheck_Click;
+            FindPreference(PreferenceKeyTerms).PreferenceClick += Terms_Click;
+            FindPreference(PreferenceKeyDonate).PreferenceClick += Donate_Click;
+            FindPreference(PreferenceKeyAbout).PreferenceClick += About_Click;
+        }
+
+        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        {
+            if (new[]
             {
-                ((IUpdateServerHost) Activity).CheckForUpdate(true);
-            };
-            FindPreference("terms").PreferenceClick += (sender, args) =>
+                PreferenceKeyTheme,
+                PreferenceKeyLanguage
+            }.Contains(key))
             {
-                ((IFragmentHost) Activity).NavigateTo(
-                    HtmlFragment.NewTermsFragment(Context),
-                    false,
-                    true);
-            };
-            FindPreference("donate").PreferenceClick += (sender, args) =>
-            {
-                ((IFragmentHost) Activity).NavigateTo(
-                    HtmlFragment.NewDonateFragment(Context),
-                    false,
-                    true);
-            };
-            FindPreference("about").PreferenceClick += (sender, args) =>
-            {
-                ((IFragmentHost) Activity).PushFullScreenFragment(new AboutFragment());
-            };
+                Activity?.Recreate();
+            }
+        }
+
+        private void UpdateCheck_Click(object sender, Preference.PreferenceClickEventArgs args)
+        {
+            ((IUpdateServerHost) Activity).CheckForUpdate(true);
+        }
+
+        private void About_Click(object sender, Preference.PreferenceClickEventArgs args)
+        {
+            ((IFragmentHost) Activity).PushFullScreenFragment(new AboutFragment());
+        }
+
+        private void Terms_Click(object sender, Preference.PreferenceClickEventArgs args)
+        {
+            ((IFragmentHost) Activity).NavigateTo(HtmlFragment.NewTermsFragment(Context), false, true);
+        }
+
+        private void Donate_Click(object sender, Preference.PreferenceClickEventArgs args)
+        {
+            ((IFragmentHost) Activity).NavigateTo(HtmlFragment.NewDonateFragment(Context), false, true);
         }
     }
 }

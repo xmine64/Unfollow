@@ -31,7 +31,7 @@ namespace Madamin.Unfollow.Adapters
         {
             if (holder is UnfollowerViewHolder unfollowViewHolder)
             {
-                unfollowViewHolder?.BindData(
+                unfollowViewHolder.BindData(
                     _unfollowersCache[position], 
                     SelectedItems.Contains(position));
             }

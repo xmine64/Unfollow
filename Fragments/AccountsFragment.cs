@@ -1,19 +1,25 @@
 ﻿using System;
-
 using Android.OS;
 using AndroidX.Preference;
 using Google.Android.Material.Dialog;
-
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
+using Debug = System.Diagnostics.Debug;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class AccountsFragment : 
+    public class AccountsFragment :
         RecyclerViewFragmentBase,
         IAccountItemClickListener
     {
+        private const string PreferenceKeyTipIsShown = "tip_is_shown";
+
+        private bool _hasPushedToLoginFragment;
+        private bool _tipShown;
+
+        private AccountAdapter _adapter;
+
         public AccountsFragment() :
             base(Resource.Menu.appbar_menu_accounts)
         {
@@ -30,7 +36,7 @@ namespace Madamin.Unfollow.Fragments
             // TODO: set ErrorText
             SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
-            var accounts = ((IInstagramHost)Activity).Accounts;
+            var accounts = ((IInstagramHost) Activity).Accounts;
 
             _adapter = new AccountAdapter(accounts, this);
             SetAdapter(_adapter);
@@ -46,7 +52,7 @@ namespace Madamin.Unfollow.Fragments
 
             var prefs = PreferenceManager
                 .GetDefaultSharedPreferences(Activity);
-            _tipShown = prefs.GetBoolean(TipIsShownKey, false);
+            _tipShown = prefs.GetBoolean(PreferenceKeyTipIsShown, false);
         }
 
         private void AccountsFragment_ViewModeChanged(object sender, RecyclerViewMode mode)
@@ -71,21 +77,50 @@ namespace Madamin.Unfollow.Fragments
                 var prefs = PreferenceManager
                     .GetDefaultSharedPreferences(Activity);
                 var prefEditor = prefs.Edit();
-                System.Diagnostics.Debug.Assert(prefEditor != null);
-                prefEditor.PutBoolean(TipIsShownKey, true);
+                Debug.Assert(prefEditor != null);
+                prefEditor.PutBoolean(PreferenceKeyTipIsShown, true);
                 prefEditor.Apply();
             }
         }
 
-        private const string TipIsShownKey = "tip_is_shown";
+        private void AccountsFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
+        {
+            switch (e.ItemId)
+            {
+                case Resource.Id.appbar_home_item_addaccount:
+                    ((IFragmentHost) Activity)
+                        .PushFullScreenFragment(new LoginFragment());
+                    break;
 
-        private bool _hasPushedToLoginFragment;
-        private bool _tipShown;
+                case Resource.Id.appbar_home_item_refresh:
+                    DoTask(
+                        ((IInstagramHost) Activity).Accounts.RefreshAllAsync(),
+                        Activity.Recreate);
+                    break;
+
+                default:
+                    e.Finished = false;
+                    break;
+            }
+        }
+
+        private void AccountsFragment_RetryClick(object sender, EventArgs e)
+        {
+            var accounts = ((IInstagramHost) Activity).Accounts;
+            if (accounts.IsStateRestored)
+            {
+                DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
+            }
+            else
+            {
+                DoTask(accounts.RefreshAllAsync(), _adapter.NotifyDataSetChanged);
+            }
+        }
 
         public void OnItemOpenUnfollowers(int position)
         {
             var bundle = new Bundle();
-            bundle.PutInt(AccountIndex, position);
+            bundle.PutInt(BundleKeyAccountIndex, position);
             var fragment = new UnfollowFragment
             {
                 Arguments = bundle
@@ -96,12 +131,12 @@ namespace Madamin.Unfollow.Fragments
         public void OnItemOpenInstagram(int position)
         {
             var userName = _adapter.GetItem(position).Data.User.Username;
-            ((IInstagramHost)Activity).OpenInInstagram(userName);
+            ((IInstagramHost) Activity).OpenInInstagram(userName);
         }
 
         public void OnItemLogout(int position)
         {
-            DoTask(((IInstagramHost)Activity).Accounts.LogoutAccountAtAsync(position),
+            DoTask(((IInstagramHost) Activity).Accounts.LogoutAccountAtAsync(position),
                 _adapter.NotifyDataSetChanged);
         }
 
@@ -114,48 +149,12 @@ namespace Madamin.Unfollow.Fragments
         public void OnItemOpenFans(int position)
         {
             var bundle = new Bundle();
-            bundle.PutInt(AccountIndex, position);
+            bundle.PutInt(BundleKeyAccountIndex, position);
             var fragment = new FansFragment
             {
                 Arguments = bundle
             };
             PushFragment(fragment);
         }
-
-        private void AccountsFragment_MenuItemSelected(object sender, OnMenuItemSelectedEventArgs e)
-        {
-            switch (e.ItemId)
-            {
-                case Resource.Id.appbar_home_item_addaccount:
-                    ((IFragmentHost)Activity)
-                        .PushFullScreenFragment(new LoginFragment());
-                    break;
-
-                case Resource.Id.appbar_home_item_refresh:
-                    DoTask(
-                        ((IInstagramHost)Activity).Accounts.RefreshAllAsync(),
-                        Activity.Recreate);
-                    break;
-
-                default:
-                    e.Finished = false;
-                    break;
-            }
-        }
-
-        private void AccountsFragment_RetryClick(object sender, EventArgs e)
-        {
-            var accounts = ((IInstagramHost)Activity).Accounts;
-            if (accounts.IsStateRestored)
-            {
-                DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
-            }
-            else
-            {
-                DoTask(accounts.RefreshAllAsync(), _adapter.NotifyDataSetChanged);
-            }
-        }
-
-        private AccountAdapter _adapter;
     }
 }

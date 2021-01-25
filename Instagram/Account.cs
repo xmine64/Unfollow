@@ -200,12 +200,12 @@ namespace Madamin.Unfollow.Instagram
         public override bool Equals(object obj)
         {
             return obj is Account account &&
-                   EqualityComparer<AccountData>.Default.Equals(Data, account.Data);
+                   EqualityComparer<User>.Default.Equals(Data.User, account.Data.User);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Data);
+            return HashCode.Combine(Data.User);
         }
 
         private readonly IInstaApi _api;

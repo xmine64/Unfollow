@@ -15,7 +15,7 @@ namespace Madamin.Unfollow.Fragments
         FragmentBase,
         View.IOnClickListener
     {
-        protected const string AccountIndex = "account_index";
+        protected const string BundleKeyAccountIndex = "account_index";
 
 
         protected RecyclerViewFragmentBase(int menuRes) :

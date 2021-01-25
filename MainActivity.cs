@@ -45,17 +45,21 @@ namespace Madamin.Unfollow
 
             Debug.Assert(config != null);
 
-            var appTheme = prefs.GetString("theme", "adaptive");
+            var appTheme = prefs.GetString(
+                SettingsFragment.PreferenceKeyTheme,
+                SettingsFragment.ThemeAdaptive);
             AppCompatDelegate.DefaultNightMode = appTheme switch
             {
-                "adaptive" => AppCompatDelegate.ModeNightFollowSystem,
-                "light" => AppCompatDelegate.ModeNightNo,
-                "dark" => AppCompatDelegate.ModeNightYes,
+                SettingsFragment.ThemeAdaptive => AppCompatDelegate.ModeNightFollowSystem,
+                SettingsFragment.ThemeLight => AppCompatDelegate.ModeNightNo,
+                SettingsFragment.ThemeDark => AppCompatDelegate.ModeNightYes,
                 _ => AppCompatDelegate.DefaultNightMode
             };
 
-            var appLang = prefs.GetString("lang", "sysdef");
-            if (appLang == "sysdef" ||
+            var appLang = prefs.GetString(
+                SettingsFragment.PreferenceKeyLanguage,
+                SettingsFragment.LanguageSystem);
+            if (appLang == SettingsFragment.LanguageSystem ||
                 appLang == null)
             {
                 config.SetLocale(Locale.Default);
@@ -104,7 +108,9 @@ namespace Madamin.Unfollow
             }
 
             var pref = PreferenceManager.GetDefaultSharedPreferences(this);
-            if (pref.GetBoolean("auto_update_check", true))
+            if (pref.GetBoolean(
+                SettingsFragment.PreferenceKeyAutoUpdate,
+                true))
             {
                 CheckForUpdate(false);
             }

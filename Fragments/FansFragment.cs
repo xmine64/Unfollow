@@ -128,7 +128,7 @@ namespace Madamin.Unfollow.Fragments
                 return;
             }
 
-            _accountPosition = Arguments.GetInt(AccountIndex, -1);
+            _accountPosition = Arguments.GetInt(BundleKeyAccountIndex, -1);
             if (_accountPosition < 0)
                 throw new ArgumentException(); // TODO
             _account = ((IInstagramHost) Activity).Accounts[_accountPosition];
@@ -157,7 +157,7 @@ namespace Madamin.Unfollow.Fragments
 
         public override void OnSaveInstanceState(Bundle outState)
         {
-            outState.PutInt(AccountIndex, _accountPosition);
+            outState.PutInt(BundleKeyAccountIndex, _accountPosition);
             base.OnSaveInstanceState(outState);
         }
 
