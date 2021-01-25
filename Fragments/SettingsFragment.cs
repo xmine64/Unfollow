@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 
 using Android.Content;
-using Android.Net;
 using Android.OS;
 using Android.Views;
 

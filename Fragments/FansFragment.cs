@@ -27,6 +27,7 @@ namespace Madamin.Unfollow.Fragments
         {
             Create += FansFragment_Create;
             MenuItemSelected += FansFragment_MenuItemSelected;
+            RetryClick += FansFragment_RetryClick;
         }
 
         public bool OnActionItemClicked(ActionMode mode, IMenuItem item)
@@ -237,6 +238,11 @@ namespace Madamin.Unfollow.Fragments
             _adapter.Refresh();
             _adapter.NotifyDataSetChanged();
             ((IInstagramHost) Activity).Accounts.SaveAccountCache(_account);
+        }
+
+        private void FansFragment_RetryClick(object sender, EventArgs e)
+        {
+            DoTask(_account.RefreshAsync(), RefreshAdapterData);
         }
 
         private Account _account;
