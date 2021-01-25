@@ -69,7 +69,7 @@ namespace Madamin.Unfollow.Fragments
             try
             {
                 var intent = Intent.ParseUri(
-                    "https://t.me/unfollowapp",
+                    GetString(Resource.String.url_telegram),
                     IntentUriType.AndroidAppScheme);
                 Activity.StartActivity(intent);
             }
@@ -81,7 +81,8 @@ namespace Madamin.Unfollow.Fragments
 
         private void Instagram_Click(object sender, EventArgs e)
         {
-            ((IInstagramHost) Activity).OpenInInstagram("minimalunfollowapp");
+            ((IInstagramHost) Activity).OpenInInstagram(
+                GetString(Resource.String.url_instagram));
         }
 
         private void Github_Click(object sender, EventArgs e)
@@ -89,7 +90,7 @@ namespace Madamin.Unfollow.Fragments
             try
             {
                 var intent = Intent.ParseUri(
-                    "https://github.com/mmdmine/unfollow",
+                    GetString(Resource.String.url_github),
                     IntentUriType.AndroidAppScheme);
                 Activity.StartActivity(intent);
             }

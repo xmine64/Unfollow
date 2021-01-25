@@ -94,6 +94,19 @@
     <string name="msg_terms0">By login, you accept&#160;</string>
     <string name="msg_terms1">.</string>
 
+    <string name="pkg_instagram">com.instagram.android</string>
+    
+    <string name="url_instagram_user">https://instagram.com/_u/%1$s</string>
+
     <string name="url_terms">en/terms.html</string>
     <string name="url_donate">https://unfollowapp.herokuapp.com/docs/en/donate.html</string>
+
+    <string name="url_update_api">https://unfollowapp.herokuapp.com/api</string>
+    <string name="update_api_user_agent">UnfollowApp/v0.5</string>
+
+    <string name="msg_invalid_mime">Result has unexpected MediaType (%1$s).</string>
+
+    <string name="url_telegram">https://t.me/unfollowapp</string>
+    <string name="url_instagram">minimalunfollowapp</string>
+    <string name="url_github">https://github.com/mmdmine/unfollow</string>
 </resources>

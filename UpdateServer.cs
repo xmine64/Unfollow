@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
+using Android.Content;
 using Newtonsoft.Json;
 
 namespace Madamin.Unfollow
@@ -71,14 +72,12 @@ namespace Madamin.Unfollow
 
     internal class UpdateServerApi : IDisposable
     {
-        public const string UpdateServerHost = "https://unfollowapp.herokuapp.com/api";
-        public const string UpdateServerUserAgent = "UnfollowApp/v0.5";
-
-        public UpdateServerApi(string apiAddress, string userAgent)
+        public UpdateServerApi(Context context)
         {
+            _context = context;
             _client = new HttpClient();
-            _apiAddress = apiAddress;
-            _userAgent = userAgent;
+            _apiAddress = _context.GetString(Resource.String.url_update_api);
+            _userAgent = _context.GetString(Resource.String.update_api_user_agent);
         }
 
         public void Dispose()
@@ -104,7 +103,9 @@ namespace Madamin.Unfollow
                 "application/json");
             var result = await _client.SendAsync(request);
             if (result.Content.Headers.ContentType.MediaType != "application/json")
-                throw new Exception("invalid result for MediaType");
+                throw new Exception(
+                    _context.GetString(Resource.String.msg_invalid_mime,
+                        result.Content.Headers.ContentType.MediaType));
             var response = await result.Content.ReadAsStringAsync();
             return (Response<TResponse>) JsonConvert.DeserializeObject(response, typeof(Response<TResponse>));
         }
@@ -122,5 +123,6 @@ namespace Madamin.Unfollow
         private readonly string _apiAddress;
         private readonly string _userAgent;
         private readonly HttpClient _client;
+        private readonly Context _context;
     }
 }

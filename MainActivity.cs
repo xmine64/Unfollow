@@ -71,6 +71,8 @@ namespace Madamin.Unfollow
 
         private void MainActivity_OnCreate(object sender, OnActivityCreateEventArgs e)
         {
+            _updateServer = new UpdateServerApi(this);
+             
             Debug.Assert(DataDir != null);
             Debug.Assert(CacheDir != null);
 
@@ -138,9 +140,9 @@ namespace Madamin.Unfollow
         public void OpenInInstagram(string username)
         {
             var intent = Intent.ParseUri(
-                "https://instagram.com/_u/" + username,
+                GetString(Resource.String.url_instagram_user, username),
                 IntentUriType.None);
-            intent?.SetPackage("com.instagram.android");
+            intent?.SetPackage(GetString(Resource.String.pkg_instagram));
             try
             {
                 StartActivity(intent);
@@ -308,9 +310,7 @@ namespace Madamin.Unfollow
 
         private BottomNavigationView _navbar;
 
-        private readonly UpdateServerApi _updateServer = new UpdateServerApi(
-            UpdateServerApi.UpdateServerHost,
-            UpdateServerApi.UpdateServerUserAgent);
+        private UpdateServerApi _updateServer;
     }
 
     public interface IDataContainer
