@@ -156,7 +156,8 @@ namespace Madamin.Unfollow.Fragments
                     }
                     else
                     {
-                        _viewEmpty.Visibility = ViewStates.Visible;
+                        ViewMode = RecyclerViewMode.Empty;
+                        return;
                     }
                     break;
                 default:
