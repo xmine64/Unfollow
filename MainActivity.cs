@@ -233,7 +233,7 @@ namespace Madamin.Unfollow
                 // Show an update dialog
                 var dialog = new MaterialAlertDialogBuilder(this);
                 dialog.SetTitle(Resource.String.title_update_available);
-                dialog.SetMessage(result.Message);
+                dialog.SetMessage(result.Update.Message);
 
                 dialog.SetPositiveButton(
                     result.Update.ButtonLabel,
