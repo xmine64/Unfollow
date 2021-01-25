@@ -105,6 +105,10 @@ namespace Madamin.Unfollow
             Fragments.Add(new AccountsFragment());
             Fragments.Add(new SettingsFragment());
 
+            if (PackageName == null) return;
+            var package = PackageManager?.GetPackageInfo(PackageName, 0);
+            _currentPackage = package;
+
             if (e.SavedInstanceBundle != null)
             {
                 // TODO: Load Accounts Data
@@ -117,10 +121,6 @@ namespace Madamin.Unfollow
             {
                 CheckForUpdate(false);
             }
-
-            if (PackageName == null) return;
-            var package = PackageManager?.GetPackageInfo(PackageName, 0);
-            _currentPackage = package;
         }
 
         private void MainActivity_OnSaveState(object sender, OnSaveStateEventArgs e)
