@@ -104,7 +104,7 @@
     <string name="url_donate">https://unfollowapp.herokuapp.com/docs/en/donate.html</string>
 
     <string name="url_update_api">https://unfollowapp.herokuapp.com/api</string>
-    <string name="update_api_user_agent">UnfollowApp/v0.5</string>
+    <string name="update_api_user_agent">UnfollowApp/v0.7</string>
 
     <string name="msg_invalid_mime">Result has unexpected MediaType (%1$s).</string>
 

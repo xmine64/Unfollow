@@ -196,58 +196,64 @@ namespace Madamin.Unfollow
 
         public async void CheckForUpdate(bool verbose)
         {
-            // Get app version
-            if (PackageName == null)  return;
-            var package = PackageManager?.GetPackageInfo(PackageName, 0);
-            if (package == null) return;
-
-            // Check for update
-            var request = new CheckUpdateRequest
+            try
             {
-                Version = (int) package.LongVersionCode
-            };
-            var result = await _updateServer.CheckUpdate(request);
+                // Get app version
+                if (PackageName == null) return;
+                var package = PackageManager?.GetPackageInfo(PackageName, 0);
+                if (package == null) return;
 
-            // Check response
-            if (result.Status != UpdateServerApi.StatusOk)
-                throw new Exception(result.Error);
+                // Request update information
+#if TGBUILD
+                var lang = Resources?.Configuration?.Locales.Get(0)?.Language ?? 
+                           UpdateServerApi.LanguageEnglish;
+#else
+                var lang = UpdateServerApi.LanguageGithubChannel;
+#endif
+                var result = await _updateServer.CheckUpdate(package.LongVersionCode, lang);
 
-            // Stop if update is not available
-            if (!result.Result.Update.Available)
-            {
-                if (verbose) 
-                    ((ISnackBarHost)this).ShowSnackbar(Resource.String.msg_up_to_date);
-                return;
-            }
+                // Check response
+                if (result.Status != UpdateServerApi.StatusOk)
+                    throw new Exception(result.Message);
 
-            // Show an update dialog
-            var dialog = new MaterialAlertDialogBuilder(this);
-            dialog.SetTitle(Resource.String.title_update_available);
-            dialog.SetMessage(result.Result.Update.Message);
-
-            dialog.SetPositiveButton(
-                result.Result.Update.Label,
-                (sender, args) =>
+                // Stop if update is not available
+                if (!result.Available)
                 {
-                    if (result.Result.Update.Url == UpdateServerApi.ButtonOk)
-                        return;
+                    if (verbose)
+                        ((ISnackBarHost) this).ShowSnackbar(Resource.String.msg_up_to_date);
+                    return;
+                }
 
-                    var intent = Intent.ParseUri(result.Result.Update.Url, IntentUriType.None);
-                    try
+                // Show an update dialog
+                var dialog = new MaterialAlertDialogBuilder(this);
+                dialog.SetTitle(Resource.String.title_update_available);
+                dialog.SetMessage(result.Message);
+
+                dialog.SetPositiveButton(
+                    result.Update.ButtonLabel,
+                    (sender, args) =>
                     {
-                        StartActivity(intent);
-                    }
-                    catch (Exception ex)
-                    {
-                        ShowError(ex);
-                    }
-                });
+                        var intent = Intent.ParseUri(result.Update.ButtonUrl, IntentUriType.None);
+                        try
+                        {
+                            StartActivity(intent);
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowError(ex);
+                        }
+                    });
 
-            dialog.SetNegativeButton(
-                Android.Resource.String.Cancel,
-                (sender, args) => { });
+                dialog.SetNegativeButton(
+                    Android.Resource.String.Cancel,
+                    (sender, args) => { });
 
-            dialog.Show();
+                dialog.Show();
+            }
+            catch (Exception exception)
+            {
+                ((IErrorHost) this).ShowError(exception);
+            }
         }
 
         public void ShowError(Exception exception)
@@ -274,26 +280,20 @@ namespace Madamin.Unfollow
                     {
                         ((ISnackBarHost)this).ShowSnackbar(Resource.String.msg_sending_report);
 
-                        var response = await _updateServer.BugReport(
-                            new BugReportRequest
-                            {
-                                Exception = new ExceptionData
-                                {
-                                    Type = exception.GetType().FullName,
-                                    Message = exception.Message,
-                                    CallStack = exception.StackTrace
-                                }
-                            }
-                        );
+                        var response = await _updateServer.BugReport(exception);
 
                         if (response.Status == UpdateServerApi.StatusOk)
                         {
                             ((ISnackBarHost)this).ShowSnackbar(Resource.String.msg_report_sent);
                         }
+                        else
+                        {
+                            throw new Exception(response.Message);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        ShowError(ex);
+                        ((IErrorHost) this).ShowError(ex);
                     }
                 });
                 

@@ -10,7 +10,21 @@ namespace Madamin.Unfollow
     internal class UpdateServerApi : IDisposable
     {
         public const string StatusOk = "ok";
-        public const string ButtonOk = "unfollow:ok";
+
+        private const string MethodCheckUpdate = "check_update";
+        private const string MethodBugReport = "bug_report";
+#if TGBUILD
+        private const string MethodDidLogin = "did_login";
+#endif
+
+#if TGBUILD
+        public const string LanguageEnglish = "en";
+        public const string LanguagePersian = "fa";
+#else
+        public const string LanguageGithubChannel = "github";
+#endif
+
+        private const string NotAvailable = "Not Available";
 
         private const string JsonMimeType = "application/json";
 
@@ -32,19 +46,22 @@ namespace Madamin.Unfollow
             _client.Dispose();
         }
 
-        private async Task<string> SendRequest(string content)
+        private async Task<ApiResponse> SendRequest(ApiRequest request)
         {
-            // Make a request
-            var request = new HttpRequestMessage(HttpMethod.Post, _apiAddress);
-            request.Headers.UserAgent.ParseAdd(_userAgent);
+            // Serialize request
+            var content = JsonConvert.SerializeObject(request);
 
-            request.Content = new StringContent(
+            // Make a request
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, _apiAddress);
+            httpRequest.Headers.UserAgent.ParseAdd(_userAgent);
+
+            httpRequest.Content = new StringContent(
                 content,
                 Encoding.UTF8,
                 JsonMimeType);
 
             // Send request
-            var result = await _client.SendAsync(request);
+            var result = await _client.SendAsync(httpRequest);
 
             // Check response
             var responseContentType = result.Content.Headers.ContentType.MediaType;
@@ -57,93 +74,99 @@ namespace Madamin.Unfollow
             }
 
             // Return response
-            return await result.Content.ReadAsStringAsync();
+            var response = await result.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ApiResponse>(response);
         }
 
-        public async Task<Response<CheckUpdateResult>> CheckUpdate(CheckUpdateRequest args)
+        public async Task<ApiResponse> CheckUpdate(long version, string language)
         {
-            var request = JsonConvert.SerializeObject(args);
-            var response = await SendRequest(request);
-            return JsonConvert.DeserializeObject<Response<CheckUpdateResult>>(response);
+            return await SendRequest(new ApiRequest
+            {
+                Method = MethodCheckUpdate,
+                Version = version,
+                Language = language
+            });
         }
 
-        public async Task<Response<BugReportResult>> BugReport(BugReportRequest args)
+        public async Task<ApiResponse> BugReport(Exception exception)
         {
-            var request = JsonConvert.SerializeObject(args);
-            var response = await SendRequest(request);
-            return JsonConvert.DeserializeObject<Response<BugReportResult>>(response);
+            if (exception.InnerException != null)
+            {
+                await BugReport(exception);
+            }
+            return await SendRequest(new ApiRequest
+            {
+                Method = MethodBugReport,
+                ExceptionType = exception.GetType().FullName,
+                Message = exception.Message,
+                Callstack = string.IsNullOrWhiteSpace(exception.StackTrace) ? NotAvailable : exception.StackTrace
+            });
         }
+
+#if TGBUILD
+        public async Task<ApiResponse> DidLogin(int version)
+        {
+            return await SendRequest(new ApiRequest
+            {
+                Method = MethodDidLogin,
+                Version = version
+            });
+        }
+#endif
     }
 
-    internal class UpdateData
+    internal class ApiRequest
     {
-        [JsonProperty("available")]
-        public bool Available { get; set; }
+        [JsonProperty("method", Required = Required.Always)]
+        public string Method { get; set; }
+        
+        [JsonProperty("version", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public long? Version { get; set; }
 
-        [JsonProperty("version")]
-        public int Version { get; set; }
+        [JsonProperty("lang", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public string Language { get; set; }
 
-        [JsonProperty("message")]
+        [JsonProperty("type", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public string ExceptionType { get; set; }
+        
+        [JsonProperty("message", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
         public string Message { get; set; }
 
-        [JsonProperty("button_label")]
-        public string Label { get; set; }
+        [JsonProperty("callstack", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
+        public string Callstack { get; set; }
 
-        [JsonProperty("button_url")]
-        public string Url { get; set; }
     }
 
-    internal class ExceptionData
+    internal class ApiResponse
     {
-        [JsonProperty("type")] 
-        public string Type { get; set; }
-
-        [JsonProperty("message")]
-        public string Message { get; set; }
-
-        [JsonProperty("callstack")]
-        public string CallStack { get; set; }
-    }
-
-    internal class CheckUpdateRequest
-    {
-        [JsonProperty("method")]
-        public string Method { get; } = "check_update";
-
-        [JsonProperty("version")] 
-        public int Version { get; set; }
-    }
-
-    internal class BugReportRequest
-    {
-        [JsonProperty("method")]
-        public string Method { get; } = "bug_report";
-
-        [JsonProperty("exception")]
-        public ExceptionData Exception { get; set; }
-    }
-
-    internal class Response<TResult>
-    {
-        [JsonProperty("status")] 
+        [JsonProperty("status", Required = Required.Always)]
         public string Status { get; set; }
-
-        [JsonProperty("result", Required = Required.DisallowNull)]
-        public TResult Result { get; set; }
 
         [JsonProperty("error", Required = Required.DisallowNull)]
         public string Error { get; set; }
-    }
 
-    internal class CheckUpdateResult
-    {
+        [JsonProperty("message", Required = Required.DisallowNull)]
+        public string Message { get; set; }
+
+        [JsonProperty("available", Required = Required.DisallowNull)]
+        public bool Available { get; set; }
+
         [JsonProperty("update", Required = Required.DisallowNull)]
-        public UpdateData Update { get; set; }
+        public UpdateInformation Update { get; set; }
     }
 
-    internal class BugReportResult
+    internal class UpdateInformation
     {
-        [JsonProperty("id")] 
-        public int Id { get; set; }
+        [JsonProperty("message", Required = Required.DisallowNull)]
+        public string Message { get; set; }
+
+        [JsonProperty("version", Required = Required.DisallowNull)]
+        public long Version { get; set; }
+
+        [JsonProperty("button_label", Required = Required.DisallowNull)]
+        public string ButtonLabel { get; set; }
+
+        [JsonProperty("button_url", Required = Required.DisallowNull)]
+        public string ButtonUrl { get; set; }
     }
 }
