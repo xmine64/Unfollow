@@ -123,13 +123,19 @@ namespace Madamin.Unfollow.Fragments
         {
             var accounts = ((IInstagramHost) Activity).Accounts;
 
-            if (accounts.IsStateRestored)
+            if (!accounts.IsStateRestored)
             {
-                DoTask(accounts.RefreshAllAsync(), AccountAdapter.NotifyDataSetChanged);
+                DoTask(accounts.RestoreStateAsync(), AccountAdapter.NotifyDataSetChanged);
                 return;
             }
 
-            DoTask(accounts.RestoreStateAsync(), AccountAdapter.NotifyDataSetChanged);
+            if (accounts.NeedRefresh)
+            {
+                DoTask(accounts.FixNeedRefresh(), AccountAdapter.NotifyDataSetChanged);
+                return;
+            }
+
+            DoTask(accounts.RefreshAllAsync(), AccountAdapter.NotifyDataSetChanged);
         }
 
         public void OnItemOpenUnfollowers(int position)
