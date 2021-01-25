@@ -84,6 +84,16 @@ namespace Madamin.Unfollow.Fragments
                     mode.Finish();
                     return true;
 
+                case Resource.Id.appbar_unfollow_item_whitelist:
+                    UnfollowerAdapter.Whitelist.AddRange(
+                        UnfollowerAdapter.GetSelected());
+                    ((IDataContainer) Activity).SaveData(GetWhitelistFileName(),
+                        UnfollowerAdapter.Whitelist);
+                    UnfollowerAdapter.Refresh();
+                    UnfollowerAdapter.NotifyDataSetChanged();
+                    mode.Finish();
+                    return true;
+
                 default:
                     return false;
             }

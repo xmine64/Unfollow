@@ -78,6 +78,15 @@ namespace Madamin.Unfollow.Fragments
                     mode.Finish();
                     return true;
 
+                case Resource.Id.appbar_fans_item_whitelist:
+                    FansAdapter.Whitelist.AddRange(FansAdapter.GetSelected());
+                    ((IDataContainer) Activity).SaveData(GetWhitelistFileName(),
+                        FansAdapter.Whitelist);
+                    FansAdapter.Refresh();
+                    FansAdapter.NotifyDataSetChanged();
+                    mode.Finish();
+                    return true;
+
                 default:
                     return false;
             }
