@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Webkit;
