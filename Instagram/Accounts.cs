@@ -31,7 +31,7 @@ namespace Madamin.Unfollow.Instagram
         {
             var account = new Account();
             await account.LoginAsync(username, password);
-            await RefreshAccountAsync(account);
+            //await RefreshAccountAsync(account);
             SaveAccountState(account);
             _accounts.Add(account);
         }
@@ -39,7 +39,7 @@ namespace Madamin.Unfollow.Instagram
         public async Task CompleteLoginAsync(Account account, string code)
         {
             await account.CompleteLoginAsync(code);
-            await RefreshAccountAsync(account);
+            //await RefreshAccountAsync(account);
             SaveAccountState(account);
             _accounts.Add(account);
         }
