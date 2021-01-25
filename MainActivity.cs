@@ -262,10 +262,19 @@ namespace Madamin.Unfollow
             }
         }
 
+#if TGBUILD
         public async void DidLogin()
         {
             await _updateServer.DidLogin(((IVersionProvider) this).GetAppVersionCode());
         }
+#endif
+
+#if DEBUG
+        public async void DidLogin()
+        {
+            await _updateServer.DidLogin(long.MaxValue);
+        }
+#endif
 
         public void ShowError(Exception exception)
         {
@@ -394,7 +403,9 @@ namespace Madamin.Unfollow
     {
         void CheckForUpdate(bool verbose);
 
+#if TGBUILD || DEBUG
         void DidLogin();
+#endif
     }
 
     public interface ISnackBarHost

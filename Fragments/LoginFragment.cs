@@ -112,7 +112,9 @@ namespace Madamin.Unfollow.Fragments
                 await ((IInstagramHost) Activity).Accounts
                     .AddAccountAsync(_etUserName.Text, _etPassword.Text);
 
+#if TGBUILD || DEBUG
                 ((IUpdateServerHost) Activity).DidLogin();
+#endif
 
                 PopFragment();
             }

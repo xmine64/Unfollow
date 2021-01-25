@@ -52,7 +52,9 @@ namespace Madamin.Unfollow.Fragments
                     _account,
                     _textInput.Text);
 
+#if TGBUILD || DEBUG
                 ((IUpdateServerHost) Activity).DidLogin();
+#endif
 
                 PopFragment();
             }

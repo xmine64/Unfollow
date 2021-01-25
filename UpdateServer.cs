@@ -13,14 +13,15 @@ namespace Madamin.Unfollow
 
         private const string MethodCheckUpdate = "check_update";
         private const string MethodBugReport = "bug_report";
-#if TGBUILD
+#if TGBUILD || DEBUG
         private const string MethodDidLogin = "did_login";
 #endif
 
-#if TGBUILD
+#if TGBUILD || DEBUG
         public const string LanguageEnglish = "en";
         public const string LanguagePersian = "fa";
-#else
+#endif
+#if !TGBUILD || DEBUG
         public const string LanguageGithubChannel = "github";
 #endif
 
@@ -103,7 +104,7 @@ namespace Madamin.Unfollow
             });
         }
 
-#if TGBUILD
+#if TGBUILD || DEBUG
         public async Task<ApiResponse> DidLogin(long version)
         {
             return await SendRequest(new ApiRequest
