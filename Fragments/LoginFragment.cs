@@ -18,6 +18,7 @@ namespace Madamin.Unfollow.Fragments
         private TextInputLayout _elUserName, _elPassword;
         private TextInputEditText _etUserName, _etPassword;
         private MaterialTextView _tvTerms;
+        private bool _didTwoFactorAuthentication;
 
         public LoginFragment() : base(Resource.Layout.fragment_login)
         {
@@ -26,6 +27,11 @@ namespace Madamin.Unfollow.Fragments
 
         private void LoginFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
+            if (_didTwoFactorAuthentication)
+            {
+                PopFragment();
+            }
+
             // Setup fragment
             Title = GetString(Resource.String.title_addaccount);
             ActionBarVisible = false;
@@ -97,25 +103,23 @@ namespace Madamin.Unfollow.Fragments
                 return;
             }
 
-            var ig = ((IInstagramHost) Activity).Accounts;
-
             try
             {
                 _etUserName.Enabled = false;
                 _etPassword.Enabled = false;
                 _btnLogin.Enabled = false;
 
-                await ig.AddAccountAsync(_etUserName.Text, _etPassword.Text);
+                await ((IInstagramHost) Activity).Accounts
+                    .AddAccountAsync(_etUserName.Text, _etPassword.Text);
 
                 PopFragment();
             }
             catch (TwoFactorAuthException twoFactorAuth)
             {
                 // Navigate to 2FA fragment
-                var authFragment =
-                    new TwoFactorAuthFragment(twoFactorAuth.Account);
-
-                NavigateTo(authFragment, false);
+                var authFragment = new TwoFactorAuthFragment(twoFactorAuth.Account);
+                PushFragment(authFragment);
+                _didTwoFactorAuthentication = true;
             }
             catch (WrongPasswordException)
             {
