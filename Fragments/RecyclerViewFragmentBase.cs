@@ -151,16 +151,22 @@ namespace Madamin.Unfollow.Fragments
                     break;
                 case RecyclerViewMode.Data:
                     if (_adapter.ItemCount > 0)
+                    {
                         _recycler.Visibility = ViewStates.Visible;
+                    }
                     else
-                        ShowView(RecyclerViewMode.Empty);
+                    {
+                        _viewEmpty.Visibility = ViewStates.Visible;
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
             }
+            ViewModeChanged?.Invoke(this, mode);
         }
 
         public event EventHandler RetryClick;
+        public event EventHandler<RecyclerViewMode> ViewModeChanged;
 
         private RecyclerView.Adapter _adapter;
         private AppCompatImageView _imageEmpty, _imageError;

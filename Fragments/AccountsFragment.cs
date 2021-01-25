@@ -20,6 +20,7 @@ namespace Madamin.Unfollow.Fragments
             Create += AccountsFragment_Create;
             MenuItemSelected += AccountsFragment_MenuItemSelected;
             RetryClick += AccountsFragment_RetryClick;
+            ViewModeChanged += AccountsFragment_ViewModeChanged;
         }
 
         private void AccountsFragment_Create(object sender, OnFragmentCreateEventArgs e)
@@ -37,14 +38,6 @@ namespace Madamin.Unfollow.Fragments
             if (accounts.IsStateRestored)
             {
                 ViewMode = RecyclerViewMode.Data;
-
-                if (accounts.Count < 1 && !_hasPushedToLoginFragment)
-                {
-                    ((IFragmentHost) Activity)
-                        .PushFullScreenFragment(new LoginFragment());
-                    _hasPushedToLoginFragment = true;
-                    return;
-                }
             }
             else
             {
@@ -53,13 +46,30 @@ namespace Madamin.Unfollow.Fragments
 
             var prefs = PreferenceManager
                 .GetDefaultSharedPreferences(Activity);
-            if (!prefs.GetBoolean(TipIsShownKey, false))
+            _tipShown = prefs.GetBoolean(TipIsShownKey, false);
+        }
+
+        private void AccountsFragment_ViewModeChanged(object sender, RecyclerViewMode mode)
+        {
+            if (mode == RecyclerViewMode.Empty &&
+                !_hasPushedToLoginFragment)
+            {
+                ((IFragmentHost) Activity)
+                    .PushFullScreenFragment(new LoginFragment());
+                _hasPushedToLoginFragment = true;
+                return;
+            }
+
+            if (mode == RecyclerViewMode.Data &&
+                !_tipShown)
             {
                 var dialog = new MaterialAlertDialogBuilder(Activity);
                 dialog.SetTitle(Resource.String.title_tip);
                 dialog.SetMessage(Resource.String.msg_tip);
                 dialog.Show();
 
+                var prefs = PreferenceManager
+                    .GetDefaultSharedPreferences(Activity);
                 var prefEditor = prefs.Edit();
                 System.Diagnostics.Debug.Assert(prefEditor != null);
                 prefEditor.PutBoolean(TipIsShownKey, true);
@@ -70,6 +80,7 @@ namespace Madamin.Unfollow.Fragments
         private const string TipIsShownKey = "tip_is_shown";
 
         private bool _hasPushedToLoginFragment;
+        private bool _tipShown;
 
         public void OnItemOpenUnfollowers(int position)
         {
