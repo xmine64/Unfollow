@@ -272,7 +272,7 @@ namespace Madamin.Unfollow
 #if DEBUG
         public async void DidLogin()
         {
-            await _updateServer.DidLogin(long.MaxValue);
+            await _updateServer.DidLogin(-1);
         }
 #endif
 
