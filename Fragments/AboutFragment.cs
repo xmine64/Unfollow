@@ -41,7 +41,7 @@ namespace Madamin.Unfollow.Fragments
                 versionProvider.GetAppVersionName());
 
             tvLibVersion.Text = GetString(
-                Resource.String.msg_instasharp_version,
+                Resource.String.msg_using_x_version_y,
                 versionProvider.GetLibraryAssemblyName().Name,
                 versionProvider.GetLibraryAssemblyName().Version.ToString()
             );

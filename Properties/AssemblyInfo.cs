@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Unfollow Tracker")]
-[assembly: AssemblyDescription("Unfollow Tracker")]
+[assembly: AssemblyTitle("Unfollowers")]
+[assembly: AssemblyDescription("Unfollowers")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Madamin")]
-[assembly: AssemblyProduct("Unfollow Tracker")]
-[assembly: AssemblyCopyright("Copyright © 2020 Mohammad Amin Mollazadeh")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Unfollowers")]
+[assembly: AssemblyCopyright("Copyright © 2020 By @the_madamin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
