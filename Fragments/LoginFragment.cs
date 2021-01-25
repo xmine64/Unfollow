@@ -117,8 +117,8 @@ namespace Madamin.Unfollow.Fragments
             catch (TwoFactorAuthException twoFactorAuth)
             {
                 // Navigate to 2FA fragment
-                var authFragment = new TwoFactorAuthFragment(twoFactorAuth.Account);
-                PushFragment(authFragment);
+                var twoFactorAuthFragment = new TwoFactorAuthFragment(twoFactorAuth.Account);
+                PushFragment(twoFactorAuthFragment);
                 _didTwoFactorAuthentication = true;
             }
             catch (WrongPasswordException)
@@ -131,6 +131,14 @@ namespace Madamin.Unfollow.Fragments
             {
                 _elUserName.Error = " ";
                 _elPassword.Error = GetString(Resource.String.error_invalid_credential);
+
+                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
+                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+            }
+            catch (DuplicateAccountException)
+            {
+                _elUserName.Error = GetString(Resource.String.error_duplicate_account);
+                _elPassword.Error = " ";
 
                 _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
                 _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
