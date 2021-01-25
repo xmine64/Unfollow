@@ -109,4 +109,7 @@
     <string name="url_telegram">https://t.me/unfollowapp</string>
     <string name="url_instagram">minimalunfollowapp</string>
     <string name="url_github">https://github.com/mmdmine/unfollow</string>
+
+    <string name="filename_fan_whitelist">%1$s-fans-whitelist.bin</string>
+    <string name="filename_unfollowers_whitelist">%1$s-unfollowers-whitelist.bin</string>
 </resources>
