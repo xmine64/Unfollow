@@ -75,8 +75,8 @@
     <string name="error_ig_not_installed">Instagram app is not installed</string>
 
     <string name="app_name_full">Minimal Unfollow Track</string>
-    <string name="msg_app_version">v{0}</string>
-    <string name="msg_instasharp_version">Using {0} v{1}</string>
+    <string name="msg_app_version">v%1$s</string>
+    <string name="msg_instasharp_version">Using %1$s v%2$s</string>
     <string name="msg_copyright">Copyright (C) 2020 By Mohammad Amin Mollazadeh</string>
 
     <string name="desc_logo">Logo</string>

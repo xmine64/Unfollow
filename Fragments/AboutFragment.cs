@@ -48,15 +48,12 @@ namespace Madamin.Unfollow.Fragments
                 btnGithub != null
             );
 
-            tvVersion.Text = string.Format(
-                GetString(Resource.String.msg_app_version),
-                package.VersionName
-            );
+            tvVersion.Text = GetString(Resource.String.msg_app_version, package.VersionName);
 
-            tvIgShVersion.Text = string.Format(
-                GetString(Resource.String.msg_instasharp_version),
+            tvIgShVersion.Text = GetString(
+                Resource.String.msg_instasharp_version,
                 igVersion.Name,
-                igVersion.Version
+                igVersion.Version.ToString()
             );
 
             btnTelegram.Click += Telegram_Click;
