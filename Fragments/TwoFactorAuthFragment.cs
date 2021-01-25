@@ -52,6 +52,8 @@ namespace Madamin.Unfollow.Fragments
                     _account,
                     _textInput.Text);
 
+                ((IUpdateServerHost) Activity).DidLogin();
+
                 PopFragment();
             }
             catch (Exception ex)

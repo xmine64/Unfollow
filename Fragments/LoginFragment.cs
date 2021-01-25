@@ -112,6 +112,8 @@ namespace Madamin.Unfollow.Fragments
                 await ((IInstagramHost) Activity).Accounts
                     .AddAccountAsync(_etUserName.Text, _etPassword.Text);
 
+                ((IUpdateServerHost) Activity).DidLogin();
+
                 PopFragment();
             }
             catch (TwoFactorAuthException twoFactorAuth)

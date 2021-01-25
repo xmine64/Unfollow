@@ -256,6 +256,16 @@ namespace Madamin.Unfollow
             }
         }
 
+        public async void DidLogin()
+        {
+            // Get app version
+            if (PackageName == null) return;
+            var package = PackageManager?.GetPackageInfo(PackageName, 0);
+            if (package == null) return;
+
+            await _updateServer.DidLogin(package.LongVersionCode);
+        }
+
         public void ShowError(Exception exception)
         {
             var container = FindViewById(Resource.Id.main_container);
@@ -356,6 +366,8 @@ namespace Madamin.Unfollow
     public interface IUpdateServerHost
     {
         void CheckForUpdate(bool verbose);
+
+        void DidLogin();
     }
 
     public interface ISnackBarHost

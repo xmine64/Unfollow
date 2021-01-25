@@ -104,7 +104,7 @@ namespace Madamin.Unfollow
         }
 
 #if TGBUILD
-        public async Task<ApiResponse> DidLogin(int version)
+        public async Task<ApiResponse> DidLogin(long version)
         {
             return await SendRequest(new ApiRequest
             {
