@@ -43,7 +43,14 @@ namespace Madamin.Unfollow.Fragments
 
             if (accounts.IsStateRestored)
             {
-                ViewMode = RecyclerViewMode.Data;
+                if (accounts.NeedRefresh)
+                {
+                    DoTask(accounts.FixNeedRefresh(), _adapter.NotifyDataSetChanged);
+                }
+                else
+                {
+                    ViewMode = RecyclerViewMode.Data;
+                }
             }
             else
             {

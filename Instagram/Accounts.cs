@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Madamin.Unfollow.Instagram
@@ -26,6 +27,7 @@ namespace Madamin.Unfollow.Instagram
         private string CacheDir { get; }
 
         public bool IsStateRestored { get; private set; }
+        public bool NeedRefresh { get; private set; }
 
         public async Task AddAccountAsync(string username, string password)
         {
@@ -34,6 +36,7 @@ namespace Madamin.Unfollow.Instagram
             //await RefreshAccountAsync(account);
             SaveAccountState(account);
             _accounts.Add(account);
+            NeedRefresh = true;
         }
 
         public async Task CompleteLoginAsync(Account account, string code)
@@ -42,6 +45,7 @@ namespace Madamin.Unfollow.Instagram
             //await RefreshAccountAsync(account);
             SaveAccountState(account);
             _accounts.Add(account);
+            NeedRefresh = true;
         }
 
         public async Task LogoutAccountAsync(Account account)
@@ -62,6 +66,19 @@ namespace Madamin.Unfollow.Instagram
         public async Task RefreshAllAsync()
         {
             foreach (var account in _accounts) await RefreshAccountAsync(account);
+        }
+
+        public async Task FixNeedRefresh()
+        {
+            foreach (var account in 
+                from account in _accounts
+                where account.Data == null
+                select account)
+            {
+                await RefreshAccountAsync(account);
+            }
+
+            NeedRefresh = false;
         }
 
         public async Task RestoreStateAsync()
