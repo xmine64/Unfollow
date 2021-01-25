@@ -41,6 +41,10 @@ namespace Madamin.Unfollow.Fragments
             _adapter = new AccountAdapter(accounts, this);
             SetAdapter(_adapter);
 
+            var prefs = PreferenceManager
+                .GetDefaultSharedPreferences(Activity);
+            _tipShown = prefs.GetBoolean(PreferenceKeyTipIsShown, false);
+
             if (accounts.IsStateRestored)
             {
                 if (accounts.NeedRefresh)
@@ -56,10 +60,6 @@ namespace Madamin.Unfollow.Fragments
             {
                 DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
             }
-
-            var prefs = PreferenceManager
-                .GetDefaultSharedPreferences(Activity);
-            _tipShown = prefs.GetBoolean(PreferenceKeyTipIsShown, false);
         }
 
         private void AccountsFragment_ViewModeChanged(object sender, RecyclerViewMode mode)
@@ -76,17 +76,20 @@ namespace Madamin.Unfollow.Fragments
             if (mode == RecyclerViewMode.Data &&
                 !_tipShown)
             {
+                var prefs = PreferenceManager
+                    .GetDefaultSharedPreferences(Activity);
+
                 var dialog = new MaterialAlertDialogBuilder(Activity);
                 dialog.SetTitle(Resource.String.title_tip);
                 dialog.SetMessage(Resource.String.msg_tip);
                 dialog.Show();
 
-                var prefs = PreferenceManager
-                    .GetDefaultSharedPreferences(Activity);
                 var prefEditor = prefs.Edit();
                 Debug.Assert(prefEditor != null);
                 prefEditor.PutBoolean(PreferenceKeyTipIsShown, true);
                 prefEditor.Apply();
+
+                _tipShown = true;
             }
         }
 
