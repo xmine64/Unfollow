@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/fragment_login_header"
+        android:id="@+id/fragment_about_header"
         android:layout_width="500dp"
         android:layout_height="250dp"
         android:padding="0dp"
@@ -16,8 +16,9 @@
         android:translationY="-50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_about_logo" />
+    
     <androidx.constraintlayout.helper.widget.Flow
         android:id="@+id/fragment_about_flow"
         android:layout_width="match_parent"
@@ -91,6 +92,7 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:text="@string/msg_copyright"
         android:gravity="center"
+        android:maxLines="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
