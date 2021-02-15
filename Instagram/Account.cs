@@ -51,7 +51,7 @@ namespace Madamin.Unfollow.Instagram
                     throw new WrongPasswordException();
 
                 case InstaLoginResult.ChallengeRequired:
-                    throw new ChallengeException();
+                    throw new ChallengeException(this);
 
                 case InstaLoginResult.InvalidUser:
                     throw new InvalidCredentialException();
@@ -73,6 +73,15 @@ namespace Madamin.Unfollow.Instagram
             if (result.Value != InstaLoginTwoFactorResult.Success)
                 throw new InstagramException("Login error");
             await _api.SendRequestsAfterLoginAsync();
+        }
+
+        internal async Task<InstaChallengeRequireVerifyMethod> StartChallengeAsync()
+        {
+            var challenge = await _api.GetChallengeRequireVerifyMethodAsync();
+            if (!challenge.Succeeded)
+                throw challenge.Info.Exception ?? 
+                    new InstagramException(challenge.Info.Message);
+            return challenge.Value;
         }
 
         internal async Task LogoutAsync()
@@ -292,6 +301,12 @@ namespace Madamin.Unfollow.Instagram
 
     public class ChallengeException : Exception
     {
+        public ChallengeException(Account account)
+        {
+            Account = account;
+        }
+
+        public Account Account { get; }
     }
 
     public class InvalidCredentialException : Exception

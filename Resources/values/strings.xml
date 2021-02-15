@@ -91,6 +91,16 @@
     <string name="button_text_resend">Resend Code</string>
     <string name="button_text_verify">Verify</string>
     <string name="input_hint_otp">OTP Code</string>
+    
+    <string name="title_challenge">Challenge</string>
+    <string name="msg_challenge_details">You need to authenticate to login.</string>
+    <string name="msg_challenge_phone">Enter your phone number:</string>
+    <string name="msg_challenge_methods_phone">* Authenticate using phone (%1$s)</string>
+    <string name="msg_challenge_methods_email">* Authenticate using email (%1$s)</string>
+    <string name="button_text_phone">Use phone</string>
+    <string name="button_text_email">Use email</string>
+    <string name="button_text_submit">Submit</string>
+    <string name="input_hint_phone">Phone number</string>
 
     <string name="msg_terms0">By login, you accept&#160;</string>
     <string name="msg_terms1">.</string>

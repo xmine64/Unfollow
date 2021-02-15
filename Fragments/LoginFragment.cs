@@ -147,6 +147,12 @@ namespace Madamin.Unfollow.Fragments
                 _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
                 _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
             }
+            catch (ChallengeException ex)
+            {
+                var challengeFragment = new ChallengeFragment(ex.Account);
+                PushFragment(challengeFragment);
+                _didTwoFactorAuthentication = true;
+            }
             catch (Exception ex)
             {
                 ((IErrorHost) Activity).ShowError(ex);
