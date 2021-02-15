@@ -80,14 +80,14 @@ namespace Madamin.Unfollow
         {
             _updateServer = new UpdateServerApi(this);
 
-            if (DataDir == null ||
+            if (FilesDir == null ||
                 CacheDir == null)
                 return;
 
             try
             {
                 Accounts = new Accounts(
-                    Path.Combine(DataDir.AbsolutePath, "accounts"),
+                    Path.Combine(FilesDir.AbsolutePath, "accounts"),
                     CacheDir.AbsolutePath
                 );
             }
@@ -172,10 +172,10 @@ namespace Madamin.Unfollow
 
         public void SaveData(string fileName, object data)
         {
-            if (DataDir == null)
+            if (FilesDir == null)
                 return;
 
-            var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
+            var filePath = Path.Combine(FilesDir.AbsolutePath, fileName);
             using var file = new FileStream(
                 filePath,
                 FileMode.OpenOrCreate,
@@ -185,10 +185,10 @@ namespace Madamin.Unfollow
 
         public object LoadData(string fileName)
         {
-            if (DataDir == null)
+            if (FilesDir == null)
                 return null;
 
-            var filePath = Path.Combine(DataDir.AbsolutePath, fileName);
+            var filePath = Path.Combine(FilesDir.AbsolutePath, fileName);
             using var file = new FileStream(
                 filePath,
                 FileMode.Open,
@@ -198,10 +198,10 @@ namespace Madamin.Unfollow
 
         public bool DataExists(string fileName)
         {
-            if (DataDir == null)
+            if (FilesDir == null)
                 return false;
 
-            return File.Exists(Path.Combine(DataDir.AbsolutePath, fileName));
+            return File.Exists(Path.Combine(FilesDir.AbsolutePath, fileName));
         }
 
         public async void CheckForUpdate(bool verbose)
