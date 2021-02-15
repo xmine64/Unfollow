@@ -42,6 +42,9 @@ namespace Madamin.Unfollow
             BackButtonVisibilityChange += MainActivity_OnBackButtonVisibilityChange;
         }
 
+        private string cache_path = null;
+        private string data_path = null;
+
         protected override void AttachBaseContext(Context context)
         {
             _preferences = PreferenceManager.GetDefaultSharedPreferences(context);
@@ -83,10 +86,6 @@ namespace Madamin.Unfollow
         {
             _updateServer = new UpdateServerApi(this);
 
-            if (FilesDir == null ||
-                CacheDir == null)
-                return;
-
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
                 Window?.SetStatusBarColor(Color.Black);
@@ -97,12 +96,24 @@ namespace Madamin.Unfollow
                 Window?.SetNavigationBarColor(Color.Black);
             }
 
+            if (FilesDir == null ||
+                CacheDir == null)
+                return;
+            data_path = FilesDir.AbsolutePath;
+            cache_path = CacheDir.AbsolutePath;
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P &&
+                DataDir != null) {
+                var old_accounts_path = Path.Combine(DataDir.AbsolutePath, "accounts");
+                if (Directory.Exists(old_accounts_path))
+                {
+                    data_path = DataDir.AbsolutePath;
+                }
+            }
+
             try
             {
-                Accounts = new Accounts(
-                    Path.Combine(FilesDir.AbsolutePath, "accounts"),
-                    CacheDir.AbsolutePath
-                );
+                Accounts = new Accounts(data_path, cache_path);
             }
             catch (Exception ex)
             {
@@ -185,10 +196,10 @@ namespace Madamin.Unfollow
 
         public void SaveData(string fileName, object data)
         {
-            if (FilesDir == null)
+            if (data_path == null)
                 return;
 
-            var filePath = Path.Combine(FilesDir.AbsolutePath, fileName);
+            var filePath = Path.Combine(data_path, fileName);
             using var file = new FileStream(
                 filePath,
                 FileMode.OpenOrCreate,
@@ -198,10 +209,10 @@ namespace Madamin.Unfollow
 
         public object LoadData(string fileName)
         {
-            if (FilesDir == null)
+            if (data_path == null)
                 return null;
 
-            var filePath = Path.Combine(FilesDir.AbsolutePath, fileName);
+            var filePath = Path.Combine(data_path, fileName);
             using var file = new FileStream(
                 filePath,
                 FileMode.Open,
@@ -211,10 +222,10 @@ namespace Madamin.Unfollow
 
         public bool DataExists(string fileName)
         {
-            if (FilesDir == null)
+            if (data_path == null)
                 return false;
 
-            return File.Exists(Path.Combine(FilesDir.AbsolutePath, fileName));
+            return File.Exists(Path.Combine(data_path, fileName));
         }
 
         public async void CheckForUpdate(bool verbose)
