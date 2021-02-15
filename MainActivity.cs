@@ -6,6 +6,8 @@ using Java.Util;
 using Android.App;
 using Android.Views;
 using Android.Content;
+using Android.Graphics;
+using Android.OS;
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
 using Google.Android.Material.Dialog;
@@ -13,6 +15,7 @@ using Google.Android.Material.Snackbar;
 using Google.Android.Material.BottomNavigation;
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
+using Path = System.IO.Path;
 
 namespace Madamin.Unfollow
 {
@@ -83,6 +86,16 @@ namespace Madamin.Unfollow
             if (FilesDir == null ||
                 CacheDir == null)
                 return;
+
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            {
+                Window?.SetStatusBarColor(Color.Black);
+            }
+
+            if (Build.VERSION.SdkInt < BuildVersionCodes.OMr1)
+            {
+                Window?.SetNavigationBarColor(Color.Black);
+            }
 
             try
             {
