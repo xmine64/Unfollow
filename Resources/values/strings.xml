@@ -95,8 +95,8 @@
     <string name="title_challenge">Challenge</string>
     <string name="msg_challenge_details">Instagram needs to verify you before let you login.</string>
     <string name="msg_challenge_phone">Enter your phone number:</string>
-    <string name="msg_challenge_methods_phone">* Verify phone (%1$s)</string>
-    <string name="msg_challenge_methods_email">* Verify Email (%1$s)</string>
+    <string name="msg_challenge_methods_phone">Verify phone (%1$s)</string>
+    <string name="msg_challenge_methods_email">Verify Email (%1$s)</string>
     <string name="button_text_phone">Use phone</string>
     <string name="button_text_email">Use Email</string>
     <string name="button_text_submit">Submit</string>

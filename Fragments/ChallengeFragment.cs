@@ -18,7 +18,9 @@ namespace Madamin.Unfollow.Fragments
         private TextInputLayout _phoneInputLayout, _otpInputLayout;
         private TextInputEditText _phoneEditText, _otpEditText;
 
-        private MaterialButton _submitButton, _methodPhoneButton, _methodEmailButton;
+        private MaterialButton _submitButton, _resendButton, _methodPhoneButton, _methodEmailButton;
+
+        private ChallengeMethod _method = ChallengeMethod.None;
 
         public ChallengeFragment(Account account) :
             base(Resource.Layout.fragment_login_challenge)
@@ -44,10 +46,12 @@ namespace Madamin.Unfollow.Fragments
             _otpEditText = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_challenge_code_input);
 
             _submitButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_submit);
+            _resendButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_resend);
             _methodPhoneButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_phone);
             _methodEmailButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_email);
 
             _submitButton.Click += SubmitButton_Click;
+            _resendButton.Click += ResendButton_Click;
             _methodPhoneButton.Click += PhoneButton_Click;
             _methodEmailButton.Click += EmailButton_Click;
 
@@ -84,9 +88,39 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
+        private async void ResendButton_Click(object sender, EventArgs e)
+        {
+            _resendButton.Enabled = false;
+
+            try
+            {
+                if (_method == ChallengeMethod.None)
+                    return;
+
+                if (_method == ChallengeMethod.Phone)
+                { 
+                    await _account.ResendChallengePhoneCodeAsync();
+                    return;
+                }
+
+                if (_method == ChallengeMethod.Email)
+                {
+                    await _account.ResendChallengeEmailCodeAsync();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                ((IErrorHost)Activity).ShowError(ex);
+                _resendButton.Enabled = true;
+            }
+
+        }
+
         private async void SubmitButton_Click(object sender, EventArgs e)
         {
             _submitButton.Enabled = false;
+            _resendButton.Enabled = false;
             _otpInputLayout.Enabled = false;
             _phoneInputLayout.Enabled = false;
 
@@ -110,6 +144,7 @@ namespace Madamin.Unfollow.Fragments
             catch (Exception ex)
             {
                 _submitButton.Enabled = true;
+                _resendButton.Enabled = true;
                 _otpInputLayout.Enabled = true;
                 _phoneInputLayout.Enabled = true;
 
@@ -128,6 +163,9 @@ namespace Madamin.Unfollow.Fragments
                 _methodEmailTextView.Visibility = ViewStates.Gone;
                 _submitButton.Visibility = ViewStates.Visible;
                 _otpInputLayout.Visibility = ViewStates.Visible;
+                _resendButton.Visibility = ViewStates.Visible;
+
+                _method = ChallengeMethod.Phone;
             }
             catch (Exception ex)
             {
@@ -146,11 +184,19 @@ namespace Madamin.Unfollow.Fragments
                 _methodPhoneTextView.Visibility = ViewStates.Gone;
                 _submitButton.Visibility = ViewStates.Visible;
                 _otpInputLayout.Visibility = ViewStates.Visible;
+                _resendButton.Visibility = ViewStates.Visible;
+
+                _method = ChallengeMethod.Email;
             }
             catch (Exception ex)
             {
                 ((IErrorHost)Activity).ShowError(ex);
             }
+        }
+
+        enum ChallengeMethod
+        {
+            None, Phone, Email
         }
     }
 }

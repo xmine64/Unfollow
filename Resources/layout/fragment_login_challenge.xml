@@ -31,7 +31,7 @@
         app:flow_wrapMode="aligned"
         app:flow_verticalGap="10dp"
         app:flow_horizontalGap="8dp"
-        app:constraint_referenced_ids="fragment_login_challenge_submit,fragment_login_challenge_button_phone,fragment_login_challenge_button_email" />
+        app:constraint_referenced_ids="fragment_login_challenge_submit,fragment_login_challenge_button_resend,fragment_login_challenge_button_phone,fragment_login_challenge_button_email" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_login_challenge_title"
@@ -55,7 +55,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_login_challenge_phone"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingStart="10dp"
@@ -67,7 +67,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_login_challenge_methods_phone"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingStart="10dp"
@@ -79,7 +79,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/fragment_login_challenge_methods_email"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingStart="10dp"
@@ -91,7 +91,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_login_challenge_code_input_layout"
-        android:layout_width="200dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="@string/input_hint_otp"
@@ -108,7 +108,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_login_challenge_phone_input_layout"
-        android:layout_width="200dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="@string/input_hint_phone"
@@ -131,6 +131,15 @@
         android:visibility="gone"
         tools:visibility="visible"
         style="@style/Widget.MaterialComponents.Button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_login_challenge_button_resend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:text="@string/button_text_resend" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_login_challenge_button_phone"

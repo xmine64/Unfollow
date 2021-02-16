@@ -91,8 +91,8 @@
     <string name="title_challenge">چالش</string>
     <string name="msg_challenge_details">قبل از ورود به حسابتان، اینستاگرام باید شما را تایید کند.</string>
     <string name="msg_challenge_phone">شماره تلفن‌تان را وارد کنید:</string>
-    <string name="msg_challenge_methods_phone">* تایید با تلفن (%1$s)</string>
-    <string name="msg_challenge_methods_email">* تایید با ایمیل (%1$s)</string>
+    <string name="msg_challenge_methods_phone">تایید با تلفن (%1$s)</string>
+    <string name="msg_challenge_methods_email">تایید با ایمیل (%1$s)</string>
     <string name="button_text_phone">استفاده از تلفن</string>
     <string name="button_text_email">استفاده از ایمیل</string>
     <string name="button_text_submit">تایید</string>

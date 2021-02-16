@@ -100,6 +100,22 @@ namespace Madamin.Unfollow.Instagram
                     new InstagramException(result.Info.Message);
         }
 
+        public async Task ResendChallengePhoneCodeAsync()
+        {
+            var result = await _api.RequestVerifyCodeToSMSForChallengeRequireAsync(replayChallenge: true);
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                    new InstagramException(result.Info.Message);
+        }
+
+        public async Task ResendChallengeEmailCodeAsync()
+        {
+            var result = await _api.RequestVerifyCodeToEmailForChallengeRequireAsync(replayChallenge: true);
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                    new InstagramException(result.Info.Message);
+        }
+
         internal async Task CompleteChallengeAsync(string code)
         {
             var result = await _api.VerifyCodeForChallengeRequireAsync(code);
