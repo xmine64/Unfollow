@@ -86,6 +86,10 @@ namespace Madamin.Unfollow.Fragments
 
         private async void SubmitButton_Click(object sender, EventArgs e)
         {
+            _submitButton.Enabled = false;
+            _otpInputLayout.Enabled = false;
+            _phoneInputLayout.Enabled = false;
+
             try
             {
                 if (_challenge.SubmitPhoneRequired)
@@ -105,6 +109,10 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
+                _submitButton.Enabled = true;
+                _otpInputLayout.Enabled = true;
+                _phoneInputLayout.Enabled = true;
+
                 ((IErrorHost)Activity).ShowError(ex);
             }
         }
