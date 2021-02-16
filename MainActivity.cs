@@ -44,6 +44,8 @@ namespace Madamin.Unfollow
 
         private string cache_path = null;
         private string data_path = null;
+        
+        private const string AccountsFolder = "accounts";
 
         protected override void AttachBaseContext(Context context)
         {
@@ -104,7 +106,7 @@ namespace Madamin.Unfollow
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.P &&
                 DataDir != null) {
-                var old_accounts_path = Path.Combine(DataDir.AbsolutePath, "accounts");
+                var old_accounts_path = Path.Combine(DataDir.AbsolutePath, AccountsFolder);
                 if (Directory.Exists(old_accounts_path))
                 {
                     data_path = DataDir.AbsolutePath;
@@ -113,7 +115,8 @@ namespace Madamin.Unfollow
 
             try
             {
-                Accounts = new Accounts(data_path, cache_path);
+                var accounts_path = Path.Combine(data_path, AccountsFolder);
+                Accounts = new Accounts(accounts_path, cache_path);
             }
             catch (Exception ex)
             {
