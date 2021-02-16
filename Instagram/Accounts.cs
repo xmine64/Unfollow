@@ -33,16 +33,29 @@ namespace Madamin.Unfollow.Instagram
         {
             var account = new Account();
             await account.LoginAsync(username, password);
-            if (_accounts.Contains(account))
-                throw new DuplicateAccountException();
-            SaveAccountState(account);
-            _accounts.Add(account);
-            NeedRefresh = true;
+            AddAccount(account);
         }
 
         public async Task CompleteLoginAsync(Account account, string code)
         {
             await account.CompleteLoginAsync(code);
+            AddAccount(account);
+        }
+
+        public async Task CompleteChallengeAsync(Account account, string code)
+        {
+            await account.CompleteChallengeAsync(code);
+            AddAccount(account);
+        }
+
+        public async Task CompleteSubmitPhoneChallengeAsync(Account account, string phone)
+        {
+            await account.CompleteSubmitPhoneChallengeAsync(phone);
+            AddAccount(account);
+        }
+
+        private void AddAccount(Account account)
+        {
             if (_accounts.Contains(account))
                 throw new DuplicateAccountException();
             SaveAccountState(account);

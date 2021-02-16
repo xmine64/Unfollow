@@ -18,7 +18,7 @@ namespace Madamin.Unfollow.Fragments
         private TextInputLayout _phoneInputLayout, _otpInputLayout;
         private TextInputEditText _phoneEditText, _otpEditText;
 
-        private MaterialButton _submitButton, _phoneButton, _emailButton;
+        private MaterialButton _submitButton, _methodPhoneButton, _methodEmailButton;
 
         public ChallengeFragment(Account account) :
             base(Resource.Layout.fragment_login_challenge)
@@ -44,12 +44,12 @@ namespace Madamin.Unfollow.Fragments
             _otpEditText = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_challenge_code_input);
 
             _submitButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_submit);
-            _phoneButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_phone);
-            _emailButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_email);
+            _methodPhoneButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_phone);
+            _methodEmailButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_email);
 
             _submitButton.Click += SubmitButton_Click;
-            _phoneButton.Click += PhoneButton_Click;
-            _emailButton.Click += EmailButton_Click;
+            _methodPhoneButton.Click += PhoneButton_Click;
+            _methodEmailButton.Click += EmailButton_Click;
 
             try
             {
@@ -67,15 +67,15 @@ namespace Madamin.Unfollow.Fragments
                     _methodPhoneTextView.Text = GetString(Resource.String.msg_challenge_methods_phone,
                         _challenge.StepData.PhoneNumber);
                     _methodPhoneTextView.Visibility = ViewStates.Visible;
-                    _phoneButton.Visibility = ViewStates.Visible;
+                    _methodPhoneButton.Visibility = ViewStates.Visible;
                 }
 
                 if (!string.IsNullOrEmpty(_challenge.StepData.Email))
                 {
-                    _methodPhoneTextView.Text = GetString(Resource.String.msg_challenge_methods_email,
+                    _methodEmailTextView.Text = GetString(Resource.String.msg_challenge_methods_email,
                         _challenge.StepData.Email);
                     _methodEmailTextView.Visibility = ViewStates.Visible;
-                    _emailButton.Visibility = ViewStates.Visible;
+                    _methodEmailButton.Visibility = ViewStates.Visible;
                 }
             }
             catch (Exception ex)
@@ -84,17 +84,23 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        private void SubmitButton_Click(object sender, EventArgs e)
+        private async void SubmitButton_Click(object sender, EventArgs e)
         {
             try
             {
                 if (_challenge.SubmitPhoneRequired)
                 {
-                    throw new NotImplementedException();
+                    await ((IInstagramHost)Activity).Accounts
+                        .CompleteSubmitPhoneChallengeAsync(_account, _phoneEditText.Text);
+
+                    PopFragment();
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    await ((IInstagramHost)Activity).Accounts
+                        .CompleteChallengeAsync(_account, _otpEditText.Text);
+
+                    PopFragment();
                 }
             }
             catch (Exception ex)
@@ -103,11 +109,17 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        private void PhoneButton_Click(object sender, EventArgs e)
+        private async void PhoneButton_Click(object sender, EventArgs e)
         {
             try
             {
-                throw new NotImplementedException();
+                await _account.DoVerifyPhoneChallengeAsync();
+
+                _methodPhoneButton.Visibility = ViewStates.Gone;
+                _methodEmailButton.Visibility = ViewStates.Gone;
+                _methodEmailTextView.Visibility = ViewStates.Gone;
+                _submitButton.Visibility = ViewStates.Visible;
+                _otpInputLayout.Visibility = ViewStates.Visible;
             }
             catch (Exception ex)
             {
@@ -115,11 +127,17 @@ namespace Madamin.Unfollow.Fragments
             }
         }
 
-        private void EmailButton_Click(object sender, EventArgs e)
+        private async void EmailButton_Click(object sender, EventArgs e)
         {
             try
             {
-                throw new NotImplementedException();
+                await _account.DoVerifyEmailChallengeAsync();
+
+                _methodPhoneButton.Visibility = ViewStates.Gone;
+                _methodEmailButton.Visibility = ViewStates.Gone;
+                _methodPhoneTextView.Visibility = ViewStates.Gone;
+                _submitButton.Visibility = ViewStates.Visible;
+                _otpInputLayout.Visibility = ViewStates.Visible;
             }
             catch (Exception ex)
             {

@@ -75,13 +75,45 @@ namespace Madamin.Unfollow.Instagram
             await _api.SendRequestsAfterLoginAsync();
         }
 
-        internal async Task<InstaChallengeRequireVerifyMethod> StartChallengeAsync()
+        public async Task<InstaChallengeRequireVerifyMethod> StartChallengeAsync()
         {
             var challenge = await _api.GetChallengeRequireVerifyMethodAsync();
             if (!challenge.Succeeded)
                 throw challenge.Info.Exception ?? 
                     new InstagramException(challenge.Info.Message);
             return challenge.Value;
+        }
+
+        public async Task DoVerifyPhoneChallengeAsync()
+        {
+            var result = await _api.RequestVerifyCodeToSMSForChallengeRequireAsync();
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                    new InstagramException(result.Info.Message);
+        }
+
+        public async Task DoVerifyEmailChallengeAsync()
+        {
+            var result = await _api.RequestVerifyCodeToEmailForChallengeRequireAsync();
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                    new InstagramException(result.Info.Message);
+        }
+
+        internal async Task CompleteChallengeAsync(string code)
+        {
+            var result = await _api.VerifyCodeForChallengeRequireAsync(code);
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                    new InstagramException(result.Info.Message);
+        }
+
+        internal async Task CompleteSubmitPhoneChallengeAsync(string phone)
+        {
+            var result = await _api.SubmitPhoneNumberForChallengeRequireAsync(phone);
+            if (!result.Succeeded)
+                throw result.Info.Exception ??
+                    new InstagramException(result.Info.Message);
         }
 
         internal async Task LogoutAsync()
