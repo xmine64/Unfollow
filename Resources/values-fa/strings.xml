@@ -37,9 +37,12 @@
 
     <string name="title_preferred_theme">تم ترجیحی</string>
     <string name="title_preferred_lang">زبان ترجیحی</string>
+    <string name="title_auto_refresh">به‌روزرسانی خودکار</string>
 
     <string name="title_auto_update_check">بررسی خودکار برای نسخه به‌روز</string>
     <string name="title_update_check">بررسی نسخه به‌روز...</string>
+    
+    <string name="msg_summary_auto_refresh">به‌روزرسانی اطلاعات حساب شما (مانند فالورها و فالویینگ‌ها) هنگام آغاز به کار برنامه</string>
 
     <string name="title_terms">شرایط استفاده</string>
     <string name="title_donate">حمایت</string>

@@ -18,6 +18,11 @@
             app:entries="@array/settings_langs"
             app:entryValues="@array/settings_langs_values"
             app:defaultValue="sysdef" />
+        <SwitchPreference
+            app:key="auto_refresh"
+            app:title="@string/title_auto_refresh"
+            app:defaultValue="true"
+            app:summary="@string/msg_summary_auto_refresh"/>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -43,4 +48,6 @@
             app:key="about"
             app:title="@string/title_about" />
     </PreferenceCategory>
+    <Preference
+        app:enabled="false" />
 </PreferenceScreen>

@@ -37,9 +37,12 @@
 
     <string name="title_preferred_theme">Preferred Theme</string>
     <string name="title_preferred_lang">Preferred Language</string>
+    <string name="title_auto_refresh">Automatic Refresh</string>
 
-    <string name="title_auto_update_check">Automatically Check for Update</string>
+    <string name="title_auto_update_check">Automatic Update Check</string>
     <string name="title_update_check">Check for update...</string>
+    
+    <string name="msg_summary_auto_refresh">Refresh your account information (like followings and followers) on application startup.</string>
 
     <string name="title_terms">Terms of Service</string>
     <string name="title_donate">Donate</string>

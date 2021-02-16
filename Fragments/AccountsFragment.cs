@@ -12,9 +12,11 @@ namespace Madamin.Unfollow.Fragments
         IAccountItemClickListener
     {
         private const string PreferenceKeyTipIsShown = "tip_is_shown";
+        private const string PreferenceKeyAutoRefresh = "auto_refresh";
 
         private bool _hasPushedToLoginFragment;
         private bool _tipShown;
+        private bool _didRefresh;
 
         private AccountAdapter _adapter;
 
@@ -45,7 +47,7 @@ namespace Madamin.Unfollow.Fragments
             EmptyText = GetString(Resource.String.msg_no_account);
             SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
-            var accounts = ((IInstagramHost) Activity).Accounts;
+            var accounts = ((IInstagramHost)Activity).Accounts;
             AccountAdapter = new AccountAdapter(accounts, this);
 
             // Check if Tip has been shown already
@@ -68,6 +70,16 @@ namespace Madamin.Unfollow.Fragments
             {
                 DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
             }
+
+            if (!_didRefresh)
+            {
+                _didRefresh = true;
+                if (((IPreferenceManager)Activity)
+                    .GetBoolean(PreferenceKeyAutoRefresh, true))
+                {
+                    DoTask(accounts.RefreshAllAsync(), _adapter.NotifyDataSetChanged);
+                }
+            }
         }
 
         private void AccountsFragment_ViewModeChanged(object sender, RecyclerViewMode mode)
@@ -76,7 +88,7 @@ namespace Madamin.Unfollow.Fragments
             if (mode == RecyclerViewMode.Empty &&
                 !_hasPushedToLoginFragment)
             {
-                ((IFragmentHost) Activity).PushFragment(new LoginFragment());
+                ((IFragmentHost)Activity).PushFragment(new LoginFragment());
                 _hasPushedToLoginFragment = true;
                 return;
             }
@@ -104,12 +116,12 @@ namespace Madamin.Unfollow.Fragments
             switch (e.ItemId)
             {
                 case Resource.Id.appbar_home_item_addaccount:
-                    ((IFragmentHost) Activity).PushFragment(new LoginFragment());
+                    ((IFragmentHost)Activity).PushFragment(new LoginFragment());
                     break;
 
                 case Resource.Id.appbar_home_item_refresh:
                     DoTask(
-                        ((IInstagramHost) Activity).Accounts.RefreshAllAsync(),
+                        ((IInstagramHost)Activity).Accounts.RefreshAllAsync(),
                         AccountAdapter.NotifyDataSetChanged);
                     break;
 
@@ -121,7 +133,7 @@ namespace Madamin.Unfollow.Fragments
 
         private void AccountsFragment_RetryClick(object sender, EventArgs e)
         {
-            var accounts = ((IInstagramHost) Activity).Accounts;
+            var accounts = ((IInstagramHost)Activity).Accounts;
 
             if (!accounts.IsStateRestored)
             {
@@ -165,12 +177,12 @@ namespace Madamin.Unfollow.Fragments
         public void OnItemOpenInstagram(int position)
         {
             var userName = AccountAdapter.GetItem(position).Data.User.Username;
-            ((IInstagramHost) Activity).OpenInInstagram(userName);
+            ((IInstagramHost)Activity).OpenInInstagram(userName);
         }
 
         public void OnItemLogout(int position)
         {
-            var accounts = ((IInstagramHost) Activity).Accounts;
+            var accounts = ((IInstagramHost)Activity).Accounts;
             DoTask(accounts.LogoutAccountAtAsync(position), AccountAdapter.NotifyDataSetChanged);
         }
 
