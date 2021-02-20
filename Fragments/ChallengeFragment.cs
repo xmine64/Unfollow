@@ -132,12 +132,20 @@ namespace Madamin.Unfollow.Fragments
                     await ((IInstagramAccounts)Activity).Accounts
                         .CompleteSubmitPhoneChallengeAsync(_account, _phoneEditText.Text);
 
+#if TGBUILD || DEBUG
+                    ((IUpdateChecker)Activity).DidLogin();
+#endif
+
                     PopFragment();
                 }
                 else
                 {
                     await ((IInstagramAccounts)Activity).Accounts
                         .CompleteChallengeAsync(_account, _otpEditText.Text);
+
+#if TGBUILD || DEBUG
+                    ((IUpdateChecker)Activity).DidLogin();
+#endif
 
                     PopFragment();
                 }
