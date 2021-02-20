@@ -70,9 +70,26 @@ namespace Madamin.Unfollow.Instagram
         internal async Task CompleteLoginAsync(string code)
         {
             var result = await _api.TwoFactorLoginAsync(code);
-            if (result.Value != InstaLoginTwoFactorResult.Success)
-                throw new InstagramException("Login error");
-            await _api.SendRequestsAfterLoginAsync();
+            
+            switch (result.Value)
+            {
+                case InstaLoginTwoFactorResult.Success:
+                    await _api.SendRequestsAfterLoginAsync();
+                    return;
+
+                case InstaLoginTwoFactorResult.ChallengeRequired:
+                    throw new ChallengeException(this);
+
+                case InstaLoginTwoFactorResult.InvalidCode:
+                    throw new InvalidTwoFactorCodeException();
+
+                case InstaLoginTwoFactorResult.CodeExpired:
+                    throw new TwoFactorCodeExpiredException();
+
+                default:
+                    throw result.Info.Exception ??
+                          new InstagramException(result.Info.Message);
+            }
         }
 
         public async Task<InstaChallengeRequireVerifyMethod> StartChallengeAsync()
@@ -119,9 +136,17 @@ namespace Madamin.Unfollow.Instagram
         internal async Task CompleteChallengeAsync(string code)
         {
             var result = await _api.VerifyCodeForChallengeRequireAsync(code);
-            if (!result.Succeeded)
-                throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message);
+            
+            switch (result.Value)
+            {
+                case InstaLoginResult.Success:
+                    await _api.SendRequestsAfterLoginAsync();
+                    break;
+
+                default:
+                    throw result.Info.Exception ??
+                        new InstagramException(result.Info.Message);
+            }
         }
 
         internal async Task CompleteSubmitPhoneChallengeAsync(string phone)
@@ -376,5 +401,15 @@ namespace Madamin.Unfollow.Instagram
         }
 
         public Account Account { get; }
+    }
+
+    public class InvalidTwoFactorCodeException : Exception
+    {
+        public InvalidTwoFactorCodeException() {}
+    }
+
+    public class TwoFactorCodeExpiredException : Exception
+    {
+        public TwoFactorCodeExpiredException() {}
     }
 }

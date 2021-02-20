@@ -12,6 +12,8 @@ namespace Madamin.Unfollow.Fragments
         private MaterialButton _btnVerify, _btnResend;
         private TextInputEditText _textInput;
 
+        private bool _didChallenge;
+
         public TwoFactorAuthFragment(Account account) :
             base(Resource.Layout.fragment_login_2fa)
         {
@@ -22,6 +24,11 @@ namespace Madamin.Unfollow.Fragments
 
         private void TwoFactorAuthFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
+            if (_didChallenge)
+            {
+                PopFragment();
+            }
+
             // Fragment setup
             Title = GetString(Resource.String.title_2fa);
             ActionBarVisible = false;
@@ -58,12 +65,29 @@ namespace Madamin.Unfollow.Fragments
 
                 PopFragment();
             }
+            catch (ChallengeException ex)
+            {
+                var challengeFragment = new ChallengeFragment(ex.Account);
+                PushFragment(challengeFragment);
+                _didChallenge = true;
+            }
+            catch (InvalidTwoFactorCodeException)
+            {
+                ((ISnackBarHost)Activity).ShowSnackbar(Resource.String.error_invalid_2fa);
+            }
+            catch (TwoFactorCodeExpiredException)
+            {
+                ((ISnackBarHost)Activity).ShowSnackbar(Resource.String.error_2fa_expired);
+            }
             catch (Exception ex)
+            {
+                ((IErrorHost) Activity).ShowError(ex);
+            }
+            finally
             {
                 _textInput.Enabled = true;
                 _btnResend.Enabled = true;
                 _btnVerify.Enabled = true;
-                ((IErrorHost) Activity).ShowError(ex);
             }
         }
 
