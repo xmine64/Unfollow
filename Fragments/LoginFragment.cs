@@ -55,9 +55,9 @@ namespace Madamin.Unfollow.Fragments
             
             termsText.Append(GetString(Resource.String.msg_terms0));
             var spanStart = termsText.Length();
-            termsText.Append(GetString(Resource.String.title_terms));
-            var spanEnd = termsText.Length();
             termsText.Append(GetString(Resource.String.msg_terms1));
+            var spanEnd = termsText.Length();
+            termsText.Append(GetString(Resource.String.msg_terms2));
 
             termsText.SetSpan(
                 new TermsSpan(Context, (IFragmentHost) Activity),
@@ -66,9 +66,9 @@ namespace Madamin.Unfollow.Fragments
                 SpanTypes.InclusiveExclusive);
 
             _tvTerms.SetText(termsText, TextView.BufferType.Spannable);
+
             _tvTerms.MovementMethod = LinkMovementMethod.Instance;
         }
-
         private async void LoginBtn_Click(object sender, EventArgs e)
         {
             var usernameIsNull = string.IsNullOrEmpty(_etUserName.Text);

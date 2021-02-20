@@ -44,7 +44,7 @@
     
     <string name="msg_summary_auto_refresh">به‌روزرسانی اطلاعات حساب شما (مانند فالورها و فالویینگ‌ها) هنگام آغاز به کار برنامه</string>
 
-    <string name="title_terms">شرایط استفاده</string>
+    <string name="title_terms">پروانه و سیاست‌های حریم خصوصی</string>
     <string name="title_donate">حمایت</string>
 
     <string name="title_empty">خالی\!</string>
@@ -102,7 +102,8 @@
     <string name="input_hint_phone">شماره تلفن</string>
 
     <string name="msg_terms0">با ورود به حساب، شما با&#160;</string>
-    <string name="msg_terms1">&#160;موافقت می‌کنید.</string>
+    <string name="msg_terms1">سیاست‌های حریم خصوصی</string>
+    <string name="msg_terms2">&#160;موافقت می‌کنید.</string>
 
     <string name="url_terms">fa/terms.html</string>
     <string name="url_donate">https://unfollowapp.herokuapp.com/docs/fa/donate.html</string>

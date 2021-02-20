@@ -44,7 +44,7 @@
     
     <string name="msg_summary_auto_refresh">Refresh your account information (like followings and followers) on application startup.</string>
 
-    <string name="title_terms">Terms of Service</string>
+    <string name="title_terms">License and Privacy Policy</string>
     <string name="title_donate">Donate</string>
 
     <string name="title_empty">Empty\!</string>
@@ -106,7 +106,8 @@
     <string name="input_hint_phone">Phone number</string>
 
     <string name="msg_terms0">By login, you accept&#160;</string>
-    <string name="msg_terms1">.</string>
+    <string name="msg_terms1">Privacy Policy</string>
+    <string name="msg_terms2">.</string>
 
     <string name="pkg_instagram">com.instagram.android</string>
     
