@@ -137,6 +137,18 @@ namespace Madamin.Unfollow
             }
         }
 
+        public bool IsDarkMode()
+        {
+            try
+            {
+                return Resources?.Configuration?.IsNightModeActive ?? false;
+            }
+            catch (Java.Lang.NoSuchMethodError)
+            {
+                return AppCompatDelegate.DefaultNightMode == AppCompatDelegate.ModeNightYes;
+            }
+        }
+
         public void OnBackStackChanged()
         {
             BackButtonVisible = SupportFragmentManager.BackStackEntryCount > 0;
@@ -199,6 +211,8 @@ namespace Madamin.Unfollow
 
         void PushFragment(Fragment fragment);
         void PopFragment();
+
+        bool IsDarkMode();
     }
 
     public class OnActivityCreateEventArgs

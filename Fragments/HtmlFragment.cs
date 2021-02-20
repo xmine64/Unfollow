@@ -47,8 +47,7 @@ namespace Madamin.Unfollow.Fragments
             _webView = new WebView(Context);
 
             // Enable dark mode
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.N &&
-                (Resources?.Configuration?.IsNightModeActive ?? false))
+            if (((IFragmentHost)Activity).IsDarkMode())
             {
                 _webView.Settings.ForceDark = ForceDarkMode.On;
             }
