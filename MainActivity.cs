@@ -10,6 +10,7 @@ using Android.Graphics;
 using Android.OS;
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
+using AndroidX.Core.Content.PM;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.Snackbar;
 using Google.Android.Material.BottomNavigation;
@@ -384,16 +385,20 @@ namespace Madamin.Unfollow
         {
             #if DEBUG
             System.Diagnostics.Debug.Assert(_currentPackage != null);
-            System.Diagnostics.Debug.Assert(_currentPackage.LongVersionCode != -1);
+            #else
+            if (_currentPackage == null)
+                return -1;
+            #endif
+            
+            var longVersionCode = PackageInfoCompat.GetLongVersionCode(_currentPackage);
+
+            #if DEBUG
+            System.Diagnostics.Debug.Assert(longVersionCode != -1);
 
             return -1;
             #else
 
-            if (_currentPackage == null)
-                return -1;
-
-            return _currentPackage.LongVersionCode;
-
+            return longVersionCode;
             #endif
         }
 
