@@ -164,8 +164,10 @@ namespace Madamin.Unfollow.Main
 
         private void BeginTransition()
         {
-            //var rootView = FindViewById<ViewGroup>(Resource.Id.root);
-            //TransitionManager.BeginDelayedTransition(rootView);
+#if DEBUG
+            var rootView = FindViewById<ViewGroup>(Resource.Id.root);
+            TransitionManager.BeginDelayedTransition(rootView);
+#endif
         }
 
         private void Navbar_NavigationItemSelected(object sender,
