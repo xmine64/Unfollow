@@ -38,7 +38,8 @@ namespace Madamin.Unfollow.Fragments
             // Show versions
             var versionProvider = (IVersionProvider) Activity;
             tvVersion.Text = GetString(Resource.String.msg_app_version, 
-                versionProvider.GetAppVersionName());
+                versionProvider.GetAppVersionName(),
+                versionProvider.GetAppVersionCode());
 
             tvLibVersion.Text = GetString(
                 Resource.String.msg_using_x_version_y,
