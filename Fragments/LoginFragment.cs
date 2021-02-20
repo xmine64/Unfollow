@@ -194,11 +194,8 @@ namespace Madamin.Unfollow.Fragments
 
             public override void OnClick(View widget)
             {
-                var fragment = new HtmlFragment(
-                    _context.GetString(Resource.String.title_terms),
-                    _context.GetString(Resource.String.url_terms),
-                    HtmlFragment.HtmlSource.Assets);
-                _fragmentHost.PushFragment(fragment);
+                ((ICustomTabProvider)_context).LaunchBrowser(
+                    _context.GetString(Resource.String.url_terms));
             }
         }
     }

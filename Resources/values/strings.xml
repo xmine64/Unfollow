@@ -116,7 +116,7 @@
     
     <string name="url_instagram_user">https://instagram.com/_u/%1$s</string>
 
-    <string name="url_terms">en/terms.html</string>
+    <string name="url_terms">https://unfollowapp.herokuapp.com/docs/en/terms.html</string>
     <string name="url_donate">https://unfollowapp.herokuapp.com/docs/en/donate.html</string>
 
     <string name="url_update_api">https://unfollowapp.herokuapp.com/api</string>

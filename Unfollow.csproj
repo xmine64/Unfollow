@@ -103,7 +103,6 @@
     <Compile Include="Adapters\FansAdapter.cs" />
     <Compile Include="Fragments\AboutFragment.cs" />
     <Compile Include="Fragments\FansFragment.cs" />
-    <Compile Include="Fragments\HtmlFragment.cs" />
     <Compile Include="Fragments\ChallengeFragment.cs" />
     <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -829,12 +828,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v24\ic_block_black_24dp.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\en\terms.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\fa\terms.html" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-mdpi\ic_menu_black_24dp.png" />

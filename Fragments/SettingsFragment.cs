@@ -3,7 +3,7 @@
 using Android.Content;
 using Android.OS;
 using Android.Views;
-
+using AndroidX.Browser.CustomTabs;
 using AndroidX.Preference;
 
 namespace Madamin.Unfollow.Fragments
@@ -77,20 +77,14 @@ namespace Madamin.Unfollow.Fragments
 
         private void Terms_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            var fragment = new HtmlFragment(
-                GetString(Resource.String.title_terms),
-                GetString(Resource.String.url_terms),
-                HtmlFragment.HtmlSource.Assets);
-            _host.PushFragment(fragment);
+            ((ICustomTabProvider)Activity)
+                .LaunchBrowser(GetString(Resource.String.url_terms));
         }
 
         private void Donate_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            var fragment = new HtmlFragment(
-                GetString(Resource.String.title_donate),
-                GetString(Resource.String.url_donate),
-                HtmlFragment.HtmlSource.Url);
-            ((IFragmentHost) Activity).PushFragment(fragment);
+            ((ICustomTabProvider)Activity)
+                .LaunchBrowser(GetString(Resource.String.url_donate));
         }
     }
 }

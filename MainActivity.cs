@@ -16,6 +16,7 @@ using Google.Android.Material.BottomNavigation;
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
 using Path = System.IO.Path;
+using AndroidX.Browser.CustomTabs;
 
 namespace Madamin.Unfollow
 {
@@ -30,7 +31,8 @@ namespace Madamin.Unfollow
         IErrorHost,
         ISnackBarHost,
         IPreferenceManager,
-        IVersionProvider
+        IVersionProvider,
+        ICustomTabProvider
     {
         public MainActivity() : base(
             Resource.Layout.activity_main,
@@ -417,6 +419,15 @@ namespace Madamin.Unfollow
         {
             return typeof(InstagramApiSharp.API.IInstaApi).Assembly.GetName();
         }
+
+        public void LaunchBrowser(string url)
+        {
+            var builder = new CustomTabsIntent.Builder();
+            builder.SetShowTitle(true);
+            builder.SetUrlBarHidingEnabled(true);
+            var customTabs = builder.Build();
+            customTabs.LaunchUrl(this, Android.Net.Uri.Parse(url));
+        }
     }
 
     public interface IDataContainer
@@ -459,5 +470,10 @@ namespace Madamin.Unfollow
         string GetAppVersionName();
         AssemblyName GetAppAssemblyName();
         AssemblyName GetLibraryAssemblyName();
+    }
+
+    public interface ICustomTabProvider
+    {
+        void LaunchBrowser(string url);
     }
 }
