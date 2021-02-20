@@ -1,8 +1,7 @@
 ﻿using System;
-using Android.Content;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
-using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -16,11 +15,9 @@ namespace Madamin.Unfollow.Fragments
 
         private void AboutFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
-            // Setup fragment
-            Title = GetString(Resource.String.title_about);
-            ActionBarVisible = false;
+            ((IActionBarContainer)Activity).SetTitle(Resource.String.title_about);
+            ((IActionBarContainer)Activity).Hide();
 
-            // Find views
             var tvVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_app_version);
             var tvLibVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_instasharp_version);
 
@@ -36,8 +33,8 @@ namespace Madamin.Unfollow.Fragments
                 return;
 
             // Show versions
-            var versionProvider = (IVersionProvider) Activity;
-            tvVersion.Text = GetString(Resource.String.msg_app_version, 
+            var versionProvider = (IVersionProvider)Activity;
+            tvVersion.Text = GetString(Resource.String.msg_app_version,
                 versionProvider.GetAppVersionName(),
                 versionProvider.GetAppVersionCode());
 
@@ -47,7 +44,6 @@ namespace Madamin.Unfollow.Fragments
                 versionProvider.GetLibraryAssemblyName().Version.ToString()
             );
 
-            // Add click handlers
             btnTelegram.Click += Telegram_Click;
             btnInstagram.Click += Instagram_Click;
             btnGithub.Click += Github_Click;
@@ -55,22 +51,20 @@ namespace Madamin.Unfollow.Fragments
 
         private void Telegram_Click(object sender, EventArgs e)
         {
-            var url = Android.Net.Uri.Parse(
-                GetString(Resource.String.url_telegram));
-            ((ICustomTabProvider)Activity).LaunchBrowser(url);
+            var url = GetString(Resource.String.url_telegram);
+            ((IUrlHandler)Activity).LaunchBrowser(url);
         }
 
         private void Instagram_Click(object sender, EventArgs e)
         {
-            ((IInstagramHost) Activity).OpenInInstagram(
-                GetString(Resource.String.url_instagram));
+            var page = GetString(Resource.String.url_instagram);
+            ((IUrlHandler)Activity).LaunchInstagram(page);
         }
 
         private void Github_Click(object sender, EventArgs e)
         {
-            var url = Android.Net.Uri.Parse(
-                GetString(Resource.String.url_github));
-            ((ICustomTabProvider)Activity).LaunchBrowser(url);
+            var url = GetString(Resource.String.url_github);
+            ((IUrlHandler)Activity).LaunchBrowser(url);
         }
     }
 }

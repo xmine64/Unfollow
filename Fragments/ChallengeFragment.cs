@@ -5,6 +5,7 @@ using Google.Android.Material.TextField;
 using Madamin.Unfollow.Instagram;
 using InstagramApiSharp.Classes;
 using Android.Views;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -32,8 +33,8 @@ namespace Madamin.Unfollow.Fragments
 
         private async void ChallengeFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
-            Title = GetString(Resource.String.title_challenge);
-            ActionBarVisible = false;
+            ((IActionBarContainer)Activity).SetTitle(Resource.String.title_challenge);
+            ((IActionBarContainer)Activity).Hide();
 
             _phoneTextView = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_phone);
             _methodPhoneTextView = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_methods_phone);
@@ -84,7 +85,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                ((IErrorHost)Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
         }
 
@@ -98,7 +99,7 @@ namespace Madamin.Unfollow.Fragments
                     return;
 
                 if (_method == ChallengeMethod.Phone)
-                { 
+                {
                     await _account.ResendChallengePhoneCodeAsync();
                     return;
                 }
@@ -111,7 +112,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                ((IErrorHost)Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
                 _resendButton.Enabled = true;
             }
 
@@ -128,14 +129,14 @@ namespace Madamin.Unfollow.Fragments
             {
                 if (_challenge.SubmitPhoneRequired)
                 {
-                    await ((IInstagramHost)Activity).Accounts
+                    await ((IInstagramAccounts)Activity).Accounts
                         .CompleteSubmitPhoneChallengeAsync(_account, _phoneEditText.Text);
 
                     PopFragment();
                 }
                 else
                 {
-                    await ((IInstagramHost)Activity).Accounts
+                    await ((IInstagramAccounts)Activity).Accounts
                         .CompleteChallengeAsync(_account, _otpEditText.Text);
 
                     PopFragment();
@@ -148,7 +149,7 @@ namespace Madamin.Unfollow.Fragments
                 _otpInputLayout.Enabled = true;
                 _phoneInputLayout.Enabled = true;
 
-                ((IErrorHost)Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
         }
 
@@ -169,7 +170,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                ((IErrorHost)Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
         }
 
@@ -190,7 +191,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                ((IErrorHost)Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
         }
 

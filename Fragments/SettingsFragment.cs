@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-
 using Android.Content;
 using Android.OS;
 using Android.Views;
-using AndroidX.Browser.CustomTabs;
 using AndroidX.Preference;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -27,17 +26,11 @@ namespace Madamin.Unfollow.Fragments
         private const string PreferenceKeyDonate = "donate";
         private const string PreferenceKeyAbout = "about";
 
-        private IFragmentHost _host;
-
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            _host = (IFragmentHost) Activity;
-
-            // Fragment setup
-            _host.ActionBarTitle = GetString(Resource.String.title_settings);
-            _host.ActionBarVisible = true;
+            ((IActionBarContainer)Activity).SetTitle(Resource.String.title_settings);
         }
 
         public override void OnCreatePreferences(Bundle savedInstanceState, string rootKey)
@@ -67,26 +60,24 @@ namespace Madamin.Unfollow.Fragments
 
         private void UpdateCheck_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            ((IUpdateServerHost) Activity).CheckForUpdate(true);
+            ((IUpdateChecker)Activity).CheckForUpdate(true);
         }
 
         private void About_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            _host.PushFragment(new AboutFragment());
+            ((IFragmentContainer)Activity).PushFragment(new AboutFragment());
         }
 
         private void Terms_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            var url = Android.Net.Uri.Parse(
-                GetString(Resource.String.url_terms));
-            ((ICustomTabProvider)Activity).LaunchBrowser(url);
+            var url = GetString(Resource.String.url_terms);
+            ((IUrlHandler)Activity).LaunchBrowser(url);
         }
 
         private void Donate_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            var url = Android.Net.Uri.Parse(
-                GetString(Resource.String.url_donate));
-            ((ICustomTabProvider)Activity).LaunchBrowser(url);
+            var url = GetString(Resource.String.url_donate);
+            ((IUrlHandler)Activity).LaunchBrowser(url);
         }
     }
 }

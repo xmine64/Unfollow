@@ -2,6 +2,7 @@
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
 using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -29,11 +30,9 @@ namespace Madamin.Unfollow.Fragments
                 PopFragment();
             }
 
-            // Fragment setup
-            Title = GetString(Resource.String.title_2fa);
-            ActionBarVisible = false;
+            ((IActionBarContainer)Activity).SetTitle(Resource.String.title_2fa);
+            ((IActionBarContainer)Activity).Hide();
 
-            // Find views
             _textInput = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_2fa_code_input);
             _btnResend = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_resend);
             _btnVerify = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_verify);
@@ -42,7 +41,6 @@ namespace Madamin.Unfollow.Fragments
                 _btnResend == null)
                 return;
 
-            // Setup click handlers
             _btnVerify.Click += VerifyButton_OnClick;
             _btnResend.Click += ResendTextView_OnClick;
         }
@@ -54,13 +52,13 @@ namespace Madamin.Unfollow.Fragments
             _btnVerify.Enabled = false;
             try
             {
-                var instagram = ((IInstagramHost) Activity).Accounts;
+                var instagram = ((IInstagramAccounts)Activity).Accounts;
                 await instagram.CompleteLoginAsync(
                     _account,
                     _textInput.Text);
 
 #if TGBUILD || DEBUG
-                ((IUpdateServerHost) Activity).DidLogin();
+                ((IUpdateChecker)Activity).DidLogin();
 #endif
 
                 PopFragment();
@@ -73,15 +71,15 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (InvalidTwoFactorCodeException)
             {
-                ((ISnackBarHost)Activity).ShowSnackbar(Resource.String.error_invalid_2fa);
+                ((ISnackBarProvider)Activity).ShowSnackbar(Resource.String.error_invalid_2fa);
             }
             catch (TwoFactorCodeExpiredException)
             {
-                ((ISnackBarHost)Activity).ShowSnackbar(Resource.String.error_2fa_expired);
+                ((ISnackBarProvider)Activity).ShowSnackbar(Resource.String.error_2fa_expired);
             }
             catch (Exception ex)
             {
-                ((IErrorHost) Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
             finally
             {
@@ -101,7 +99,7 @@ namespace Madamin.Unfollow.Fragments
             catch (Exception ex)
             {
                 _btnResend.Enabled = true;
-                ((IErrorHost) Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
         }
     }

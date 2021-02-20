@@ -112,8 +112,6 @@
     <string name="msg_terms2">.</string>
 
     <string name="pkg_instagram">com.instagram.android</string>
-    
-    <string name="url_instagram_user">https://instagram.com/_u/%1$s</string>
 
     <string name="url_terms">https://unfollowapp.herokuapp.com/docs/en/terms.html</string>
     <string name="url_donate">https://unfollowapp.herokuapp.com/docs/en/donate.html</string>

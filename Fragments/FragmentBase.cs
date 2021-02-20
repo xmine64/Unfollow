@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Views;
 using AndroidX.Fragment.App;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -9,8 +10,6 @@ namespace Madamin.Unfollow.Fragments
     {
         private readonly int _layout;
         private readonly int _menu;
-
-        private IFragmentHost _host;
 
         protected FragmentBase(int layout)
         {
@@ -23,24 +22,11 @@ namespace Madamin.Unfollow.Fragments
             _menu = menu;
         }
 
-        protected string Title
-        {
-            get => _host.ActionBarTitle;
-            set => _host.ActionBarTitle = value;
-        }
-
-        protected bool ActionBarVisible
-        {
-            get => _host.ActionBarVisible;
-            set => _host.ActionBarVisible = value;
-        }
-
         public override View OnCreateView(
             LayoutInflater inflater,
             ViewGroup container,
             Bundle savedInstanceState)
         {
-            _host = (IFragmentHost) Context;
             var view = inflater.Inflate(_layout, container, false);
             Create?.Invoke(this, new OnFragmentCreateEventArgs(savedInstanceState, view));
             return view;
@@ -66,17 +52,17 @@ namespace Madamin.Unfollow.Fragments
 
         protected void PushFragment(Fragment fragment)
         {
-            _host.PushFragment(fragment);
+            ((IFragmentContainer)Activity).PushFragment(fragment);
         }
 
         protected void PopFragment()
         {
-            _host.PopFragment();
+            ((IFragmentContainer)Activity).PopFragment();
         }
 
         protected void NavigateTo(Fragment fragment, bool addToBackStack)
         {
-            _host.NavigateTo(fragment, addToBackStack);
+            ((IFragmentContainer)Activity).NavigateTo(fragment, addToBackStack);
         }
 
         public event EventHandler<OnFragmentCreateEventArgs> Create;

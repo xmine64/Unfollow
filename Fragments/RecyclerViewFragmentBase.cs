@@ -8,6 +8,7 @@ using AndroidX.RecyclerView.Widget;
 
 using Google.Android.Material.Button;
 using Google.Android.Material.TextView;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -107,7 +108,7 @@ namespace Madamin.Unfollow.Fragments
                 catch (Exception ex)
                 {
                     ViewMode = RecyclerViewMode.Error;
-                    ((IErrorHost) Activity).ShowError(ex);
+                    ((IErrorHandler) Activity).ShowError(ex);
                 }
             });
         }

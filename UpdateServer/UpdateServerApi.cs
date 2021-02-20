@@ -7,28 +7,8 @@ using Newtonsoft.Json;
 
 namespace Madamin.Unfollow
 {
-    internal class UpdateServerApi : IDisposable
+    internal partial class UpdateServerApi : IDisposable
     {
-        public const string StatusOk = "ok";
-
-        private const string MethodCheckUpdate = "check_update";
-        private const string MethodBugReport = "bug_report";
-#if TGBUILD || DEBUG
-        private const string MethodDidLogin = "did_login";
-#endif
-
-#if TGBUILD || DEBUG
-        public const string LanguageEnglish = "en";
-        public const string LanguagePersian = "fa";
-#endif
-#if !TGBUILD || DEBUG
-        public const string LanguageGithubChannel = "github";
-#endif
-
-        private const string NotAvailable = "Not Available";
-
-        private const string JsonMimeType = "application/json";
-
         private readonly string _apiAddress;
         private readonly HttpClient _client;
         private readonly Context _context;
@@ -114,60 +94,5 @@ namespace Madamin.Unfollow
             });
         }
 #endif
-    }
-
-    internal class ApiRequest
-    {
-        [JsonProperty("method", Required = Required.Always)]
-        public string Method { get; set; }
-        
-        [JsonProperty("version", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
-        public long? Version { get; set; }
-
-        [JsonProperty("lang", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
-        public string Language { get; set; }
-
-        [JsonProperty("type", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
-        public string ExceptionType { get; set; }
-        
-        [JsonProperty("message", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
-        public string Message { get; set; }
-
-        [JsonProperty("callstack", Required = Required.DisallowNull, NullValueHandling = NullValueHandling.Ignore)]
-        public string Callstack { get; set; }
-
-    }
-
-    internal class ApiResponse
-    {
-        [JsonProperty("status", Required = Required.Always)]
-        public string Status { get; set; }
-
-        [JsonProperty("error", Required = Required.DisallowNull)]
-        public string Error { get; set; }
-
-        [JsonProperty("message", Required = Required.DisallowNull)]
-        public string Message { get; set; }
-
-        [JsonProperty("available", Required = Required.DisallowNull)]
-        public bool Available { get; set; }
-
-        [JsonProperty("update", Required = Required.DisallowNull)]
-        public UpdateInformation Update { get; set; }
-    }
-
-    internal class UpdateInformation
-    {
-        [JsonProperty("message", Required = Required.DisallowNull)]
-        public string Message { get; set; }
-
-        [JsonProperty("version", Required = Required.DisallowNull)]
-        public long Version { get; set; }
-
-        [JsonProperty("button_label", Required = Required.DisallowNull)]
-        public string ButtonLabel { get; set; }
-
-        [JsonProperty("button_url", Required = Required.DisallowNull)]
-        public string ButtonUrl { get; set; }
     }
 }

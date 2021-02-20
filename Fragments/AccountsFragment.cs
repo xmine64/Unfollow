@@ -2,7 +2,7 @@
 using Android.OS;
 using Google.Android.Material.Dialog;
 using Madamin.Unfollow.Adapters;
-using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.Main;
 using Madamin.Unfollow.ViewHolders;
 
 namespace Madamin.Unfollow.Fragments
@@ -41,17 +41,16 @@ namespace Madamin.Unfollow.Fragments
 
         private void AccountsFragment_Create(object sender, OnFragmentCreateEventArgs e)
         {
-            // Setup fragment
-            Title = GetString(Resource.String.app_name);
-            ActionBarVisible = true;
+            ((IActionBarContainer)Activity).SetTitle(Resource.String.app_name);
+
             EmptyText = GetString(Resource.String.msg_no_account);
             SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
-            var accounts = ((IInstagramHost)Activity).Accounts;
+            var accounts = ((IInstagramAccounts)Activity).Accounts;
             AccountAdapter = new AccountAdapter(accounts, this);
 
             // Check if Tip has been shown already
-            _tipShown = ((IPreferenceManager)Activity)
+            _tipShown = ((IPreferenceContainer)Activity)
                 .GetBoolean(PreferenceKeyTipIsShown, false);
 
             // Check if accounts data are not loaded, load them
@@ -74,7 +73,7 @@ namespace Madamin.Unfollow.Fragments
             if (!_didRefresh)
             {
                 _didRefresh = true;
-                if (((IPreferenceManager)Activity)
+                if (((IPreferenceContainer)Activity)
                     .GetBoolean(PreferenceKeyAutoRefresh, true))
                 {
                     DoTask(accounts.RefreshAllAsync(), _adapter.NotifyDataSetChanged);
@@ -88,7 +87,7 @@ namespace Madamin.Unfollow.Fragments
             if (mode == RecyclerViewMode.Empty &&
                 !_hasPushedToLoginFragment)
             {
-                ((IFragmentHost)Activity).PushFragment(new LoginFragment());
+                ((IFragmentContainer)Activity).PushFragment(new LoginFragment());
                 _hasPushedToLoginFragment = true;
                 return;
             }
@@ -102,7 +101,7 @@ namespace Madamin.Unfollow.Fragments
                 dialog.SetMessage(Resource.String.msg_tip);
                 dialog.Show();
 
-                ((IPreferenceManager)Activity).SetBoolean(PreferenceKeyTipIsShown, true);
+                ((IPreferenceContainer)Activity).SetBoolean(PreferenceKeyTipIsShown, true);
 
                 _tipShown = true;
 
@@ -116,12 +115,12 @@ namespace Madamin.Unfollow.Fragments
             switch (e.ItemId)
             {
                 case Resource.Id.appbar_home_item_addaccount:
-                    ((IFragmentHost)Activity).PushFragment(new LoginFragment());
+                    ((IFragmentContainer)Activity).PushFragment(new LoginFragment());
                     break;
 
                 case Resource.Id.appbar_home_item_refresh:
                     DoTask(
-                        ((IInstagramHost)Activity).Accounts.RefreshAllAsync(),
+                        ((IInstagramAccounts)Activity).Accounts.RefreshAllAsync(),
                         AccountAdapter.NotifyDataSetChanged);
                     break;
 
@@ -133,7 +132,7 @@ namespace Madamin.Unfollow.Fragments
 
         private void AccountsFragment_RetryClick(object sender, EventArgs e)
         {
-            var accounts = ((IInstagramHost)Activity).Accounts;
+            var accounts = ((IInstagramAccounts)Activity).Accounts;
 
             if (!accounts.IsStateRestored)
             {
@@ -176,13 +175,13 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemOpenInstagram(int position)
         {
-            var userName = AccountAdapter.GetItem(position).Data.User.Username;
-            ((IInstagramHost)Activity).OpenInInstagram(userName);
+            var user = AccountAdapter.GetItem(position).Data.User;
+            ((IUrlHandler)Activity).LaunchInstagram(user.Username);
         }
 
         public void OnItemLogout(int position)
         {
-            var accounts = ((IInstagramHost)Activity).Accounts;
+            var accounts = ((IInstagramAccounts)Activity).Accounts;
             DoTask(accounts.LogoutAccountAtAsync(position), AccountAdapter.NotifyDataSetChanged);
         }
 

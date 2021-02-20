@@ -7,6 +7,7 @@ using Android.Views;
 using AndroidX.AppCompat.App;
 using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.Main;
 using Madamin.Unfollow.ViewHolders;
 using ActionMode = AndroidX.AppCompat.View.ActionMode;
 
@@ -80,7 +81,7 @@ namespace Madamin.Unfollow.Fragments
 
                 case Resource.Id.appbar_fans_item_whitelist:
                     FansAdapter.Whitelist.AddRange(FansAdapter.GetSelected());
-                    ((IDataContainer) Activity).SaveData(GetWhitelistFileName(),
+                    ((IDataStorage)Activity).SaveData(GetWhitelistFileName(),
                         FansAdapter.Whitelist);
                     FansAdapter.Refresh();
                     FansAdapter.NotifyDataSetChanged();
@@ -107,7 +108,7 @@ namespace Madamin.Unfollow.Fragments
         public void OnItemOpen(int position)
         {
             var user = _adapter.GetItem(position);
-            ((IInstagramHost) Activity).OpenInInstagram(user.Username);
+            ((IUrlHandler)Activity).LaunchInstagram(user.Username);
         }
 
         public void OnItemSelect(int position)
@@ -125,14 +126,14 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                ((IErrorHost) Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
         }
 
         public void OnItemAddToWhitelist(int position)
         {
             FansAdapter.Whitelist.Add(_adapter.GetItem(position));
-            ((IDataContainer) Activity).SaveData(GetWhitelistFileName(), _adapter.Whitelist);
+            ((IDataStorage)Activity).SaveData(GetWhitelistFileName(), _adapter.Whitelist);
             FansAdapter.Refresh();
             FansAdapter.NotifyDataSetChanged();
         }
@@ -155,23 +156,19 @@ namespace Madamin.Unfollow.Fragments
             _accountPosition = Arguments.GetInt(BundleKeyAccountIndex, -1);
             if (_accountPosition < 0)
                 throw new ArgumentException();
-            _account = ((IInstagramHost) Activity).Accounts[_accountPosition];
+            _account = ((IInstagramAccounts)Activity).Accounts[_accountPosition];
 
-            // Setup fragment
-            Title = _account.Data.User.Fullname;
-            ActionBarVisible = true;
+            ((IActionBarContainer)Activity).SetTitle(_account.Data.User.Fullname);
             EmptyText = GetString(Resource.String.msg_no_fan);
             SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
-            // Setup adapter
             FansAdapter = new FansAdapter(_account, this);
 
-            // Load whitelist
             var whitelistFileName = GetWhitelistFileName();
-            var dataContainer = (IDataContainer) Activity;
+            var dataContainer = (IDataStorage)Activity;
             if (dataContainer.DataExists(whitelistFileName))
             {
-                var whitelist = (List<User>) dataContainer.LoadData(whitelistFileName);
+                var whitelist = (List<User>)dataContainer.LoadData(whitelistFileName);
                 FansAdapter.Whitelist.AddRange(whitelist);
             }
 
@@ -196,16 +193,16 @@ namespace Madamin.Unfollow.Fragments
 
                 case Resource.Id.appbar_fans_item_clear_whitelist:
                     FansAdapter.Whitelist.Clear();
-                    ((IDataContainer) Activity).SaveData(GetWhitelistFileName(), _adapter.Whitelist);
+                    ((IDataStorage)Activity).SaveData(GetWhitelistFileName(), _adapter.Whitelist);
                     FansAdapter.Refresh();
                     FansAdapter.NotifyDataSetChanged();
                     break;
 
                 case Resource.Id.appbar_fans_item_logout:
-                    var ig = ((IInstagramHost) Activity).Accounts;
+                    var ig = ((IInstagramAccounts)Activity).Accounts;
                     DoTask(
                         ig.LogoutAccountAsync(_account),
-                        ((IFragmentHost) Activity).PopFragment);
+                        ((IFragmentContainer)Activity).PopFragment);
                     break;
 
                 default:
@@ -231,7 +228,7 @@ namespace Madamin.Unfollow.Fragments
 
             if (_actionMode == null)
             {
-                _actionMode = ((AppCompatActivity) Activity).StartSupportActionMode(this);
+                _actionMode = ((AppCompatActivity)Activity).StartSupportActionMode(this);
                 _actionMode.Title = _account.Data.User.Fullname;
             }
 
@@ -258,7 +255,7 @@ namespace Madamin.Unfollow.Fragments
         {
             FansAdapter.Refresh();
             FansAdapter.NotifyDataSetChanged();
-            ((IInstagramHost) Activity).Accounts.SaveAccountCache(_account);
+            ((IInstagramAccounts)Activity).Accounts.SaveAccountCache(_account);
         }
 
         private string GetWhitelistFileName()

@@ -8063,22 +8063,19 @@ namespace Madamin.Unfollow
 			public const int url_instagram = 2131755197;
 			
 			// aapt resource value: 0x7F1000BE
-			public const int url_instagram_user = 2131755198;
+			public const int url_telegram = 2131755198;
 			
 			// aapt resource value: 0x7F1000BF
-			public const int url_telegram = 2131755199;
+			public const int url_terms = 2131755199;
 			
 			// aapt resource value: 0x7F1000C0
-			public const int url_terms = 2131755200;
+			public const int url_update_api = 2131755200;
 			
 			// aapt resource value: 0x7F1000C1
-			public const int url_update_api = 2131755201;
+			public const int v7_preference_off = 2131755201;
 			
 			// aapt resource value: 0x7F1000C2
-			public const int v7_preference_off = 2131755202;
-			
-			// aapt resource value: 0x7F1000C3
-			public const int v7_preference_on = 2131755203;
+			public const int v7_preference_on = 2131755202;
 			
 			static String()
 			{

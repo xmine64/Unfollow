@@ -9,6 +9,7 @@ using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
 using Google.Android.Material.TextView;
 using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
@@ -32,11 +33,9 @@ namespace Madamin.Unfollow.Fragments
                 PopFragment();
             }
 
-            // Setup fragment
-            Title = GetString(Resource.String.title_addaccount);
-            ActionBarVisible = false;
+            ((IActionBarContainer)Activity).SetTitle(Resource.String.title_addaccount);
+            ((IActionBarContainer)Activity).Hide();
 
-            // Find views
             _etUserName = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_username_input);
             _etPassword = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_password_input);
             _elUserName = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_username_layout);
@@ -50,9 +49,9 @@ namespace Madamin.Unfollow.Fragments
 
             _btnLogin.Click += LoginBtn_Click;
 
-            // Show a "Terms of service" link and handle clicking on it
+            // Show a "Privacy Policy" link
             var termsText = new SpannableStringBuilder();
-            
+
             termsText.Append(GetString(Resource.String.msg_terms0));
             var spanStart = termsText.Length();
             termsText.Append(GetString(Resource.String.msg_terms1));
@@ -60,7 +59,7 @@ namespace Madamin.Unfollow.Fragments
             termsText.Append(GetString(Resource.String.msg_terms2));
 
             termsText.SetSpan(
-                new TermsSpan(Context, (IFragmentHost) Activity),
+                new TermsSpan(Context),
                 spanStart,
                 spanEnd,
                 SpanTypes.InclusiveExclusive);
@@ -109,11 +108,11 @@ namespace Madamin.Unfollow.Fragments
                 _etPassword.Enabled = false;
                 _btnLogin.Enabled = false;
 
-                await ((IInstagramHost) Activity).Accounts
+                await ((IInstagramAccounts)Activity).Accounts
                     .AddAccountAsync(_etUserName.Text, _etPassword.Text);
 
 #if TGBUILD || DEBUG
-                ((IUpdateServerHost) Activity).DidLogin();
+                ((IUpdateChecker)Activity).DidLogin();
 #endif
 
                 PopFragment();
@@ -155,7 +154,7 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (Exception ex)
             {
-                ((IErrorHost) Activity).ShowError(ex);
+                ((IErrorHandler)Activity).ShowError(ex);
             }
             finally
             {
@@ -184,11 +183,8 @@ namespace Madamin.Unfollow.Fragments
         {
             private readonly Context _context;
 
-            private readonly IFragmentHost _fragmentHost;
-
-            public TermsSpan(Context context, IFragmentHost fragmentHost)
+            public TermsSpan(Context context)
             {
-                _fragmentHost = fragmentHost;
                 _context = context;
             }
 
@@ -196,7 +192,7 @@ namespace Madamin.Unfollow.Fragments
             {
                 var url = Android.Net.Uri.Parse(
                     _context.GetString(Resource.String.url_terms));
-                ((ICustomTabProvider)_context).LaunchBrowser(url);
+                ((IUrlHandler)_context).LaunchBrowser(url);
             }
         }
     }

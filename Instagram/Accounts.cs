@@ -172,13 +172,6 @@ namespace Madamin.Unfollow.Instagram
         #endregion
     }
 
-    internal interface IInstagramHost
-    {
-        Accounts Accounts { get; }
-
-        void OpenInInstagram(string username);
-    }
-
     public class AlreadyRestoredException : Exception
     {
     }
