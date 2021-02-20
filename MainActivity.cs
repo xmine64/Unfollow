@@ -238,7 +238,7 @@ namespace Madamin.Unfollow
             try
             {
                 // Request update information
-#if TGBUILD
+#if TGBUILD || DEBUG
                 var lang = Resources?.Configuration?.Locales.Get(0)?.Language ?? 
                            UpdateServerApi.LanguageEnglish;
 #else
@@ -268,15 +268,8 @@ namespace Madamin.Unfollow
                     result.Update.ButtonLabel,
                     (sender, args) =>
                     {
-                        var intent = Intent.ParseUri(result.Update.ButtonUrl, IntentUriType.None);
-                        try
-                        {
-                            StartActivity(intent);
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowError(ex);
-                        }
+                        var url = Android.Net.Uri.Parse(result.Update.ButtonUrl);
+                        ((ICustomTabProvider)this).LaunchBrowser(url);
                     });
 
                 dialog.SetNegativeButton(
@@ -291,19 +284,10 @@ namespace Madamin.Unfollow
             }
         }
 
-#if TGBUILD
         public async void DidLogin()
         {
             await _updateServer.DidLogin(((IVersionProvider) this).GetAppVersionCode());
         }
-#endif
-
-#if DEBUG
-        public async void DidLogin()
-        {
-            await _updateServer.DidLogin(-1);
-        }
-#endif
 
         public void ShowError(Exception exception)
         {
@@ -398,9 +382,19 @@ namespace Madamin.Unfollow
 
         public long GetAppVersionCode()
         {
+            #if DEBUG
+            System.Diagnostics.Debug.Assert(_currentPackage != null);
+            System.Diagnostics.Debug.Assert(_currentPackage.LongVersionCode != -1);
+
+            return -1;
+            #else
+
             if (_currentPackage == null)
                 return -1;
+
             return _currentPackage.LongVersionCode;
+
+            #endif
         }
 
         public string GetAppVersionName()

@@ -54,17 +54,9 @@ namespace Madamin.Unfollow.Fragments
 
         private void Telegram_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var intent = Intent.ParseUri(
-                    GetString(Resource.String.url_telegram),
-                    IntentUriType.AndroidAppScheme);
-                Activity.StartActivity(intent);
-            }
-            catch (Exception ex)
-            {
-                ((IErrorHost) Activity).ShowError(ex);
-            }
+            var url = Android.Net.Uri.Parse(
+                GetString(Resource.String.url_telegram));
+            ((ICustomTabProvider)Activity).LaunchBrowser(url);
         }
 
         private void Instagram_Click(object sender, EventArgs e)
@@ -75,17 +67,9 @@ namespace Madamin.Unfollow.Fragments
 
         private void Github_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var intent = Intent.ParseUri(
-                    GetString(Resource.String.url_github),
-                    IntentUriType.AndroidAppScheme);
-                Activity.StartActivity(intent);
-            }
-            catch (Exception ex)
-            {
-                ((IErrorHost) Activity).ShowError(ex);
-            }
+            var url = Android.Net.Uri.Parse(
+                GetString(Resource.String.url_github));
+            ((ICustomTabProvider)Activity).LaunchBrowser(url);
         }
     }
 }
