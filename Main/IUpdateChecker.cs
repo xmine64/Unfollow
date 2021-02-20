@@ -67,9 +67,11 @@ namespace Madamin.Unfollow.Main
             }
         }
 
+#if TGBUILD || DEBUG
         async void IUpdateChecker.DidLogin()
         {
             await _updateServer.DidLogin(((IVersionProvider)this).GetAppVersionCode());
         }
+#endif
     }
 }
