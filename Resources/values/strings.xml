@@ -77,7 +77,6 @@
     <string name="error_duplicate_account">Duplicate account</string>
     <string name="error_required_field">This field is required.</string>
     <string name="error_login_failure">Can\'t log into your account</string>
-    <string name="error_ig_not_installed">Instagram app is not installed</string>
     
     <string name="error_invalid_2fa">Invalid Code</string>
     <string name="error_2fa_expired">Code expired</string>

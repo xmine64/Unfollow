@@ -181,9 +181,9 @@ namespace Madamin.Unfollow
 
         public void OpenInInstagram(string username)
         {
-            var intent = Intent.ParseUri(
-                GetString(Resource.String.url_instagram_user, username),
-                IntentUriType.None);
+            var url = Android.Net.Uri.Parse(
+                GetString(Resource.String.url_instagram_user, username));
+            var intent = new Intent(Intent.ActionView, url);
             intent?.SetPackage(GetString(Resource.String.pkg_instagram));
             try
             {
@@ -191,7 +191,7 @@ namespace Madamin.Unfollow
             }
             catch (ActivityNotFoundException)
             {
-                ((ISnackBarHost)this).ShowSnackbar(Resource.String.error_ig_not_installed);
+                ((ICustomTabProvider)this).LaunchBrowser(url);
             }
             catch (Exception ex)
             {
@@ -420,13 +420,13 @@ namespace Madamin.Unfollow
             return typeof(InstagramApiSharp.API.IInstaApi).Assembly.GetName();
         }
 
-        public void LaunchBrowser(string url)
+        public void LaunchBrowser(Android.Net.Uri url)
         {
             var builder = new CustomTabsIntent.Builder();
             builder.SetShowTitle(true);
             builder.SetUrlBarHidingEnabled(true);
             var customTabs = builder.Build();
-            customTabs.LaunchUrl(this, Android.Net.Uri.Parse(url));
+            customTabs.LaunchUrl(this, url);
         }
     }
 
@@ -474,6 +474,6 @@ namespace Madamin.Unfollow
 
     public interface ICustomTabProvider
     {
-        void LaunchBrowser(string url);
+        void LaunchBrowser(Android.Net.Uri url);
     }
 }

@@ -77,14 +77,16 @@ namespace Madamin.Unfollow.Fragments
 
         private void Terms_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            ((ICustomTabProvider)Activity)
-                .LaunchBrowser(GetString(Resource.String.url_terms));
+            var url = Android.Net.Uri.Parse(
+                GetString(Resource.String.url_terms));
+            ((ICustomTabProvider)Activity).LaunchBrowser(url);
         }
 
         private void Donate_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            ((ICustomTabProvider)Activity)
-                .LaunchBrowser(GetString(Resource.String.url_donate));
+            var url = Android.Net.Uri.Parse(
+                GetString(Resource.String.url_donate));
+            ((ICustomTabProvider)Activity).LaunchBrowser(url);
         }
     }
 }

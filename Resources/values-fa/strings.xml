@@ -77,7 +77,6 @@
     <string name="error_duplicate_account">اکانت تکراری</string>
     <string name="error_required_field">پر کردن این خانه ضروری است.</string>
     <string name="error_login_failure">نمیتوان وارد حساب شد</string>
-    <string name="error_ig_not_installed">اینستاگرام نصب نشده است</string>
 
     <string name="msg_app_version">نسخه %1$s</string>
     <string name="msg_using_x_version_y">با %1$s نسخه %2$s</string>

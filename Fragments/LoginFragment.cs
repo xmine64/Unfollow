@@ -194,8 +194,9 @@ namespace Madamin.Unfollow.Fragments
 
             public override void OnClick(View widget)
             {
-                ((ICustomTabProvider)_context).LaunchBrowser(
+                var url = Android.Net.Uri.Parse(
                     _context.GetString(Resource.String.url_terms));
+                ((ICustomTabProvider)_context).LaunchBrowser(url);
             }
         }
     }
