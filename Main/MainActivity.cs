@@ -7,11 +7,12 @@ using Android.Graphics;
 using Android.OS;
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
+using AndroidX.AppCompat.Widget;
+using AndroidX.Transitions;
+using AndroidX.Fragment.App;
 using Google.Android.Material.BottomNavigation;
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
-using AndroidX.AppCompat.Widget;
-using AndroidX.Transitions;
 
 namespace Madamin.Unfollow.Main
 {
@@ -22,6 +23,10 @@ namespace Madamin.Unfollow.Main
     {
         private readonly AccountsFragment _accountsFragment = new AccountsFragment();
         private readonly SettingsFragment _settingsFragment = new SettingsFragment();
+
+        private Toolbar _appBar;
+        private BottomNavigationView _navBar;
+        private FragmentContainerView _mainContainer;
 
         protected override void AttachBaseContext(Context context)
         {
@@ -65,48 +70,37 @@ namespace Madamin.Unfollow.Main
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
-            SupportFragmentManager.BackStackChanged += OnBackStackChanged;
-
             SetContentView(Resource.Layout.activity_main);
 
-            SetSupportActionBar(FindViewById<Toolbar>(Resource.Id.main_appbar));
+            _appBar = FindViewById<Toolbar>(Resource.Id.main_appbar);
+            _navBar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
+            _mainContainer = FindViewById<FragmentContainerView>(Resource.Id.main_container);
+            _currentPackage = PackageManager?.GetPackageInfo(PackageName, 0);
+
+            SetSupportActionBar(_appBar);
+            SupportFragmentManager.BackStackChanged += OnBackStackChanged;
+            _navBar.NavigationItemSelected += Navbar_NavigationItemSelected;
+
+            // Work around for white icons on white background
+            // on status bar and navigation bar on older versions of Android
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+                Window?.SetStatusBarColor(Color.Black);
+            if (Build.VERSION.SdkInt < BuildVersionCodes.OMr1)
+                Window?.SetNavigationBarColor(Color.Black);
 
             _updateServer = new UpdateServerApi(this);
 
-            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            var accountsDir = ((IDataStorage)this).GetAccountsDir();
+            var cacheDir = ((IDataStorage)this).GetCacheDir();
+
+            if (accountsDir == null ||
+                cacheDir == null)
             {
-                Window?.SetStatusBarColor(Color.Black);
+                // TODO: Panic
+                return;
             }
 
-            if (Build.VERSION.SdkInt < BuildVersionCodes.OMr1)
-            {
-                Window?.SetNavigationBarColor(Color.Black);
-            }
-
-            var navbar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
-            if (navbar != null)
-            {
-                navbar.NavigationItemSelected += Navbar_NavigationItemSelected;
-            }
-
-            _currentPackage = PackageManager?.GetPackageInfo(PackageName, 0);
-
-            if (((IPreferenceContainer)this).GetBoolean(
-                SettingsFragment.PreferenceKeyAutoUpdate,
-                true))
-            {
-                ((IUpdateChecker)this).CheckForUpdate(false);
-            }
-
-            try
-            {
-                _accounts = new Accounts(((IDataStorage)this).GetAccountsDir(),
-                    ((IDataStorage)this).GetCacheDir());
-            }
-            catch (Exception ex)
-            {
-                ((IErrorHandler)this).ShowError(ex);
-            }
+            _accounts = new Accounts(accountsDir, cacheDir);
 
             if (savedInstanceState != null)
             {
@@ -115,7 +109,7 @@ namespace Madamin.Unfollow.Main
                 if (SupportFragmentManager.BackStackEntryCount > 0)
                 {
                     SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-                    navbar.Visibility = ViewStates.Gone;
+                    _navBar.Visibility = ViewStates.Gone;
                 }
 
                 return;
@@ -126,6 +120,19 @@ namespace Madamin.Unfollow.Main
                 .BeginTransaction()
                 .Add(Resource.Id.main_container, _accountsFragment)
                 .Commit();
+
+            if (((IPreferenceContainer)this).GetBoolean(
+                SettingsFragment.PreferenceKeyAutoUpdate,
+                true))
+            {
+                ((IUpdateChecker)this).CheckForUpdate();
+            }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _updateServer.Dispose();
         }
 
         private void OnBackStackChanged(object sender, EventArgs e)
@@ -165,8 +172,7 @@ namespace Madamin.Unfollow.Main
         private void BeginTransition()
         {
 #if DEBUG
-            var rootView = FindViewById<ViewGroup>(Resource.Id.root);
-            TransitionManager.BeginDelayedTransition(rootView);
+            TransitionManager.BeginDelayedTransition(_mainContainer);
 #endif
         }
 

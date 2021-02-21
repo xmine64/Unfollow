@@ -5,7 +5,9 @@ namespace Madamin.Unfollow.Main
 {
     public interface IUpdateChecker
     {
-        void CheckForUpdate(bool verbose);
+        void CheckForUpdate();
+
+        void ReportBug(Exception exception);
 
 #if TGBUILD || DEBUG
         void DidLogin();
@@ -16,7 +18,7 @@ namespace Madamin.Unfollow.Main
     {
         private UpdateServerApi _updateServer;
 
-        async void IUpdateChecker.CheckForUpdate(bool verbose)
+        async void IUpdateChecker.CheckForUpdate()
         {
             try
             {
@@ -37,9 +39,7 @@ namespace Madamin.Unfollow.Main
                 // Stop if update is not available
                 if (!result.Available)
                 {
-                    if (verbose)
-                        ((ISnackBarProvider)this).ShowSnackbar(Resource.String.msg_up_to_date);
-                    return;
+                    ((ISnackBarProvider)this).ShowSnackBar(Resource.String.msg_up_to_date);
                 }
 
                 // Show an update dialog
@@ -65,6 +65,13 @@ namespace Madamin.Unfollow.Main
             {
                 ((IErrorHandler)this).ShowError(exception);
             }
+        }
+
+        async void IUpdateChecker.ReportBug(Exception exception)
+        {
+            var result = await _updateServer.BugReport(exception);
+            if (result.Status != UpdateServerApi.StatusOk)
+                throw new Exception(result.Message);
         }
 
 #if TGBUILD || DEBUG

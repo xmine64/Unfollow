@@ -46,29 +46,15 @@ namespace Madamin.Unfollow.Fragments
             EmptyText = GetString(Resource.String.msg_no_account);
             SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
-            var accounts = ((IInstagramAccounts)Activity).Accounts;
-            AccountAdapter = new AccountAdapter(accounts, this);
+            AccountAdapter = ((IInstagramAccounts)Activity).CreateAccountAdapter(this);
 
             // Check if Tip has been shown already
             _tipShown = ((IPreferenceContainer)Activity)
                 .GetBoolean(PreferenceKeyTipIsShown, false);
 
-            // Check if accounts data are not loaded, load them
-            if (accounts.IsStateRestored)
-            {
-                if (accounts.NeedRefresh)
-                {
-                    DoTask(accounts.FixNeedRefresh(), _adapter.NotifyDataSetChanged);
-                }
-                else
-                {
-                    ViewMode = RecyclerViewMode.Data;
-                }
-            }
-            else
-            {
-                DoTask(accounts.RestoreStateAsync(), _adapter.NotifyDataSetChanged);
-            }
+            var initializeTask = ((IInstagramAccounts)Activity).InitializeIfNeededAsync();
+            if (initializeTask != null)
+                DoTask(initializeTask, _adapter.NotifyDataSetChanged);
 
             if (!_didRefresh)
             {
@@ -76,7 +62,8 @@ namespace Madamin.Unfollow.Fragments
                 if (((IPreferenceContainer)Activity)
                     .GetBoolean(PreferenceKeyAutoRefresh, true))
                 {
-                    DoTask(accounts.RefreshAllAsync(), _adapter.NotifyDataSetChanged);
+                    DoTask(((IInstagramAccounts)Activity).RefreshAsync(),
+                        _adapter.NotifyDataSetChanged);
                 }
             }
         }
@@ -120,7 +107,7 @@ namespace Madamin.Unfollow.Fragments
 
                 case Resource.Id.appbar_home_item_refresh:
                     DoTask(
-                        ((IInstagramAccounts)Activity).Accounts.RefreshAllAsync(),
+                        ((IInstagramAccounts)Activity).RefreshAsync(),
                         AccountAdapter.NotifyDataSetChanged);
                     break;
 
@@ -132,21 +119,10 @@ namespace Madamin.Unfollow.Fragments
 
         private void AccountsFragment_RetryClick(object sender, EventArgs e)
         {
-            var accounts = ((IInstagramAccounts)Activity).Accounts;
-
-            if (!accounts.IsStateRestored)
-            {
-                DoTask(accounts.RestoreStateAsync(), AccountAdapter.NotifyDataSetChanged);
-                return;
-            }
-
-            if (accounts.NeedRefresh)
-            {
-                DoTask(accounts.FixNeedRefresh(), AccountAdapter.NotifyDataSetChanged);
-                return;
-            }
-
-            DoTask(accounts.RefreshAllAsync(), AccountAdapter.NotifyDataSetChanged);
+            var task = ((IInstagramAccounts)Activity).InitializeIfNeededAsync();
+            if (task == null)
+                task = ((IInstagramAccounts)Activity).RefreshAsync();
+            DoTask(task, AccountAdapter.NotifyDataSetChanged);
         }
 
         public void OnItemOpenUnfollowers(int position)
@@ -181,8 +157,7 @@ namespace Madamin.Unfollow.Fragments
 
         public void OnItemLogout(int position)
         {
-            var accounts = ((IInstagramAccounts)Activity).Accounts;
-            DoTask(accounts.LogoutAccountAtAsync(position), AccountAdapter.NotifyDataSetChanged);
+            DoTask(((IInstagramAccounts)Activity).LogoutAsync(position), AccountAdapter.NotifyDataSetChanged);
         }
 
         public void OnItemRefresh(int position)

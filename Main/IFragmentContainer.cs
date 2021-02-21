@@ -13,17 +13,17 @@ namespace Madamin.Unfollow.Main
     {
         void IFragmentContainer.NavigateTo(Fragment fragment, bool addToBackStack)
         {
+            // Show actionbar again, if last fragment hid it
             SupportActionBar.Show();
 
+            // Show animations
             BeginTransition();
 
+            // Replace content of main container with new fragment
             var tx = SupportFragmentManager.BeginTransaction();
-
             tx.Replace(Resource.Id.main_container, fragment);
-
             if (addToBackStack)
                 tx.AddToBackStack(null);
-
             tx.Commit();
         }
 

@@ -1,12 +1,11 @@
 ﻿using Android.Views;
 using AndroidX.RecyclerView.Widget;
-
 using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.ViewHolders;
 
 namespace Madamin.Unfollow.Adapters
 {
-    internal class AccountAdapter : RecyclerView.Adapter
+    public class AccountAdapter : RecyclerView.Adapter
     {
         public AccountAdapter(
             Accounts data,
@@ -40,5 +39,14 @@ namespace Madamin.Unfollow.Adapters
 
         private readonly Accounts _data;
         private readonly IAccountItemClickListener _listener;
+    }
+
+    public interface IAccountItemClickListener
+    {
+        void OnItemOpenInstagram(int position);
+        void OnItemOpenUnfollowers(int position);
+        void OnItemOpenFans(int position);
+        void OnItemLogout(int position);
+        void OnItemRefresh(int position);
     }
 }

@@ -9,25 +9,18 @@ namespace Madamin.Unfollow.Instagram
 {
     public class Accounts : IEnumerable<Account>
     {
+        private string DataDir { get; }
+        private string CacheDir { get; }
+
+        public bool IsStateRestored { get; private set; }
+        public bool NeedRefresh { get; private set; }
 
         public Accounts(string statePath, string cachePath)
         {
             DataDir = statePath;
             CacheDir = cachePath;
             IsStateRestored = false;
-
-            if (!Directory.Exists(DataDir))
-                Directory.CreateDirectory(DataDir);
-
-            if (!Directory.Exists(CacheDir))
-                Directory.CreateDirectory(CacheDir);
         }
-
-        private string DataDir { get; }
-        private string CacheDir { get; }
-
-        public bool IsStateRestored { get; private set; }
-        public bool NeedRefresh { get; private set; }
 
         public async Task AddAccountAsync(string username, string password)
         {
@@ -52,20 +45,6 @@ namespace Madamin.Unfollow.Instagram
         {
             await account.CompleteSubmitPhoneChallengeAsync(phone);
             AddAccount(account);
-        }
-
-        private void AddAccount(Account account)
-        {
-            if (_accounts.Contains(account))
-                throw new DuplicateAccountException();
-            SaveAccountState(account);
-            _accounts.Add(account);
-            NeedRefresh = true;
-        }
-
-        public async Task LogoutAccountAsync(Account account)
-        {
-            await LogoutAccountAtAsync(_accounts.FindIndex(a => Equals(a, account)));
         }
 
         public async Task LogoutAccountAtAsync(int i)
@@ -126,6 +105,15 @@ namespace Madamin.Unfollow.Instagram
             IsStateRestored = true;
         }
 
+        private void AddAccount(Account account)
+        {
+            if (_accounts.Contains(account))
+                throw new DuplicateAccountException();
+            SaveAccountState(account);
+            _accounts.Add(account);
+            NeedRefresh = true;
+        }
+
         private string GetAccountStatePath(Account account)
         {
             return Path.Combine(DataDir, account.GetPk().ToString());
@@ -141,7 +129,7 @@ namespace Madamin.Unfollow.Instagram
             account.SaveState(GetAccountStatePath(account));
         }
 
-        public void SaveAccountCache(Account account)
+        private void SaveAccountCache(Account account)
         {
             account.SaveCache(GetAccountCachePath(account));
         }

@@ -52,10 +52,8 @@ namespace Madamin.Unfollow.Fragments
             _btnVerify.Enabled = false;
             try
             {
-                var instagram = ((IInstagramAccounts)Activity).Accounts;
-                await instagram.CompleteLoginAsync(
-                    _account,
-                    _textInput.Text);
+                await ((IInstagramAccounts)Activity)
+                    .CompleteTwoFactorLoginAsync(_account, _textInput.Text);
 
 #if TGBUILD || DEBUG
                 ((IUpdateChecker)Activity).DidLogin();
@@ -71,11 +69,11 @@ namespace Madamin.Unfollow.Fragments
             }
             catch (InvalidTwoFactorCodeException)
             {
-                ((ISnackBarProvider)Activity).ShowSnackbar(Resource.String.error_invalid_2fa);
+                ((ISnackBarProvider)Activity).ShowSnackBar(Resource.String.error_invalid_2fa);
             }
             catch (TwoFactorCodeExpiredException)
             {
-                ((ISnackBarProvider)Activity).ShowSnackbar(Resource.String.error_2fa_expired);
+                ((ISnackBarProvider)Activity).ShowSnackBar(Resource.String.error_2fa_expired);
             }
             catch (Exception ex)
             {

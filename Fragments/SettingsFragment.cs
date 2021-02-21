@@ -60,7 +60,7 @@ namespace Madamin.Unfollow.Fragments
 
         private void UpdateCheck_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            ((IUpdateChecker)Activity).CheckForUpdate(true);
+            ((IUpdateChecker)Activity).CheckForUpdate();
         }
 
         private void About_Click(object sender, Preference.PreferenceClickEventArgs args)

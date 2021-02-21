@@ -129,8 +129,7 @@ namespace Madamin.Unfollow.Fragments
             {
                 if (_challenge.SubmitPhoneRequired)
                 {
-                    await ((IInstagramAccounts)Activity).Accounts
-                        .CompleteSubmitPhoneChallengeAsync(_account, _phoneEditText.Text);
+                    await ((IInstagramAccounts)Activity).SubmitPhoneNumberAsync(_account, _phoneEditText.Text);
 
 #if TGBUILD || DEBUG
                     ((IUpdateChecker)Activity).DidLogin();
@@ -140,8 +139,7 @@ namespace Madamin.Unfollow.Fragments
                 }
                 else
                 {
-                    await ((IInstagramAccounts)Activity).Accounts
-                        .CompleteChallengeAsync(_account, _otpEditText.Text);
+                    await ((IInstagramAccounts)Activity).CompleteChallengeAsync(_account, _otpEditText.Text);
 
 #if TGBUILD || DEBUG
                     ((IUpdateChecker)Activity).DidLogin();

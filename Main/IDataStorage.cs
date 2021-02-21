@@ -43,7 +43,12 @@ namespace Madamin.Unfollow.Main
 
             if (FilesDir == null)
                 return null;
+            
             _dataPath = FilesDir.AbsolutePath;
+
+            if (!Directory.Exists(_cachePath))
+                Directory.CreateDirectory(_cachePath);
+
             return _dataPath;
         }
 
@@ -57,12 +62,18 @@ namespace Madamin.Unfollow.Main
 
             _cachePath = CacheDir.AbsolutePath;
 
+            if (!Directory.Exists(_cachePath))
+                Directory.CreateDirectory(_cachePath);
+
             return _cachePath;
         }
 
         string IDataStorage.GetAccountsDir()
         {
-            return Path.Combine(((IDataStorage)this).GetDataDir(), AccountsFolder);
+            var path = Path.Combine(((IDataStorage)this).GetDataDir(), AccountsFolder);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            return path;
         }
 
         void IDataStorage.SaveData(string fileName, object data)

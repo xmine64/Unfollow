@@ -1,20 +1,30 @@
-﻿using Google.Android.Material.Snackbar;
+﻿using System;
+using Android.Views;
+using Google.Android.Material.Snackbar;
 
 namespace Madamin.Unfollow.Main
 {
     public interface ISnackBarProvider
     {
-        void ShowSnackbar(int res);
+        void ShowSnackBar(int textResource);
+        void ShowSnackBar(int textResource, int buttonTextResource, Action<View> action);
     }
 
     public partial class MainActivity : ISnackBarProvider
     {
-        void ISnackBarProvider.ShowSnackbar(int res)
+        void ISnackBarProvider.ShowSnackBar(int textResource)
         {
-            var container = FindViewById(Resource.Id.main_container);
-            var snack = Snackbar.Make(container, res, Snackbar.LengthLong);
-            //if (_navbar.Visibility == ViewStates.Visible)
-            //snack.SetAnchorView(_navbar);
+            var snack = Snackbar.Make(_mainContainer, textResource, Snackbar.LengthLong);
+            snack.Show();
+        }
+
+        void ISnackBarProvider.ShowSnackBar(int textResource,
+            int buttonTextResource,
+            Action<View> action)
+        {
+            var snack = Snackbar.Make(_mainContainer, textResource, Snackbar.LengthLong);
+            snack.SetAnchorView(Resource.Id.main_navbar);
+            snack.SetAction(buttonTextResource, action);
             snack.Show();
         }
     }

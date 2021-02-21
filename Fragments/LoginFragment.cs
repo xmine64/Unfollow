@@ -68,7 +68,7 @@ namespace Madamin.Unfollow.Fragments
 
             _tvTerms.MovementMethod = LinkMovementMethod.Instance;
         }
-        private async void LoginBtn_Click(object sender, EventArgs e)
+        private void LoginBtn_Click(object sender, EventArgs e)
         {
             var usernameIsNull = string.IsNullOrEmpty(_etUserName.Text);
             var passwordIsNull = string.IsNullOrWhiteSpace(_etPassword.Text);
@@ -108,8 +108,7 @@ namespace Madamin.Unfollow.Fragments
                 _etPassword.Enabled = false;
                 _btnLogin.Enabled = false;
 
-                await ((IInstagramAccounts)Activity).Accounts
-                    .AddAccountAsync(_etUserName.Text, _etPassword.Text);
+                ((IInstagramAccounts)Activity).AddAccount(_etUserName.Text, _etPassword.Text);
 
 #if TGBUILD || DEBUG
                 ((IUpdateChecker)Activity).DidLogin();

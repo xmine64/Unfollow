@@ -156,7 +156,7 @@ namespace Madamin.Unfollow.Fragments
             _accountPosition = Arguments.GetInt(BundleKeyAccountIndex, -1);
             if (_accountPosition < 0)
                 throw new ArgumentException();
-            _account = ((IInstagramAccounts)Activity).Accounts[_accountPosition];
+            _account = ((IInstagramAccounts)Activity).GetAccount(_accountPosition);
 
             ((IActionBarContainer)Activity).SetTitle(_account.Data.User.Fullname);
             EmptyText = GetString(Resource.String.msg_no_fan);
@@ -199,9 +199,8 @@ namespace Madamin.Unfollow.Fragments
                     break;
 
                 case Resource.Id.appbar_fans_item_logout:
-                    var ig = ((IInstagramAccounts)Activity).Accounts;
                     DoTask(
-                        ig.LogoutAccountAsync(_account),
+                        ((IInstagramAccounts)Activity).LogoutAsync(_accountPosition),
                         ((IFragmentContainer)Activity).PopFragment);
                     break;
 
@@ -255,7 +254,6 @@ namespace Madamin.Unfollow.Fragments
         {
             FansAdapter.Refresh();
             FansAdapter.NotifyDataSetChanged();
-            ((IInstagramAccounts)Activity).Accounts.SaveAccountCache(_account);
         }
 
         private string GetWhitelistFileName()

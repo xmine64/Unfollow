@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Linq;
-
 using Android.Views;
-
 using AndroidX.AppCompat.View;
 using AndroidX.AppCompat.View.Menu;
 using AndroidX.RecyclerView.Widget;
-
 using Google.Android.Material.Card;
 using Google.Android.Material.TextView;
-
+using Madamin.Unfollow.Adapters;
 using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.ViewHolders
 {
-    internal class AccountViewHolder : 
+    internal class AccountViewHolder :
         RecyclerView.ViewHolder,
         MenuBuilder.ICallback
     {
-        public AccountViewHolder(
-            View item,
-            IAccountItemClickListener listener) :
-            base(item)
+        private readonly MaterialTextView _tvFullName;
+        private readonly MaterialTextView _tvUserName;
+        private readonly MaterialTextView _tvFollowings;
+        private readonly MaterialTextView _tvFollowers;
+        private readonly MaterialTextView _tvUnfollowers;
+
+        private readonly MenuPopupHelper _popup;
+
+        private readonly IAccountItemClickListener _listener;
+
+        public AccountViewHolder(View item, IAccountItemClickListener listener) : base(item)
         {
             _tvFullName = item.FindViewById<MaterialTextView>(Resource.Id.item_account_fullname);
             _tvUserName = item.FindViewById<MaterialTextView>(Resource.Id.item_account_username);
@@ -90,25 +94,6 @@ namespace Madamin.Unfollow.ViewHolders
             }
         }
 
-        public void OnMenuModeChange(MenuBuilder builder) {}
-
-        private readonly MaterialTextView _tvFullName;
-        private readonly MaterialTextView _tvUserName;
-        private readonly MaterialTextView _tvFollowings;
-        private readonly MaterialTextView _tvFollowers;
-        private readonly MaterialTextView _tvUnfollowers;
-
-        private readonly MenuPopupHelper _popup;
-
-        private readonly IAccountItemClickListener _listener;
-    }
-
-    internal interface IAccountItemClickListener
-    {
-        void OnItemOpenInstagram(int position);
-        void OnItemOpenUnfollowers(int position);
-        void OnItemOpenFans(int position);
-        void OnItemLogout(int position);
-        void OnItemRefresh(int position);
+        public void OnMenuModeChange(MenuBuilder builder) { }
     }
 }
