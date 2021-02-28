@@ -70,6 +70,7 @@
     <string name="msg_no_unfollower">People who didn\'t follow you back will show up here.</string>
     <string name="msg_no_fan">People whom you didn\'t follow back will show up here.</string>
     <string name="msg_login">login to continue</string>
+    <string name="msg_logged_out">You\'ve been logged out from %1$s.</string>
 
     <string name="error_recyclerview">Something went wrong:(</string>
     <string name="error_invalid_password">Invalid Password</string>
@@ -77,6 +78,7 @@
     <string name="error_duplicate_account">Duplicate account</string>
     <string name="error_required_field">This field is required.</string>
     <string name="error_login_failure">Can\'t log into your account</string>
+    <string name="error_offline">You\'re offline!</string>
     
     <string name="error_invalid_2fa">Invalid Code</string>
     <string name="error_2fa_expired">Code expired</string>

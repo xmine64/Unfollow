@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Net.Http;
 using Android.OS;
 using Android.Views;
 using AndroidX.Fragment.App;
 using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.Dialog;
 using Madamin.Unfollow.Adapters;
+using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
@@ -49,6 +51,7 @@ namespace Madamin.Unfollow.Fragments
 
             _taskAwaiter = new TaskAwaiter((IFragmentContainer)Activity);
             _taskAwaiter.TaskDone += TaskAwaiter_TaskDone;
+            _taskAwaiter.Error += TaskAwaiter_Error;
 
             _taskAwaiter.AwaitTask(((IInstagramAccounts)Activity).InitializeIfNeededAsync());
 
@@ -69,7 +72,7 @@ namespace Madamin.Unfollow.Fragments
                     _hasPushedToLoginFragment = true;
                 }
             }
-            
+
             // Show tip on first run
             _tipShown = ((IPreferenceContainer)Activity).GetBoolean(PreferenceKeyTipIsShown, false);
             if (!_tipShown)
@@ -82,6 +85,29 @@ namespace Madamin.Unfollow.Fragments
                 ((IPreferenceContainer)Activity).SetBoolean(PreferenceKeyTipIsShown, true);
 
                 _tipShown = true;
+            }
+        }
+
+        private void TaskAwaiter_Error(object sender, Exception args)
+        {
+            if (args is InstagramException instagramException)
+            {
+                ((IInstagramAccounts)Activity).ForceLogoutAsync(instagramException.Account);
+                ((ISnackBarProvider)Activity).ShowSnackBar(Resource.String.msg_logged_out,
+                    instagramException.Account.Data.User.Username);
+
+                if (_adapter.ItemCount <= 0)
+                {
+                    ((IFragmentContainer)Activity).ShowEmptyView();
+                }
+            }
+            else if (args is HttpRequestException)
+            {
+                ((ISnackBarProvider)Activity).ShowSnackBar(Resource.String.error_offline);
+            }
+            else
+            {
+                ((IErrorHandler)Activity).ShowError(args);
             }
         }
 

@@ -58,7 +58,7 @@ namespace Madamin.Unfollow.Instagram
 
                 default:
                     throw result.Info.Exception ??
-                          new InstagramException(result.Info.Message);
+                          new InstagramException(this, result.Info.Message);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Madamin.Unfollow.Instagram
 
                 default:
                     throw result.Info.Exception ??
-                          new InstagramException(result.Info.Message);
+                          new InstagramException(this, result.Info.Message);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Madamin.Unfollow.Instagram
             var challenge = await _api.GetChallengeRequireVerifyMethodAsync();
             if (!challenge.Succeeded)
                 throw challenge.Info.Exception ?? 
-                    new InstagramException(challenge.Info.Message);
+                    new InstagramException(this, challenge.Info.Message);
             return challenge.Value;
         }
 
@@ -106,7 +106,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.RequestVerifyCodeToSMSForChallengeRequireAsync();
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message);
+                    new InstagramException(this, result.Info.Message);
         }
 
         public async Task DoVerifyEmailChallengeAsync()
@@ -114,7 +114,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.RequestVerifyCodeToEmailForChallengeRequireAsync();
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message);
+                    new InstagramException(this, result.Info.Message);
         }
 
         public async Task ResendChallengePhoneCodeAsync()
@@ -122,7 +122,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.RequestVerifyCodeToSMSForChallengeRequireAsync(replayChallenge: true);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message);
+                    new InstagramException(this, result.Info.Message);
         }
 
         public async Task ResendChallengeEmailCodeAsync()
@@ -130,7 +130,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.RequestVerifyCodeToEmailForChallengeRequireAsync(replayChallenge: true);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message);
+                    new InstagramException(this, result.Info.Message);
         }
 
         internal async Task CompleteChallengeAsync(string code)
@@ -145,7 +145,7 @@ namespace Madamin.Unfollow.Instagram
 
                 default:
                     throw result.Info.Exception ??
-                        new InstagramException(result.Info.Message);
+                        new InstagramException(this, result.Info.Message);
             }
         }
 
@@ -154,7 +154,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.SubmitPhoneNumberForChallengeRequireAsync(phone);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                    new InstagramException(result.Info.Message);
+                    new InstagramException(this, result.Info.Message);
         }
 
         internal async Task LogoutAsync()
@@ -166,7 +166,7 @@ namespace Madamin.Unfollow.Instagram
 
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                      new InstagramException(result.Info.Message);
+                      new InstagramException(this, result.Info.Message);
         }
 
         internal void SaveState(string path)
@@ -213,7 +213,7 @@ namespace Madamin.Unfollow.Instagram
             var userEditReq = await _api.AccountProcessor.GetRequestForEditProfileAsync();
             if (!userEditReq.Succeeded)
                 throw userEditReq.Info.Exception ??
-                      new InstagramException(userEditReq.Info.Message);
+                      new InstagramException(this, userEditReq.Info.Message);
 
             var user = new User(
                 userEditReq.Value.Pk,
@@ -225,7 +225,7 @@ namespace Madamin.Unfollow.Instagram
                 .GetCurrentUserFollowersAsync(PaginationParameters.Empty);
             if (!followersReq.Succeeded)
                 throw followersReq.Info.Exception ??
-                      new InstagramException(followersReq.Info.Message);
+                      new InstagramException(this, followersReq.Info.Message);
 
             var followers = from follower in followersReq.Value
                 select new User(follower.Pk, follower.UserName, follower.FullName);
@@ -237,7 +237,7 @@ namespace Madamin.Unfollow.Instagram
                     PaginationParameters.Empty);
             if (!followingsReq.Succeeded)
                 throw followingsReq.Info.Exception ??
-                      new InstagramException(followersReq.Info.Message);
+                      new InstagramException(this, followersReq.Info.Message);
 
             var followings = from following in followingsReq.Value
                 select new User(following.Pk, following.UserName, following.FullName);
@@ -251,7 +251,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.UserProcessor.UnFollowUserAsync(user.Id);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                      new InstagramException(result.Info.Message);
+                      new InstagramException(this, result.Info.Message);
 
             Data.Followings.Remove(user);
         }
@@ -261,7 +261,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.UserProcessor.FollowUserAsync(user.Id);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                      new InstagramException(result.Info.Message);
+                      new InstagramException(this, result.Info.Message);
 
             Data.Followings.Add(user);
         }
@@ -271,7 +271,7 @@ namespace Madamin.Unfollow.Instagram
             var result = await _api.UserProcessor.BlockUserAsync(user.Id);
             if (!result.Succeeded)
                 throw result.Info.Exception ??
-                      new InstagramException(result.Info.Message);
+                      new InstagramException(this, result.Info.Message);
 
             Data.Followings.Remove(user);
             var followerIndex = Data.Followers.IndexOf(user);
@@ -388,9 +388,12 @@ namespace Madamin.Unfollow.Instagram
 
     public class InstagramException : Exception
     {
-        public InstagramException(string message) : base(message)
+        public InstagramException(Account account, string message) : base(message)
         {
+            Account = account;
         }
+
+        public Account Account { get; }
     }
 
     public class TwoFactorAuthException : Exception

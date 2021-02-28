@@ -57,6 +57,12 @@ namespace Madamin.Unfollow.Instagram
             File.Delete(statePath);
         }
 
+        public void RemoveAccount(Account account)
+        {
+            _accounts.Remove(account);
+            File.Delete(GetAccountStatePath(account));
+        }
+
         public async Task RefreshAllAsync()
         {
             foreach (var account in _accounts) await RefreshAccountAsync(account);

@@ -6,7 +6,7 @@ namespace Madamin.Unfollow.Main
     public class TaskAwaiter
     {
         private IFragmentContainer _container;
-        
+
         public TaskAwaiter(IFragmentContainer fragmentContainer)
         {
             _container = fragmentContainer;
@@ -18,14 +18,21 @@ namespace Madamin.Unfollow.Main
                 return;
 
             _container.ShowLoadingView();
-            
+
             try
             {
                 await task;
             }
             catch (Exception exception)
             {
-                _container.ShowErrorView(exception);
+                if (Error != null)
+                {
+                    Error.Invoke(this, exception);
+                }
+                else
+                {
+                    _container.ShowErrorView(exception);
+                }
             }
 
             TaskDone?.Invoke(this, null);
@@ -34,5 +41,6 @@ namespace Madamin.Unfollow.Main
         }
 
         public event EventHandler TaskDone;
+        public event EventHandler<Exception> Error;
     }
 }

@@ -70,6 +70,7 @@
     <string name="msg_no_unfollower">کسانی که به شما فالوبک نداده‌اند اینجا نمایش داده می‌شوند.</string>
     <string name="msg_no_fan">کسانی که شما به آنها فالوبک نداده‌اید اینجا نمایش داده می‌شوند.</string>
     <string name="msg_login">وارد حسابتان شوید</string>
+    <string name="msg_logged_out">شما از حساب %1$s خارج شدید.</string>
 
     <string name="error_recyclerview">خراب شد:(</string>
     <string name="error_invalid_password">گذرواژه اشتباه</string>
@@ -77,6 +78,7 @@
     <string name="error_duplicate_account">اکانت تکراری</string>
     <string name="error_required_field">پر کردن این خانه ضروری است.</string>
     <string name="error_login_failure">نمیتوان وارد حساب شد</string>
+    <string name="error_offline">شما آفلاین هستید!</string>
 
     <string name="msg_app_version">نسخه %1$s (%2$d)</string>
     <string name="msg_using_x_version_y">با %1$s نسخه %2$s</string>

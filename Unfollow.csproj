@@ -106,7 +106,7 @@
     <Compile Include="Fragments\ChallengeFragment.cs" />
     <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
     <Compile Include="Main\IActionBarContainer.cs" />
-    <Compile Include="Main\ITaskAwaiter.cs" />
+    <Compile Include="Main\TaskAwaiter.cs" />
     <Compile Include="Main\IUrlHandler.cs" />
     <Compile Include="Main\IDataStorage.cs" />
     <Compile Include="Main\IErrorHandler.cs" />

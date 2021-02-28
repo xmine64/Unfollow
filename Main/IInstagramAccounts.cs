@@ -11,6 +11,7 @@ namespace Madamin.Unfollow.Main
         AccountAdapter CreateAccountAdapter(IAccountItemClickListener listener);
         Task RefreshAsync();
         Task LogoutAsync(int index);
+        Task ForceLogoutAsync(Account account);
         Task CompleteTwoFactorLoginAsync(Account account, string code);
         Task CompleteChallengeAsync(Account account, string code);
         Task SubmitPhoneNumberAsync(Account account, string phoneNumber);
@@ -47,6 +48,27 @@ namespace Madamin.Unfollow.Main
         Task IInstagramAccounts.RefreshAsync()
         {
             return _accounts.RefreshAllAsync();
+        }
+
+        async Task IInstagramAccounts.ForceLogoutAsync(Account account)
+        {
+            try
+            {
+                await account.LogoutAsync();
+            }
+            catch
+            {
+                // ignore
+            }
+
+            try
+            {
+                _accounts.RemoveAccount(account);
+            }
+            catch
+            {
+                // ignore
+            }
         }
 
         Task IInstagramAccounts.LogoutAsync(int index)
