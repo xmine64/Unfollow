@@ -65,6 +65,8 @@ namespace Madamin.Unfollow.Fragments
             }
             else if (_adapter.ItemCount <= 0)
             {
+                ((IFragmentContainer)Activity).ShowEmptyView();
+
                 // Push LoginFragment on first run
                 if (!_hasPushedToLoginFragment)
                 {
@@ -99,6 +101,12 @@ namespace Madamin.Unfollow.Fragments
                 if (_adapter.ItemCount <= 0)
                 {
                     ((IFragmentContainer)Activity).ShowEmptyView();
+
+                    if (!_hasPushedToLoginFragment)
+                    {
+                        ((IFragmentContainer)Activity).PushFragment(new LoginFragment());
+                        _hasPushedToLoginFragment = true;
+                    }
                 }
             }
             else if (args is HttpRequestException)
