@@ -80,10 +80,19 @@ namespace Madamin.Unfollow.Fragments
             else if (args is HttpRequestException)
             {
                 ((ISnackBarProvider)Activity).ShowSnackBar(Resource.String.error_offline);
+
+                if (_adapter.ItemCount > 0)
+                {
+                    ((IFragmentContainer)Activity).ShowContentView();
+                }
+                else
+                {
+                    ((IFragmentContainer)Activity).ShowEmptyView();
+                }
             }
             else
             {
-                ((IErrorHandler)Activity).ShowError(args);
+                ((IFragmentContainer)Activity).ShowErrorView(args);
             }
         }
 

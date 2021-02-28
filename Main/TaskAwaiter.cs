@@ -31,6 +31,7 @@ namespace Madamin.Unfollow.Main
             {
                 if (Error != null)
                 {
+                    _container.ShowErrorView();
                     Error.Invoke(this, exception);
                 }
                 else
