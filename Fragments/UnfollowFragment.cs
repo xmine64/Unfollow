@@ -15,7 +15,7 @@ using ActionMode = AndroidX.AppCompat.View.ActionMode;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class UnfollowFragment : Fragment, IUnfollowerItemClickListener, ActionMode.ICallback
+    public class UnfollowFragment : Fragment, IUnfollowerItemClickListener, ActionMode.ICallback, IRetryHandler
     {
         public const string AccountIndexBundleKey = "account_index";
         public const string WhiteListFileNameFormat = "{0}-unfollowers-whitelist.bin";
@@ -55,8 +55,8 @@ namespace Madamin.Unfollow.Fragments
 
             ((IActionBarContainer)Activity).SetTitle(_account.Data.User.Fullname);
 
-            // TODO: EmptyText = GetString(Resource.String.msg_no_unfollower);
-            // TODO: SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
+            ((IEmptyView)Activity).SetEmptyText(Resource.String.msg_no_unfollower);
+            ((IEmptyView)Activity).SetEmptyImage(Resource.Drawable.ic_person_remove_black_48dp);
 
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.fragment_recyclerview_view);
 
@@ -233,12 +233,6 @@ namespace Madamin.Unfollow.Fragments
             _taskAwaiter.AwaitTask(_account.BlockAsync(_adapter.GetItem(position)));
         }
 
-        // TODO
-        //private void UnfollowFragment_RetryClick(object sender, EventArgs e)
-        //{
-        //    _taskAwaiter.AwaitTask(_account.RefreshAsync());
-        //}
-
         private void SelectOrDeselectItem(int position)
         {
             _adapter.SelectOrDeselectItem(position);
@@ -268,7 +262,7 @@ namespace Madamin.Unfollow.Fragments
                 await _account.UnfollowAsync(users[i]);
             }
 
-            // TODO: ProgressText = GetString(Resource.String.title_loading);
+            ((ILoadingView)Activity).ResetLoadingText();
         }
 
         private async Task BatchBlockAsync(IReadOnlyList<User> users)
@@ -281,17 +275,22 @@ namespace Madamin.Unfollow.Fragments
                 await _account.BlockAsync(users[i]);
             }
 
-            // TODO: ProgressText = GetString(Resource.String.title_loading);
+            ((ILoadingView)Activity).ResetLoadingText();
         }
 
         private void UpdateProgress(int i, int total, int textFormatResource)
         {
-            // TODO: ProgressText = GetString(textFormatResource, i, total);
+            ((ILoadingView)Activity).SetLoadingText(GetString(textFormatResource, i, total));
         }
 
         private string GetWhitelistFileName()
         {
             return string.Format(WhiteListFileNameFormat, _account.Data.User.Id);
+        }
+
+        void IRetryHandler.OnClick()
+        {
+            _taskAwaiter.Retry();
         }
     }
 }

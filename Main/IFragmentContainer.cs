@@ -19,8 +19,6 @@ namespace Madamin.Unfollow.Main
 
     public partial class MainActivity : IFragmentContainer
     {
-        private View _loadingView, _emptyView, _errorView;
-
         void IFragmentContainer.NavigateTo(Fragment fragment, bool addToBackStack)
         {
             // Show actionbar again, if last fragment hid it
@@ -35,6 +33,15 @@ namespace Madamin.Unfollow.Main
             if (addToBackStack)
                 tx.AddToBackStack(null);
             tx.Commit();
+
+            if (fragment is IRetryHandler handler)
+            {
+                _retryHandler = handler;
+            }
+            else
+            {
+                _retryHandler = this;
+            }
 
             ((IFragmentContainer)this).ShowContentView();
         }
@@ -89,23 +96,6 @@ namespace Madamin.Unfollow.Main
         {
             ((IFragmentContainer)this).ShowErrorView();
             ((IErrorHandler)this).ShowError(exception);
-
-            /*
-            _tvEmpty = e.View.FindViewById<MaterialTextView>(
-                Resource.Id.fragment_recyclerview_empty_text);
-            _tvError = e.View.FindViewById<MaterialTextView>(
-                Resource.Id.fragment_recyclerview_error_text);
-            _tvProgress = e.View.FindViewById<MaterialTextView>(
-                Resource.Id.fragment_recyclerview_loading_textview);
-
-            _imageEmpty = e.View.FindViewById<AppCompatImageView>(
-                Resource.Id.fragment_recyclerview_empty_image);
-            _imageError = e.View.FindViewById<AppCompatImageView>(
-                Resource.Id.fragment_recyclerview_error_image);
-
-            e.View.FindViewById<MaterialButton>(Resource.Id.fragment_recyclerview_error_retry)?
-                .SetOnClickListener(this);
-            */
         }
     }
 }

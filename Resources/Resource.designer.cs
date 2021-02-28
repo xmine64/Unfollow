@@ -7949,106 +7949,109 @@ namespace Madamin.Unfollow
 			public const int title_batch_block = 2131755159;
 			
 			// aapt resource value: 0x7F100098
-			public const int title_batch_unfollow = 2131755160;
+			public const int title_batch_follow = 2131755160;
 			
 			// aapt resource value: 0x7F100099
-			public const int title_block = 2131755161;
+			public const int title_batch_unfollow = 2131755161;
 			
 			// aapt resource value: 0x7F10009A
-			public const int title_challenge = 2131755162;
+			public const int title_block = 2131755162;
 			
 			// aapt resource value: 0x7F10009B
-			public const int title_clear_whitelist = 2131755163;
+			public const int title_challenge = 2131755163;
 			
 			// aapt resource value: 0x7F10009C
-			public const int title_donate = 2131755164;
+			public const int title_clear_whitelist = 2131755164;
 			
 			// aapt resource value: 0x7F10009D
-			public const int title_empty = 2131755165;
+			public const int title_donate = 2131755165;
 			
 			// aapt resource value: 0x7F10009E
-			public const int title_error = 2131755166;
+			public const int title_empty = 2131755166;
 			
 			// aapt resource value: 0x7F10009F
-			public const int title_follow = 2131755167;
-			
-			// aapt resource value: 0x7F1000A1
-			public const int title_followers = 2131755169;
-			
-			// aapt resource value: 0x7F1000A2
-			public const int title_followings = 2131755170;
+			public const int title_error = 2131755167;
 			
 			// aapt resource value: 0x7F1000A0
-			public const int title_follow_all = 2131755168;
+			public const int title_follow = 2131755168;
+			
+			// aapt resource value: 0x7F1000A2
+			public const int title_followers = 2131755170;
 			
 			// aapt resource value: 0x7F1000A3
-			public const int title_loading = 2131755171;
+			public const int title_followings = 2131755171;
+			
+			// aapt resource value: 0x7F1000A1
+			public const int title_follow_all = 2131755169;
 			
 			// aapt resource value: 0x7F1000A4
-			public const int title_logout = 2131755172;
+			public const int title_loading = 2131755172;
 			
 			// aapt resource value: 0x7F1000A5
-			public const int title_open_fans = 2131755173;
+			public const int title_logout = 2131755173;
 			
 			// aapt resource value: 0x7F1000A6
-			public const int title_open_ig = 2131755174;
+			public const int title_open_fans = 2131755174;
 			
 			// aapt resource value: 0x7F1000A7
-			public const int title_open_unfollowers = 2131755175;
+			public const int title_open_ig = 2131755175;
 			
 			// aapt resource value: 0x7F1000A8
-			public const int title_preferences = 2131755176;
+			public const int title_open_unfollowers = 2131755176;
 			
 			// aapt resource value: 0x7F1000A9
-			public const int title_preferred_lang = 2131755177;
+			public const int title_preferences = 2131755177;
 			
 			// aapt resource value: 0x7F1000AA
-			public const int title_preferred_theme = 2131755178;
+			public const int title_preferred_lang = 2131755178;
 			
 			// aapt resource value: 0x7F1000AB
-			public const int title_refresh = 2131755179;
+			public const int title_preferred_theme = 2131755179;
 			
 			// aapt resource value: 0x7F1000AC
-			public const int title_select = 2131755180;
+			public const int title_refresh = 2131755180;
 			
 			// aapt resource value: 0x7F1000AD
-			public const int title_selected = 2131755181;
+			public const int title_select = 2131755181;
 			
 			// aapt resource value: 0x7F1000AE
-			public const int title_settings = 2131755182;
+			public const int title_selected = 2131755182;
 			
 			// aapt resource value: 0x7F1000AF
-			public const int title_terms = 2131755183;
+			public const int title_settings = 2131755183;
 			
 			// aapt resource value: 0x7F1000B0
-			public const int title_tip = 2131755184;
+			public const int title_terms = 2131755184;
 			
 			// aapt resource value: 0x7F1000B1
-			public const int title_unfollow = 2131755185;
-			
-			// aapt resource value: 0x7F1000B3
-			public const int title_unfollowers = 2131755187;
+			public const int title_tip = 2131755185;
 			
 			// aapt resource value: 0x7F1000B2
-			public const int title_unfollow_all = 2131755186;
+			public const int title_unfollow = 2131755186;
 			
 			// aapt resource value: 0x7F1000B4
-			public const int title_update = 2131755188;
+			public const int title_unfollowers = 2131755188;
+			
+			// aapt resource value: 0x7F1000B3
+			public const int title_unfollow_all = 2131755187;
 			
 			// aapt resource value: 0x7F1000B5
-			public const int title_update_available = 2131755189;
+			public const int title_update = 2131755189;
 			
 			// aapt resource value: 0x7F1000B6
-			public const int title_update_check = 2131755190;
+			public const int title_update_available = 2131755190;
 			
 			// aapt resource value: 0x7F1000B7
-			public const int title_welcome = 2131755191;
+			public const int title_update_check = 2131755191;
 			
 			// aapt resource value: 0x7F1000B8
-			public const int v7_preference_off = 2131755192;
+			public const int title_welcome = 2131755192;
 			
 			// aapt resource value: 0x7F1000B9
-			public const int v7_preference_on = 2131755193;
+			public const int v7_preference_off = 2131755193;
+			
+			// aapt resource value: 0x7F1000BA
+			public const int v7_preference_on = 2131755194;
 			
 			static String()
 			{

@@ -9,6 +9,7 @@
     <string name="title_error">خطا</string>
     <string name="title_loading">درحال بارگیری...</string>
     <string name="title_batch_unfollow">درحال آنفالو کردن (%1$d/%2$d)...</string>
+    <string name="title_batch_follow">درحال فالو کردن (%1$d/%2$d)...</string>
     <string name="title_batch_block">درحال بلاک کردن (%1$d/%2$d)...</string>
 
     <string name="title_addaccount">افزودن حساب</string>

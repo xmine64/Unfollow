@@ -11,7 +11,7 @@ using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class AccountsFragment : Fragment, IAccountItemClickListener
+    public class AccountsFragment : Fragment, IAccountItemClickListener, IRetryHandler
     {
         private const string PreferenceKeyTipIsShown = "tip_is_shown";
         private const string PreferenceKeyAutoRefresh = "auto_refresh";
@@ -41,8 +41,8 @@ namespace Madamin.Unfollow.Fragments
         {
             ((IActionBarContainer)Activity).SetTitle(Resource.String.app_name);
 
-            // TODO: EmptyText = GetString(Resource.String.msg_no_account);
-            // TODO: SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
+            ((IEmptyView)Activity).SetEmptyText(Resource.String.msg_no_account);
+            ((IEmptyView)Activity).SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
             _tipShown = ((IPreferenceContainer)Activity).GetBoolean(PreferenceKeyTipIsShown, false);
 
@@ -207,6 +207,11 @@ namespace Madamin.Unfollow.Fragments
         void IAccountItemClickListener.OnItemRefresh(int position)
         {
             _taskAwaiter.AwaitTask(_adapter.GetItem(position).RefreshAsync());
+        }
+
+        void IRetryHandler.OnClick()
+        {
+            _taskAwaiter.Retry();
         }
     }
 }

@@ -9,6 +9,7 @@
     <string name="title_error">Error</string>
     <string name="title_loading">Loading...</string>
     <string name="title_batch_unfollow">Unfollowing (%1$d/%2$d)...</string>
+    <string name="title_batch_follow">Following (%1$d/%2$d)...</string>
     <string name="title_batch_block">Blocking (%1$d/%2$d)...</string>
 
     <string name="title_addaccount">Add Account</string>

@@ -15,7 +15,7 @@ using ActionMode = AndroidX.AppCompat.View.ActionMode;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class FansFragment : Fragment, IFanItemClickListener, ActionMode.ICallback
+    public class FansFragment : Fragment, IFanItemClickListener, ActionMode.ICallback, IRetryHandler
     {
         public const string AccountIndexBundleKey = "account_index";
         private const string WhiteListFileNameFormat = "{0}-fans-whitelist.bin";
@@ -103,8 +103,8 @@ namespace Madamin.Unfollow.Fragments
             _account = ((IInstagramAccounts)Activity).GetAccount(_accountPosition);
 
             ((IActionBarContainer)Activity).SetTitle(_account.Data.User.Fullname);
-            // TODO: EmptyText = GetString(Resource.String.msg_no_fan);
-            // TODO: SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
+            ((IEmptyView)Activity).SetEmptyText(Resource.String.msg_no_fan);
+            ((IEmptyView)Activity).SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
             _adapter = new FansAdapter(_account, this);
             _recyclerView.SetAdapter(_adapter);
@@ -265,17 +265,22 @@ namespace Madamin.Unfollow.Fragments
                 await _account.FollowAsync(users[i]);
             }
 
-            // TODO: ProgressText = GetString(Resource.String.title_loading);
+            ((ILoadingView)Activity).ResetLoadingText();
         }
 
         private void UpdateProgress(int i, int total)
         {
-            // TODO: ProgressText = GetString(Resource.String.title_batch_unfollow, i, total);
+            ((ILoadingView)Activity).SetLoadingText(GetString(Resource.String.title_batch_follow, i, total));
         }
 
         private string GetWhitelistFileName()
         {
             return string.Format(WhiteListFileNameFormat, _account.Data.User.Id);
+        }
+
+        void IRetryHandler.OnClick()
+        {
+            _taskAwaiter.Retry();
         }
     }
 }

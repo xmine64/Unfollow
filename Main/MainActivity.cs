@@ -5,14 +5,17 @@ using Android.Views;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using AndroidX.AppCompat.Widget;
 using AndroidX.AppCompat.App;
 using AndroidX.Preference;
-using AndroidX.AppCompat.Widget;
 using AndroidX.Transitions;
 using AndroidX.Fragment.App;
 using Google.Android.Material.BottomNavigation;
 using Madamin.Unfollow.Fragments;
 using Madamin.Unfollow.Instagram;
+using Button = Android.Widget.Button;
+using TextView = Android.Widget.TextView;
+using ImageView = Android.Widget.ImageView;
 
 namespace Madamin.Unfollow.Main
 {
@@ -79,10 +82,17 @@ namespace Madamin.Unfollow.Main
             _emptyView = FindViewById(Resource.Id.main_empty_view);
             _errorView = FindViewById(Resource.Id.main_error_view);
             _currentPackage = PackageManager?.GetPackageInfo(PackageName, 0);
+            _retryButton = FindViewById<Button>(Resource.Id.fragment_recyclerview_error_retry);
+            _emptyTextView = FindViewById<TextView>(Resource.Id.fragment_recyclerview_empty_text);
+            _errorTextView = FindViewById<TextView>(Resource.Id.fragment_recyclerview_error_text);
+            _loadingTextView = FindViewById<TextView>(Resource.Id.fragment_recyclerview_loading_textview);
+            _emptyImageView = FindViewById<ImageView>(Resource.Id.fragment_recyclerview_empty_image);
+            _errorImageView = FindViewById<ImageView>(Resource.Id.fragment_recyclerview_error_image);
 
             SetSupportActionBar(_appBar);
             SupportFragmentManager.BackStackChanged += OnBackStackChanged;
             _navBar.NavigationItemSelected += Navbar_NavigationItemSelected;
+            _retryButton.Click += RetryButton_Click;
 
             // Work around for white icons on white background
             // on status bar and navigation bar on older versions of Android
@@ -192,6 +202,11 @@ namespace Madamin.Unfollow.Main
                     ((IFragmentContainer)this).NavigateTo(_settingsFragment, false);
                     break;
             }
+        }
+
+        private void RetryButton_Click(object sender, EventArgs e)
+        {
+            _retryHandler.OnClick();
         }
     }
 }
