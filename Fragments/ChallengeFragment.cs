@@ -1,15 +1,17 @@
 ﻿using System;
+using Android.OS;
+using Android.Views;
+using AndroidX.Fragment.App;
 using Google.Android.Material.TextView;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
-using Madamin.Unfollow.Instagram;
 using InstagramApiSharp.Classes;
-using Android.Views;
+using Madamin.Unfollow.Instagram;
 using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class ChallengeFragment : FragmentBase
+    public class ChallengeFragment : Fragment
     {
         private readonly Account _account;
         private InstaChallengeRequireVerifyMethod _challenge;
@@ -23,33 +25,36 @@ namespace Madamin.Unfollow.Fragments
 
         private ChallengeMethod _method = ChallengeMethod.None;
 
-        public ChallengeFragment(Account account) :
-            base(Resource.Layout.fragment_login_challenge)
+        public ChallengeFragment(Account account)
         {
             _account = account;
-
-            Create += ChallengeFragment_Create;
         }
 
-        private async void ChallengeFragment_Create(object sender, OnFragmentCreateEventArgs e)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            return inflater.Inflate(Resource.Layout.fragment_login_challenge, container, false);
+        }
+
+        public override async void OnViewCreated(View view, Bundle savedInstanceState)
+        {
+            ((IFragmentContainer)Activity).ShowLoadingView();
             ((IActionBarContainer)Activity).SetTitle(Resource.String.title_challenge);
             ((IActionBarContainer)Activity).Hide();
 
-            _phoneTextView = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_phone);
-            _methodPhoneTextView = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_methods_phone);
-            _methodEmailTextView = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_methods_email);
+            _phoneTextView = view.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_phone);
+            _methodPhoneTextView = view.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_methods_phone);
+            _methodEmailTextView = view.FindViewById<MaterialTextView>(Resource.Id.fragment_login_challenge_methods_email);
 
-            _phoneInputLayout = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_challenge_phone_input_layout);
-            _phoneEditText = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_challenge_phone_input);
+            _phoneInputLayout = view.FindViewById<TextInputLayout>(Resource.Id.fragment_login_challenge_phone_input_layout);
+            _phoneEditText = view.FindViewById<TextInputEditText>(Resource.Id.fragment_login_challenge_phone_input);
 
-            _otpInputLayout = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_challenge_code_input_layout);
-            _otpEditText = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_challenge_code_input);
+            _otpInputLayout = view.FindViewById<TextInputLayout>(Resource.Id.fragment_login_challenge_code_input_layout);
+            _otpEditText = view.FindViewById<TextInputEditText>(Resource.Id.fragment_login_challenge_code_input);
 
-            _submitButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_submit);
-            _resendButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_resend);
-            _methodPhoneButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_phone);
-            _methodEmailButton = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_email);
+            _submitButton = view.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_submit);
+            _resendButton = view.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_resend);
+            _methodPhoneButton = view.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_phone);
+            _methodEmailButton = view.FindViewById<MaterialButton>(Resource.Id.fragment_login_challenge_button_email);
 
             _submitButton.Click += SubmitButton_Click;
             _resendButton.Click += ResendButton_Click;
@@ -87,6 +92,8 @@ namespace Madamin.Unfollow.Fragments
             {
                 ((IErrorHandler)Activity).ShowError(ex);
             }
+
+            ((IFragmentContainer)Activity).ShowContentView();
         }
 
         private async void ResendButton_Click(object sender, EventArgs e)
@@ -135,7 +142,7 @@ namespace Madamin.Unfollow.Fragments
                     ((IUpdateChecker)Activity).DidLogin();
 #endif
 
-                    PopFragment();
+                    ((IFragmentContainer)Activity).PopFragment();
                 }
                 else
                 {
@@ -145,7 +152,7 @@ namespace Madamin.Unfollow.Fragments
                     ((IUpdateChecker)Activity).DidLogin();
 #endif
 
-                    PopFragment();
+                    ((IFragmentContainer)Activity).PopFragment();
                 }
             }
             catch (Exception ex)

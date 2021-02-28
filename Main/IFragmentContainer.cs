@@ -1,4 +1,6 @@
-﻿using AndroidX.Fragment.App;
+﻿using System;
+using Android.Views;
+using AndroidX.Fragment.App;
 
 namespace Madamin.Unfollow.Main
 {
@@ -7,10 +9,18 @@ namespace Madamin.Unfollow.Main
         void NavigateTo(Fragment fragment, bool addToBackStack);
         void PushFragment(Fragment fragment);
         void PopFragment();
+
+        void ShowLoadingView();
+        void ShowEmptyView();
+        void ShowErrorView();
+        void ShowErrorView(Exception exception);
+        void ShowContentView();
     }
 
     public partial class MainActivity : IFragmentContainer
     {
+        private View _loadingView, _emptyView, _errorView;
+
         void IFragmentContainer.NavigateTo(Fragment fragment, bool addToBackStack)
         {
             // Show actionbar again, if last fragment hid it
@@ -25,6 +35,8 @@ namespace Madamin.Unfollow.Main
             if (addToBackStack)
                 tx.AddToBackStack(null);
             tx.Commit();
+
+            ((IFragmentContainer)this).ShowContentView();
         }
 
         void IFragmentContainer.PushFragment(Fragment fragment)
@@ -37,6 +49,63 @@ namespace Madamin.Unfollow.Main
             SupportActionBar.Show();
             BeginTransition();
             SupportFragmentManager.PopBackStack();
+
+            ((IFragmentContainer)this).ShowContentView();
+        }
+
+        void IFragmentContainer.ShowContentView()
+        {
+            _mainContainer.Visibility = ViewStates.Visible;
+            _loadingView.Visibility = ViewStates.Gone;
+            _emptyView.Visibility = ViewStates.Gone;
+            _errorView.Visibility = ViewStates.Gone;
+        }
+
+        void IFragmentContainer.ShowLoadingView()
+        {
+            _loadingView.Visibility = ViewStates.Visible;
+            _mainContainer.Visibility = ViewStates.Gone;
+            _emptyView.Visibility = ViewStates.Gone;
+            _errorView.Visibility = ViewStates.Gone;
+        }
+
+        void IFragmentContainer.ShowEmptyView()
+        {
+            _emptyView.Visibility = ViewStates.Visible;
+            _mainContainer.Visibility = ViewStates.Gone;
+            _loadingView.Visibility = ViewStates.Gone;
+            _errorView.Visibility = ViewStates.Gone;
+        }
+
+        void IFragmentContainer.ShowErrorView()
+        {
+            _errorView.Visibility = ViewStates.Visible;
+            _mainContainer.Visibility = ViewStates.Gone;
+            _loadingView.Visibility = ViewStates.Gone;
+            _emptyView.Visibility = ViewStates.Gone;
+        }
+
+        void IFragmentContainer.ShowErrorView(Exception exception)
+        {
+            ((IFragmentContainer)this).ShowErrorView();
+            ((IErrorHandler)this).ShowError(exception);
+
+            /*
+            _tvEmpty = e.View.FindViewById<MaterialTextView>(
+                Resource.Id.fragment_recyclerview_empty_text);
+            _tvError = e.View.FindViewById<MaterialTextView>(
+                Resource.Id.fragment_recyclerview_error_text);
+            _tvProgress = e.View.FindViewById<MaterialTextView>(
+                Resource.Id.fragment_recyclerview_loading_textview);
+
+            _imageEmpty = e.View.FindViewById<AppCompatImageView>(
+                Resource.Id.fragment_recyclerview_empty_image);
+            _imageError = e.View.FindViewById<AppCompatImageView>(
+                Resource.Id.fragment_recyclerview_error_image);
+
+            e.View.FindViewById<MaterialButton>(Resource.Id.fragment_recyclerview_error_retry)?
+                .SetOnClickListener(this);
+            */
         }
     }
 }

@@ -46,9 +46,6 @@ namespace Madamin.Unfollow.Main
             
             _dataPath = FilesDir.AbsolutePath;
 
-            if (!Directory.Exists(_cachePath))
-                Directory.CreateDirectory(_cachePath);
-
             return _dataPath;
         }
 

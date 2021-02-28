@@ -1,70 +1,67 @@
 ﻿using System;
-using Google.Android.Material.Button;
-using Google.Android.Material.TextView;
+using Android.OS;
+using Android.Views;
+using Android.Widget;
+using AndroidX.Fragment.App;
 using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
-    internal class AboutFragment : FragmentBase
+    internal class AboutFragment : Fragment
     {
-        public AboutFragment() :
-            base(Resource.Layout.fragment_about)
+        private const string TelegramChannelUrl = "https://t.me/unfollowapp";
+        private const string InstagramPageName = "minimalunfollowapp";
+        private const string GithubRepoUrl = "https://github.com/mmdmine/unfollow";
+
+        private TextView versionTextView, libVersionTextView;
+        private Button telegramButton, instagramButton, githubButton;
+
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Create += AboutFragment_Create;
+            return inflater.Inflate(Resource.Layout.fragment_about, container, false);
         }
 
-        private void AboutFragment_Create(object sender, OnFragmentCreateEventArgs e)
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             ((IActionBarContainer)Activity).SetTitle(Resource.String.title_about);
             ((IActionBarContainer)Activity).Hide();
 
-            var tvVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_app_version);
-            var tvLibVersion = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_about_instasharp_version);
+            versionTextView = view.FindViewById<TextView>(Resource.Id.fragment_about_app_version);
+            libVersionTextView = view.FindViewById<TextView>(Resource.Id.fragment_about_instasharp_version);
 
-            var btnTelegram = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_about_telegram);
-            var btnInstagram = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_about_instagram);
-            var btnGithub = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_about_github);
-
-            if (tvVersion == null ||
-                tvLibVersion == null ||
-                btnTelegram == null ||
-                btnInstagram == null ||
-                btnGithub == null)
-                return;
+            telegramButton = view.FindViewById<Button>(Resource.Id.fragment_about_telegram);
+            instagramButton = view.FindViewById<Button>(Resource.Id.fragment_about_instagram);
+            githubButton = view.FindViewById<Button>(Resource.Id.fragment_about_github);
 
             // Show versions
             var versionProvider = (IVersionProvider)Activity;
-            tvVersion.Text = GetString(Resource.String.msg_app_version,
+            versionTextView.Text = GetString(Resource.String.msg_app_version,
                 versionProvider.GetAppVersionName(),
                 versionProvider.GetAppVersionCode());
 
-            tvLibVersion.Text = GetString(
+            libVersionTextView.Text = GetString(
                 Resource.String.msg_using_x_version_y,
                 versionProvider.GetLibraryAssemblyName().Name,
-                versionProvider.GetLibraryAssemblyName().Version.ToString()
-            );
+                versionProvider.GetLibraryAssemblyName().Version.ToString());
 
-            btnTelegram.Click += Telegram_Click;
-            btnInstagram.Click += Instagram_Click;
-            btnGithub.Click += Github_Click;
+            telegramButton.Click += Telegram_Click;
+            instagramButton.Click += Instagram_Click;
+            githubButton.Click += Github_Click;
         }
 
         private void Telegram_Click(object sender, EventArgs e)
         {
-            var url = GetString(Resource.String.url_telegram);
-            ((IUrlHandler)Activity).LaunchBrowser(url);
+            ((IUrlHandler)Activity).LaunchBrowser(TelegramChannelUrl);
         }
 
         private void Instagram_Click(object sender, EventArgs e)
         {
-            var page = GetString(Resource.String.url_instagram);
-            ((IUrlHandler)Activity).LaunchInstagram(page);
+            ((IUrlHandler)Activity).LaunchInstagram(InstagramPageName);
         }
 
         private void Github_Click(object sender, EventArgs e)
         {
-            var url = GetString(Resource.String.url_github);
-            ((IUrlHandler)Activity).LaunchBrowser(url);
+            ((IUrlHandler)Activity).LaunchBrowser(GithubRepoUrl);
         }
     }
 }

@@ -2,6 +2,9 @@
 {
     partial class UpdateServerApi
     {
+        private const string ApiAddress = "https://unfollowapp.herokuapp.com/api";
+        private const string UserAgent = "UnfollowApp/v0.7";
+
         public const string StatusOk = "ok";
 
 #if TGBUILD || DEBUG

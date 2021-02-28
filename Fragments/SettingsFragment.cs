@@ -11,6 +11,12 @@ namespace Madamin.Unfollow.Fragments
         PreferenceFragmentCompat,
         ISharedPreferencesOnSharedPreferenceChangeListener
     {
+        public const string PrivacyPolicyEnglishUrl = "https://unfollowapp.herokuapp.com/docs/en/terms.html";
+        public const string DonateEnglishUrl = "https://unfollowapp.herokuapp.com/docs/en/donate.html";
+
+        public const string PrivacyPolicyPersianUrl = "https://unfollowapp.herokuapp.com/docs/fa/terms.html";
+        public const string DonatePersianUrl = "https://unfollowapp.herokuapp.com/docs/fa/donate.html";
+
         public const string PreferenceKeyTheme = "theme";
         public const string PreferenceKeyLanguage = "lang";
         public const string PreferenceKeyAutoUpdate = "auto_update_check";
@@ -70,14 +76,14 @@ namespace Madamin.Unfollow.Fragments
 
         private void Terms_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            var url = GetString(Resource.String.url_terms);
-            ((IUrlHandler)Activity).LaunchBrowser(url);
+            // TODO: Persian support
+            ((IUrlHandler)Activity).LaunchBrowser(PrivacyPolicyEnglishUrl);
         }
 
         private void Donate_Click(object sender, Preference.PreferenceClickEventArgs args)
         {
-            var url = GetString(Resource.String.url_donate);
-            ((IUrlHandler)Activity).LaunchBrowser(url);
+            // TODO: Persian support
+            ((IUrlHandler)Activity).LaunchBrowser(DonateEnglishUrl);
         }
     }
 }

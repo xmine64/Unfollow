@@ -1,4 +1,7 @@
 ﻿using System;
+using Android.OS;
+using Android.Views;
+using AndroidX.Fragment.App;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
 using Madamin.Unfollow.Instagram;
@@ -6,50 +9,48 @@ using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
-    public class TwoFactorAuthFragment : FragmentBase
+    public class TwoFactorAuthFragment : Fragment
     {
         private readonly Account _account;
 
-        private MaterialButton _btnVerify, _btnResend;
+        private MaterialButton _verifyButton, _resendButton;
         private TextInputEditText _textInput;
 
         private bool _didChallenge;
 
-        public TwoFactorAuthFragment(Account account) :
-            base(Resource.Layout.fragment_login_2fa)
+        public TwoFactorAuthFragment(Account account)
         {
             _account = account;
-
-            Create += TwoFactorAuthFragment_Create;
         }
 
-        private void TwoFactorAuthFragment_Create(object sender, OnFragmentCreateEventArgs e)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            return inflater.Inflate(Resource.Layout.fragment_login_2fa, container, false);
+        }
+
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             if (_didChallenge)
             {
-                PopFragment();
+                ((IFragmentContainer)Activity).PopFragment();
             }
 
             ((IActionBarContainer)Activity).SetTitle(Resource.String.title_2fa);
             ((IActionBarContainer)Activity).Hide();
 
-            _textInput = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_2fa_code_input);
-            _btnResend = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_resend);
-            _btnVerify = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_verify);
+            _textInput = view.FindViewById<TextInputEditText>(Resource.Id.fragment_login_2fa_code_input);
+            _resendButton = view.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_resend);
+            _verifyButton = view.FindViewById<MaterialButton>(Resource.Id.fragment_login_2fa_verify);
 
-            if (_btnVerify == null ||
-                _btnResend == null)
-                return;
-
-            _btnVerify.Click += VerifyButton_OnClick;
-            _btnResend.Click += ResendTextView_OnClick;
+            _verifyButton.Click += VerifyButton_OnClick;
+            _resendButton.Click += ResendTextView_OnClick;
         }
 
         private async void VerifyButton_OnClick(object sender, EventArgs e)
         {
             _textInput.Enabled = false;
-            _btnResend.Enabled = false;
-            _btnVerify.Enabled = false;
+            _resendButton.Enabled = false;
+            _verifyButton.Enabled = false;
             try
             {
                 await ((IInstagramAccounts)Activity)
@@ -59,12 +60,12 @@ namespace Madamin.Unfollow.Fragments
                 ((IUpdateChecker)Activity).DidLogin();
 #endif
 
-                PopFragment();
+                ((IFragmentContainer)Activity).PopFragment();
             }
             catch (ChallengeException ex)
             {
                 var challengeFragment = new ChallengeFragment(ex.Account);
-                PushFragment(challengeFragment);
+                ((IFragmentContainer)Activity).PushFragment(challengeFragment);
                 _didChallenge = true;
             }
             catch (InvalidTwoFactorCodeException)
@@ -82,21 +83,21 @@ namespace Madamin.Unfollow.Fragments
             finally
             {
                 _textInput.Enabled = true;
-                _btnResend.Enabled = true;
-                _btnVerify.Enabled = true;
+                _resendButton.Enabled = true;
+                _verifyButton.Enabled = true;
             }
         }
 
         private async void ResendTextView_OnClick(object sender, EventArgs e)
         {
-            _btnResend.Enabled = false;
+            _resendButton.Enabled = false;
             try
             {
                 await _account.TwoFactorSendSms();
             }
             catch (Exception ex)
             {
-                _btnResend.Enabled = true;
+                _resendButton.Enabled = true;
                 ((IErrorHandler)Activity).ShowError(ex);
             }
         }

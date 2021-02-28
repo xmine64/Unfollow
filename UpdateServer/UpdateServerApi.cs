@@ -2,24 +2,17 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Android.Content;
 using Newtonsoft.Json;
 
 namespace Madamin.Unfollow
 {
     internal partial class UpdateServerApi : IDisposable
     {
-        private readonly string _apiAddress;
         private readonly HttpClient _client;
-        private readonly Context _context;
-        private readonly string _userAgent;
 
-        public UpdateServerApi(Context context)
+        public UpdateServerApi()
         {
-            _context = context;
             _client = new HttpClient();
-            _apiAddress = _context.GetString(Resource.String.url_update_api);
-            _userAgent = _context.GetString(Resource.String.update_api_user_agent);
         }
 
         public void Dispose()
@@ -33,8 +26,8 @@ namespace Madamin.Unfollow
             var content = JsonConvert.SerializeObject(request);
 
             // Make a request
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, _apiAddress);
-            httpRequest.Headers.UserAgent.ParseAdd(_userAgent);
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, ApiAddress);
+            httpRequest.Headers.UserAgent.ParseAdd(UserAgent);
 
             httpRequest.Content = new StringContent(
                 content,
@@ -48,10 +41,7 @@ namespace Madamin.Unfollow
             var responseContentType = result.Content.Headers.ContentType.MediaType;
             if (responseContentType != JsonMimeType)
             {
-                throw new Exception(
-                    _context.GetString(
-                        Resource.String.msg_invalid_mime,
-                        result.Content.Headers.ContentType.MediaType));
+                throw new UnexpectedResult();
             }
 
             // Return response
@@ -94,5 +84,9 @@ namespace Madamin.Unfollow
             });
         }
 #endif
+    }
+
+    public class UnexpectedResult : Exception
+    {
     }
 }

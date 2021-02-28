@@ -15,6 +15,7 @@ namespace Madamin.Unfollow.Main
     public partial class MainActivity : IUrlHandler
     {
         private const string InstagramUserUrlTemplate = "https://instagram.com/_u/{0}";
+        private const string InstagramPackageName = "com.instagram.android";
 
         public static Uri ParseUri(string url)
         {
@@ -38,7 +39,7 @@ namespace Madamin.Unfollow.Main
         void IUrlHandler.LaunchInstagram(Uri uri)
         {
             var intent = new Intent(Intent.ActionView, uri);
-            intent?.SetPackage(GetString(Resource.String.pkg_instagram));
+            intent?.SetPackage(InstagramPackageName);
             try
             {
                 StartActivity(intent);

@@ -1,10 +1,12 @@
 ﻿using System;
 using Android.Content;
+using Android.OS;
 using Android.Text;
 using Android.Text.Method;
 using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Fragment.App;
 using Google.Android.Material.Button;
 using Google.Android.Material.TextField;
 using Google.Android.Material.TextView;
@@ -13,142 +15,137 @@ using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.Fragments
 {
-    internal class LoginFragment : FragmentBase
+    internal class LoginFragment : Fragment
     {
-        private MaterialButton _btnLogin;
-        private TextInputLayout _elUserName, _elPassword;
-        private TextInputEditText _etUserName, _etPassword;
-        private MaterialTextView _tvTerms;
+        private MaterialButton _loginButton;
+        private TextInputLayout _userNameInputLayout, _passwordInputLayout;
+        private TextInputEditText _userNameEditText, _passwordEditText;
+        private MaterialTextView _privacyPolicyTextView;
+
         private bool _didTwoFactorAuthentication;
 
-        public LoginFragment() : base(Resource.Layout.fragment_login)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            Create += LoginFragment_Create;
+            return inflater.Inflate(Resource.Layout.fragment_login, container, false);
         }
 
-        private void LoginFragment_Create(object sender, OnFragmentCreateEventArgs e)
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             if (_didTwoFactorAuthentication)
             {
-                PopFragment();
+                ((IFragmentContainer)Activity).PopFragment();
             }
 
             ((IActionBarContainer)Activity).SetTitle(Resource.String.title_addaccount);
             ((IActionBarContainer)Activity).Hide();
 
-            _etUserName = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_username_input);
-            _etPassword = e.View.FindViewById<TextInputEditText>(Resource.Id.fragment_login_password_input);
-            _elUserName = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_username_layout);
-            _elPassword = e.View.FindViewById<TextInputLayout>(Resource.Id.fragment_login_password_layout);
-            _btnLogin = e.View.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
-            _tvTerms = e.View.FindViewById<MaterialTextView>(Resource.Id.fragment_login_terms);
+            _userNameEditText = view.FindViewById<TextInputEditText>(Resource.Id.fragment_login_username_input);
+            _passwordEditText = view.FindViewById<TextInputEditText>(Resource.Id.fragment_login_password_input);
+            _userNameInputLayout = view.FindViewById<TextInputLayout>(Resource.Id.fragment_login_username_layout);
+            _passwordInputLayout = view.FindViewById<TextInputLayout>(Resource.Id.fragment_login_password_layout);
+            _loginButton = view.FindViewById<MaterialButton>(Resource.Id.fragment_login_login);
+            _privacyPolicyTextView = view.FindViewById<MaterialTextView>(Resource.Id.fragment_login_terms);
 
-            if (_btnLogin == null ||
-                _tvTerms == null)
-                return;
-
-            _btnLogin.Click += LoginBtn_Click;
+            _loginButton.Click += LoginButton_Click;
 
             // Show a "Privacy Policy" link
+            // create spanned string
             var termsText = new SpannableStringBuilder();
-
+            // append text before link
             termsText.Append(GetString(Resource.String.msg_terms0));
+            // append link
             var spanStart = termsText.Length();
             termsText.Append(GetString(Resource.String.msg_terms1));
             var spanEnd = termsText.Length();
+            // append text after link
             termsText.Append(GetString(Resource.String.msg_terms2));
-
+            // add link span
             termsText.SetSpan(
                 new TermsSpan(Context),
                 spanStart,
                 spanEnd,
                 SpanTypes.InclusiveExclusive);
 
-            _tvTerms.SetText(termsText, TextView.BufferType.Spannable);
-
-            _tvTerms.MovementMethod = LinkMovementMethod.Instance;
+            _privacyPolicyTextView.SetText(termsText, TextView.BufferType.Spannable);
+            _privacyPolicyTextView.MovementMethod = LinkMovementMethod.Instance;
         }
-        private void LoginBtn_Click(object sender, EventArgs e)
+
+        private void LoginButton_Click(object sender, EventArgs e)
         {
-            var usernameIsNull = string.IsNullOrEmpty(_etUserName.Text);
-            var passwordIsNull = string.IsNullOrWhiteSpace(_etPassword.Text);
+            var usernameIsNull = string.IsNullOrEmpty(_userNameEditText.Text);
+            var passwordIsNull = string.IsNullOrWhiteSpace(_passwordEditText.Text);
 
             if (usernameIsNull && passwordIsNull)
             {
-                _elUserName.Error = " ";
-                _elPassword.Error = GetString(Resource.String.error_required_field);
+                _userNameInputLayout.Error = " ";
+                _passwordInputLayout.Error = GetString(Resource.String.error_required_field);
 
-                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
-                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+                _userNameEditText.TextChanged += ErrorEditLayoutChangeHandler;
+                _passwordEditText.TextChanged += ErrorEditLayoutChangeHandler;
 
                 return;
             }
 
             if (usernameIsNull)
             {
-                _elUserName.Error = GetString(Resource.String.error_required_field);
-
-                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
-
+                _userNameInputLayout.Error = GetString(Resource.String.error_required_field);
+                _userNameEditText.TextChanged += ErrorEditLayoutChangeHandler;
                 return;
             }
 
             if (passwordIsNull)
             {
-                _elPassword.Error = GetString(Resource.String.error_required_field);
-
-                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
-
+                _passwordInputLayout.Error = GetString(Resource.String.error_required_field);
+                _passwordEditText.TextChanged += ErrorEditLayoutChangeHandler;
                 return;
             }
 
             try
             {
-                _etUserName.Enabled = false;
-                _etPassword.Enabled = false;
-                _btnLogin.Enabled = false;
+                _userNameEditText.Enabled = false;
+                _passwordEditText.Enabled = false;
+                _loginButton.Enabled = false;
 
-                ((IInstagramAccounts)Activity).AddAccount(_etUserName.Text, _etPassword.Text);
+                ((IInstagramAccounts)Activity).AddAccount(_userNameEditText.Text, _passwordEditText.Text);
 
 #if TGBUILD || DEBUG
                 ((IUpdateChecker)Activity).DidLogin();
 #endif
 
-                PopFragment();
+                ((IFragmentContainer)Activity).PopFragment();
             }
             catch (TwoFactorAuthException twoFactorAuth)
             {
                 // Navigate to 2FA fragment
                 var twoFactorAuthFragment = new TwoFactorAuthFragment(twoFactorAuth.Account);
-                PushFragment(twoFactorAuthFragment);
+                ((IFragmentContainer)Activity).PushFragment(twoFactorAuthFragment);
                 _didTwoFactorAuthentication = true;
             }
             catch (WrongPasswordException)
             {
-                _elPassword.Error = GetString(Resource.String.error_invalid_password);
-
-                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+                _passwordEditText.Error = GetString(Resource.String.error_invalid_password);
+                _passwordEditText.TextChanged += ErrorEditLayoutChangeHandler;
             }
             catch (InvalidCredentialException)
             {
-                _elUserName.Error = " ";
-                _elPassword.Error = GetString(Resource.String.error_invalid_credential);
+                _userNameInputLayout.Error = " ";
+                _passwordInputLayout.Error = GetString(Resource.String.error_invalid_credential);
 
-                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
-                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+                _userNameEditText.TextChanged += ErrorEditLayoutChangeHandler;
+                _passwordEditText.TextChanged += ErrorEditLayoutChangeHandler;
             }
             catch (DuplicateAccountException)
             {
-                _elUserName.Error = GetString(Resource.String.error_duplicate_account);
-                _elPassword.Error = " ";
+                _userNameInputLayout.Error = GetString(Resource.String.error_duplicate_account);
+                _passwordInputLayout.Error = " ";
 
-                _etUserName.TextChanged += ErrorEditLayoutChangeHandler;
-                _etPassword.TextChanged += ErrorEditLayoutChangeHandler;
+                _userNameEditText.TextChanged += ErrorEditLayoutChangeHandler;
+                _passwordEditText.TextChanged += ErrorEditLayoutChangeHandler;
             }
             catch (ChallengeException ex)
             {
                 var challengeFragment = new ChallengeFragment(ex.Account);
-                PushFragment(challengeFragment);
+                ((IFragmentContainer)Activity).PushFragment(challengeFragment);
                 _didTwoFactorAuthentication = true;
             }
             catch (Exception ex)
@@ -157,24 +154,24 @@ namespace Madamin.Unfollow.Fragments
             }
             finally
             {
-                _etUserName.Enabled = true;
-                _etPassword.Enabled = true;
-                _btnLogin.Enabled = true;
+                _userNameEditText.Enabled = true;
+                _passwordEditText.Enabled = true;
+                _loginButton.Enabled = true;
             }
         }
 
         private void ErrorEditLayoutChangeHandler(object et, TextChangedEventArgs args)
         {
-            if (_elUserName.ErrorEnabled)
+            if (_userNameInputLayout.ErrorEnabled)
             {
-                _elUserName.ErrorEnabled = false;
-                _etUserName.TextChanged -= ErrorEditLayoutChangeHandler;
+                _userNameInputLayout.ErrorEnabled = false;
+                _userNameEditText.TextChanged -= ErrorEditLayoutChangeHandler;
             }
 
-            if (_elPassword.ErrorEnabled)
+            if (_passwordInputLayout.ErrorEnabled)
             {
-                _elPassword.ErrorEnabled = false;
-                _etPassword.TextChanged -= ErrorEditLayoutChangeHandler;
+                _passwordInputLayout.ErrorEnabled = false;
+                _passwordEditText.TextChanged -= ErrorEditLayoutChangeHandler;
             }
         }
 
@@ -189,9 +186,8 @@ namespace Madamin.Unfollow.Fragments
 
             public override void OnClick(View widget)
             {
-                var url = Android.Net.Uri.Parse(
-                    _context.GetString(Resource.String.url_terms));
-                ((IUrlHandler)_context).LaunchBrowser(url);
+                // TODO: Persian page
+                ((IUrlHandler)_context).LaunchBrowser(SettingsFragment.PrivacyPolicyEnglishUrl);
             }
         }
     }

@@ -75,6 +75,9 @@ namespace Madamin.Unfollow.Main
             _appBar = FindViewById<Toolbar>(Resource.Id.main_appbar);
             _navBar = FindViewById<BottomNavigationView>(Resource.Id.main_navbar);
             _mainContainer = FindViewById<FragmentContainerView>(Resource.Id.main_container);
+            _loadingView = FindViewById(Resource.Id.main_loading_view);
+            _emptyView = FindViewById(Resource.Id.main_empty_view);
+            _errorView = FindViewById(Resource.Id.main_error_view);
             _currentPackage = PackageManager?.GetPackageInfo(PackageName, 0);
 
             SetSupportActionBar(_appBar);
@@ -87,8 +90,6 @@ namespace Madamin.Unfollow.Main
                 Window?.SetStatusBarColor(Color.Black);
             if (Build.VERSION.SdkInt < BuildVersionCodes.OMr1)
                 Window?.SetNavigationBarColor(Color.Black);
-
-            _updateServer = new UpdateServerApi(this);
 
             var accountsDir = ((IDataStorage)this).GetAccountsDir();
             var cacheDir = ((IDataStorage)this).GetCacheDir();
@@ -111,6 +112,8 @@ namespace Madamin.Unfollow.Main
                     SupportActionBar.SetDisplayHomeAsUpEnabled(true);
                     _navBar.Visibility = ViewStates.Gone;
                 }
+
+                ((IFragmentContainer)this).ShowContentView();
 
                 return;
             }

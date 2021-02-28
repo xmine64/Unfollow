@@ -103,7 +103,4 @@
     <string name="msg_terms0">با ورود به حساب، شما با&#160;</string>
     <string name="msg_terms1">سیاست‌های حریم خصوصی</string>
     <string name="msg_terms2">&#160;موافقت می‌کنید.</string>
-
-    <string name="url_terms">https://unfollowapp.herokuapp.com/docs/fa/terms.html</string>
-    <string name="url_donate">https://unfollowapp.herokuapp.com/docs/fa/donate.html</string>
 </resources>

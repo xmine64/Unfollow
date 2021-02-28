@@ -44,7 +44,7 @@
     <MandroidI18n />
     <LangVersion>8.0</LangVersion>
     <AndroidManifest>Properties\AndroidManifest.debug.xml</AndroidManifest>
-    <AndroidSupportedAbis>x86_64;arm64-v8a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>x86;arm64-v8a</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -106,6 +106,7 @@
     <Compile Include="Fragments\ChallengeFragment.cs" />
     <Compile Include="Fragments\TwoFactorAuthFragment.cs" />
     <Compile Include="Main\IActionBarContainer.cs" />
+    <Compile Include="Main\ITaskAwaiter.cs" />
     <Compile Include="Main\IUrlHandler.cs" />
     <Compile Include="Main\IDataStorage.cs" />
     <Compile Include="Main\IErrorHandler.cs" />
@@ -124,8 +125,6 @@
     <Compile Include="ViewHolders\FanViewHolder.cs" />
     <Compile Include="ViewHolders\UnfollowerViewHolder.cs" />
     <Compile Include="Main\IFragmentContainer.cs" />
-    <Compile Include="Fragments\FragmentBase.cs" />
-    <Compile Include="Fragments\RecyclerViewFragmentBase.cs" />
     <Compile Include="Instagram\Account.cs" />
     <Compile Include="Instagram\Accounts.cs" />
     <Compile Include="Fragments\LoginFragment.cs" />
@@ -360,12 +359,12 @@
     <AndroidResource Include="Resources\drawable-v24\ic_group_black_24dp.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_recyclerview_loading.xml">
+    <AndroidResource Include="Resources\layout\view_loading.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_recyclerview_empty.xml">
+    <AndroidResource Include="Resources\layout\view_empty.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -424,7 +423,7 @@
     <AndroidResource Include="Resources\drawable-v24\ic_person_remove_black_48dp.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_recyclerview_error.xml">
+    <AndroidResource Include="Resources\layout\view_error.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

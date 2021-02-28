@@ -16,7 +16,7 @@ namespace Madamin.Unfollow.Main
 
     public partial class MainActivity : IUpdateChecker
     {
-        private UpdateServerApi _updateServer;
+        private UpdateServerApi _updateServer = new UpdateServerApi();
 
         async void IUpdateChecker.CheckForUpdate()
         {
