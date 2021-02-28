@@ -6,7 +6,7 @@ namespace Madamin.Unfollow.Main
 {
     public interface IInstagramAccounts
     {
-        void AddAccount(string userName, string password);
+        Task AddAccountAsync(string userName, string password);
         Task InitializeIfNeededAsync();
         AccountAdapter CreateAccountAdapter(IAccountItemClickListener listener);
         Task RefreshAsync();
@@ -22,9 +22,9 @@ namespace Madamin.Unfollow.Main
     {
         private Accounts _accounts;
 
-        async void IInstagramAccounts.AddAccount(string userName, string password)
+        Task IInstagramAccounts.AddAccountAsync(string userName, string password)
         {
-            await _accounts.AddAccountAsync(userName, password);
+            return _accounts.AddAccountAsync(userName, password);
         }
 
         Task IInstagramAccounts.InitializeIfNeededAsync()

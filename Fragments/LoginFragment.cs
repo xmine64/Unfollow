@@ -70,7 +70,7 @@ namespace Madamin.Unfollow.Fragments
             _privacyPolicyTextView.MovementMethod = LinkMovementMethod.Instance;
         }
 
-        private void LoginButton_Click(object sender, EventArgs e)
+        private async void LoginButton_Click(object sender, EventArgs e)
         {
             var usernameIsNull = string.IsNullOrEmpty(_userNameEditText.Text);
             var passwordIsNull = string.IsNullOrWhiteSpace(_passwordEditText.Text);
@@ -106,7 +106,7 @@ namespace Madamin.Unfollow.Fragments
                 _passwordEditText.Enabled = false;
                 _loginButton.Enabled = false;
 
-                ((IInstagramAccounts)Activity).AddAccount(_userNameEditText.Text, _passwordEditText.Text);
+                await ((IInstagramAccounts)Activity).AddAccountAsync(_userNameEditText.Text, _passwordEditText.Text);
 
 #if TGBUILD || DEBUG
                 ((IUpdateChecker)Activity).DidLogin();
