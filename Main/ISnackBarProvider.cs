@@ -16,18 +16,18 @@ namespace Madamin.Unfollow.Main
         void ISnackBarProvider.ShowSnackBar(int textResource)
         {
             var snack = Snackbar.Make(_mainContainer, textResource, Snackbar.LengthLong);
+            snack.SetAnchorView(Resource.Id.main_navbar);
             snack.Show();
         }
 
         void ISnackBarProvider.ShowSnackBar(int textResource, params Java.Lang.Object[] format)
         {
             var snack = Snackbar.Make(_mainContainer, GetString(textResource, format), Snackbar.LengthLong);
+            snack.SetAnchorView(Resource.Id.main_navbar);
             snack.Show();
         }
 
-        void ISnackBarProvider.ShowSnackBar(int textResource,
-            int buttonTextResource,
-            Action<View> action)
+        void ISnackBarProvider.ShowSnackBar(int textResource, int buttonTextResource, Action<View> action)
         {
             var snack = Snackbar.Make(_mainContainer, textResource, Snackbar.LengthLong);
             snack.SetAnchorView(Resource.Id.main_navbar);
