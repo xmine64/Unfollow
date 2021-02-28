@@ -66,7 +66,11 @@ namespace Madamin.Unfollow.Fragments
                 ((ISnackBarProvider)Activity).ShowSnackBar(Resource.String.msg_logged_out,
                     instagramException.Account.Data.User.Username);
 
-                if (_adapter.ItemCount <= 0)
+                if (_adapter.ItemCount > 0)
+                {
+                    ((IFragmentContainer)Activity).ShowContentView();
+                }
+                else
                 {
                     ((IFragmentContainer)Activity).ShowEmptyView();
 
@@ -89,6 +93,11 @@ namespace Madamin.Unfollow.Fragments
                 {
                     ((IFragmentContainer)Activity).ShowEmptyView();
                 }
+            }
+            else if (args is ChallengeException challenge)
+            {
+                var challengeFragment = new ChallengeFragment(challenge.Account);
+                ((IFragmentContainer)Activity).PushFragment(challengeFragment);
             }
             else
             {

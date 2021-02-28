@@ -211,6 +211,8 @@ namespace Madamin.Unfollow.Instagram
 
             // request user data
             var userEditReq = await _api.AccountProcessor.GetRequestForEditProfileAsync();
+            if (userEditReq.Info.NeedsChallenge)
+                throw new ChallengeException(this);
             if (!userEditReq.Succeeded)
                 throw userEditReq.Info.Exception ??
                       new InstagramException(this, userEditReq.Info.Message);
