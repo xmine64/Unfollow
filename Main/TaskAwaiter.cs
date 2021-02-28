@@ -15,13 +15,17 @@ namespace Madamin.Unfollow.Main
         public async void AwaitTask(Task task)
         {
             if (task == null)
+            { 
+                TaskDone?.Invoke(this, null);
                 return;
+            }
 
             _container.ShowLoadingView();
 
             try
             {
                 await task;
+                _container.ShowContentView();
             }
             catch (Exception exception)
             {
@@ -36,8 +40,6 @@ namespace Madamin.Unfollow.Main
             }
 
             TaskDone?.Invoke(this, null);
-
-            _container.ShowContentView();
         }
 
         public event EventHandler TaskDone;

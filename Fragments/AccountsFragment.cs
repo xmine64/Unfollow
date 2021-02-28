@@ -44,6 +44,8 @@ namespace Madamin.Unfollow.Fragments
             // TODO: EmptyText = GetString(Resource.String.msg_no_account);
             // TODO: SetEmptyImage(Resource.Drawable.ic_person_add_black_48dp);
 
+            _tipShown = ((IPreferenceContainer)Activity).GetBoolean(PreferenceKeyTipIsShown, false);
+
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.fragment_recyclerview_view);
 
             _adapter = ((IInstagramAccounts)Activity).CreateAccountAdapter(this);
@@ -54,40 +56,6 @@ namespace Madamin.Unfollow.Fragments
             _taskAwaiter.Error += TaskAwaiter_Error;
 
             _taskAwaiter.AwaitTask(((IInstagramAccounts)Activity).InitializeIfNeededAsync());
-
-            if (!_didRefresh)
-            {
-                _didRefresh = true;
-                if (((IPreferenceContainer)Activity).GetBoolean(PreferenceKeyAutoRefresh, true))
-                {
-                    _taskAwaiter.AwaitTask(((IInstagramAccounts)Activity).RefreshAsync());
-                }
-            }
-            else if (_adapter.ItemCount <= 0)
-            {
-                ((IFragmentContainer)Activity).ShowEmptyView();
-
-                // Push LoginFragment on first run
-                if (!_hasPushedToLoginFragment)
-                {
-                    ((IFragmentContainer)Activity).PushFragment(new LoginFragment());
-                    _hasPushedToLoginFragment = true;
-                }
-            }
-
-            // Show tip on first run
-            _tipShown = ((IPreferenceContainer)Activity).GetBoolean(PreferenceKeyTipIsShown, false);
-            if (!_tipShown)
-            {
-                var dialog = new MaterialAlertDialogBuilder(Activity);
-                dialog.SetTitle(Resource.String.title_tip);
-                dialog.SetMessage(Resource.String.msg_tip);
-                dialog.Show();
-
-                ((IPreferenceContainer)Activity).SetBoolean(PreferenceKeyTipIsShown, true);
-
-                _tipShown = true;
-            }
         }
 
         private void TaskAwaiter_Error(object sender, Exception args)
@@ -123,9 +91,38 @@ namespace Madamin.Unfollow.Fragments
         {
             _adapter.NotifyDataSetChanged();
 
+            if (!_didRefresh)
+            {
+                _didRefresh = true;
+                if (((IPreferenceContainer)Activity).GetBoolean(PreferenceKeyAutoRefresh, true))
+                {
+                    _taskAwaiter.AwaitTask(((IInstagramAccounts)Activity).RefreshAsync());
+                    return;
+                }
+            }
+            
             if (_adapter.ItemCount <= 0)
             {
                 ((IFragmentContainer)Activity).ShowEmptyView();
+
+                // Push LoginFragment on first run
+                if (!_hasPushedToLoginFragment)
+                {
+                    ((IFragmentContainer)Activity).PushFragment(new LoginFragment());
+                    _hasPushedToLoginFragment = true;
+                }
+            }
+            else if (!_tipShown)
+            {
+                // Show tip on first run
+                var dialog = new MaterialAlertDialogBuilder(Activity);
+                dialog.SetTitle(Resource.String.title_tip);
+                dialog.SetMessage(Resource.String.msg_tip);
+                dialog.Show();
+
+                ((IPreferenceContainer)Activity).SetBoolean(PreferenceKeyTipIsShown, true);
+
+                _tipShown = true;
             }
         }
 
