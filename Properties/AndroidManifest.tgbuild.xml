@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="16"
-    android:versionName="0.8.2.0-tgbuild" package="madamin.unfollow" android:installLocation="auto">
+    xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="18"
+    android:versionName="0.9.0.0-tgbuild" package="madamin.unfollow" android:installLocation="auto">
     <uses-sdk
         android:minSdkVersion="21" android:targetSdkVersion="30" />
     <application
