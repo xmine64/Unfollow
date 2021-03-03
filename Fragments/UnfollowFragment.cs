@@ -60,7 +60,7 @@ namespace Madamin.Unfollow.Fragments
 
             _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.fragment_recyclerview_view);
 
-            _adapter = new UnfollowerAdapter(_account, this);
+            _adapter = new UnfollowerAdapter(_account, (ICacheProvider)Activity, this);
             _recyclerView.SetAdapter(_adapter);
 
             var whitelistFileName = GetWhitelistFileName();

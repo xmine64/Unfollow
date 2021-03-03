@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using Java.Util;
 using Android.App;
 using Android.Views;
@@ -113,6 +115,8 @@ namespace Madamin.Unfollow.Main
 
             _accounts = new Accounts(accountsDir, cacheDir);
 
+            _client = new HttpClient();
+
             if (savedInstanceState != null)
             {
                 // TODO: Load Accounts Data
@@ -146,6 +150,7 @@ namespace Madamin.Unfollow.Main
         {
             base.OnDestroy();
             _updateServer.Dispose();
+            _client.Dispose();
         }
 
         private void OnBackStackChanged(object sender, EventArgs e)

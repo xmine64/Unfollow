@@ -5,20 +5,25 @@ using Android.Views;
 using AndroidX.RecyclerView.Widget;
 
 using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.Main;
 using Madamin.Unfollow.ViewHolders;
 
 namespace Madamin.Unfollow.Adapters
 {
     internal class UnfollowerAdapter : RecyclerView.Adapter
     {
+        private readonly Account _data;
 
-        public UnfollowerAdapter(
-            Account data,
-            IUnfollowerItemClickListener listener)
+        private readonly IUnfollowerItemClickListener _listener;
+        private readonly ICacheProvider _cacheProvider;
+        private readonly List<User> _unfollowersCache;
+
+        public UnfollowerAdapter(Account data, ICacheProvider cacheProvider, IUnfollowerItemClickListener listener)
         {
             _data = data;
             _listener = listener;
             _unfollowersCache = new List<User>();
+            _cacheProvider = cacheProvider;
         }
 
         public override int ItemCount => _unfollowersCache.Count;
@@ -43,7 +48,7 @@ namespace Madamin.Unfollow.Adapters
                 Resource.Layout.item_user,
                 parent,
                 false);
-            return new UnfollowerViewHolder(viewItem, _listener);
+            return new UnfollowerViewHolder(viewItem, _cacheProvider , _listener);
         }
 
         public User GetItem(int position)
@@ -84,10 +89,5 @@ namespace Madamin.Unfollow.Adapters
         {
             return SelectedItems.Select(pos => _unfollowersCache[pos]).ToArray();
         }
-
-        private readonly Account _data;
-
-        private readonly IUnfollowerItemClickListener _listener;
-        private readonly List<User> _unfollowersCache;
     }
 }

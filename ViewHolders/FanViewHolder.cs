@@ -1,14 +1,12 @@
 ﻿using System;
-
+using System.Net;
+using Android.Graphics;
 using Android.Views;
-
+using Android.Widget;
 using AndroidX.AppCompat.View;
 using AndroidX.AppCompat.View.Menu;
 using AndroidX.RecyclerView.Widget;
-
-using Google.Android.Material.TextView;
 using Google.Android.Material.Card;
-
 using Madamin.Unfollow.Instagram;
 
 namespace Madamin.Unfollow.ViewHolders
@@ -17,14 +15,21 @@ namespace Madamin.Unfollow.ViewHolders
         RecyclerView.ViewHolder,
         MenuBuilder.ICallback
     {
-        public FanViewHolder(
-            View item,
-            IFanItemClickListener listener) 
-            : base(item)
+        private readonly MaterialCardView _card;
+        private readonly TextView _fullNameTextView;
+        private readonly TextView _userNameTextView;
+        private readonly ImageView _avatarImageView;
+
+        private readonly MenuPopupHelper _popup;
+
+        private readonly IFanItemClickListener _listener;
+
+        public FanViewHolder(View item, IFanItemClickListener listener) : base(item)
         {
             _card = item.FindViewById<MaterialCardView>(Resource.Id.item_user_card);
-            _tvFullName = item.FindViewById<MaterialTextView>(Resource.Id.item_user_fullname);
-            _tvUserName = item.FindViewById<MaterialTextView>(Resource.Id.item_user_username);
+            _fullNameTextView = item.FindViewById<TextView>(Resource.Id.item_user_fullname);
+            _userNameTextView = item.FindViewById<TextView>(Resource.Id.item_user_username);
+            _avatarImageView = item.FindViewById<ImageView>(Resource.Id.item_user_avatar);
 
             var menu = new MenuBuilder(ItemView.Context);
             menu.SetCallback(this);
@@ -48,9 +53,12 @@ namespace Madamin.Unfollow.ViewHolders
 
         public void BindData(User user, bool selected)
         {
-            _tvFullName.Text = user.Fullname;
-            _tvUserName.Text = "@" + user.Username;
+            _fullNameTextView.Text = user.Fullname;
+            _userNameTextView.Text = "@" + user.Username;
             _card.Checked = selected;
+            using var webClient = new WebClient();
+            var profile = webClient.DownloadData(user.ProfilePhotoUrl);
+            _avatarImageView.SetImageBitmap(BitmapFactory.DecodeByteArray(profile, 0, profile.Length));
         }
 
         private void Item_Click(object sender, EventArgs e)
@@ -71,7 +79,7 @@ namespace Madamin.Unfollow.ViewHolders
             _popup.Show();
         }
 
-        public bool OnMenuItemSelected(MenuBuilder builder, IMenuItem item)
+        bool MenuBuilder.ICallback.OnMenuItemSelected(MenuBuilder builder, IMenuItem item)
         {
             switch (item.ItemId)
             {
@@ -92,15 +100,7 @@ namespace Madamin.Unfollow.ViewHolders
             }
         }
 
-        public void OnMenuModeChange(MenuBuilder builder) {}
-
-        private readonly MaterialTextView _tvFullName;
-        private readonly MaterialTextView _tvUserName;
-        private readonly MaterialCardView _card;
-
-        private readonly MenuPopupHelper _popup;
-
-        private readonly IFanItemClickListener _listener;
+        void MenuBuilder.ICallback.OnMenuModeChange(MenuBuilder builder) {}
     }
 
     internal interface IFanItemClickListener

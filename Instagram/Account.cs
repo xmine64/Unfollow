@@ -220,7 +220,8 @@ namespace Madamin.Unfollow.Instagram
             var user = new User(
                 userEditReq.Value.Pk,
                 userEditReq.Value.Username,
-                userEditReq.Value.FullName);
+                userEditReq.Value.FullName,
+                userEditReq.Value.ProfilePicUrl);
 
             // request user followers
             var followersReq = await _api.UserProcessor
@@ -230,7 +231,7 @@ namespace Madamin.Unfollow.Instagram
                       new InstagramException(this, followersReq.Info.Message);
 
             var followers = from follower in followersReq.Value
-                select new User(follower.Pk, follower.UserName, follower.FullName);
+                select new User(follower.Pk, follower.UserName, follower.FullName, follower.ProfilePicUrl);
 
             // request user followings
             var followingsReq = await _api.UserProcessor
@@ -242,7 +243,7 @@ namespace Madamin.Unfollow.Instagram
                       new InstagramException(this, followersReq.Info.Message);
 
             var followings = from following in followingsReq.Value
-                select new User(following.Pk, following.UserName, following.FullName);
+                select new User(following.Pk, following.UserName, following.FullName, following.ProfilePicUrl);
 
             // save data
             Data = new AccountData(user, followers, followings);
@@ -339,16 +340,19 @@ namespace Madamin.Unfollow.Instagram
         public User(
             long userid,
             string username,
-            string fullname)
+            string fullname,
+            string profilePhotoUrl)
         {
             Id = userid;
             Username = username;
             Fullname = fullname;
+            ProfilePhotoUrl = profilePhotoUrl;
         }
 
         public string Username { get; }
         public string Fullname { get; }
         public long Id { get; }
+        public string ProfilePhotoUrl { get; }
 
         public override bool Equals(object obj)
         {

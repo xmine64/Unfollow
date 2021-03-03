@@ -1,26 +1,42 @@
 ﻿using System;
+using System.Net;
+using Android.Graphics;
 using Android.Views;
+using Android.Widget;
 using AndroidX.AppCompat.View;
 using AndroidX.AppCompat.View.Menu;
 using AndroidX.RecyclerView.Widget;
-using Google.Android.Material.TextView;
 using Google.Android.Material.Card;
 using Madamin.Unfollow.Instagram;
+using Madamin.Unfollow.Main;
 
 namespace Madamin.Unfollow.ViewHolders
 {
-    internal class UnfollowerViewHolder :
-        RecyclerView.ViewHolder,
-        MenuBuilder.ICallback
+    internal class UnfollowerViewHolder : RecyclerView.ViewHolder, MenuBuilder.ICallback
     {
-        public UnfollowerViewHolder(
-            View item,
-            IUnfollowerItemClickListener listener)
-            : base(item)
+        private readonly MaterialCardView _card;
+        private readonly TextView _fullNameTextView;
+        private readonly TextView _userNameTextView;
+        private readonly ImageView _avatarImageView;
+
+        private readonly MenuPopupHelper _popup;
+
+        private readonly IUnfollowerItemClickListener _listener;
+        private readonly ICacheProvider _cacheProvider;
+
+        private Bitmap _avatarBitmap;
+
+        public TextView FullNameTextView => _fullNameTextView;
+
+        public UnfollowerViewHolder(View item, ICacheProvider cacheProvider, IUnfollowerItemClickListener listener) : base(item)
         {
+            _cacheProvider = cacheProvider;
+            _listener = listener;
+
             _card = item.FindViewById<MaterialCardView>(Resource.Id.item_user_card);
-            _tvFullName = item.FindViewById<MaterialTextView>(Resource.Id.item_user_fullname);
-            _tvUserName = item.FindViewById<MaterialTextView>(Resource.Id.item_user_username);
+            _fullNameTextView = item.FindViewById<TextView>(Resource.Id.item_user_fullname);
+            _userNameTextView = item.FindViewById<TextView>(Resource.Id.item_user_username);
+            _avatarImageView = item.FindViewById<ImageView>(Resource.Id.item_user_avatar);
 
             var menu = new MenuBuilder(ItemView.Context);
             menu.SetCallback(this);
@@ -32,21 +48,21 @@ namespace Madamin.Unfollow.ViewHolders
             _popup.SetAnchorView(optionMenuButton);
             _popup.SetForceShowIcon(true);
 
-            _listener = listener;
-
-            if (_card == null || optionMenuButton == null)
-                return;
-
             _card.Click += Item_Click;
             _card.LongClick += Item_LongClick;
             optionMenuButton.Click += More_Click;
         }
 
-        public void BindData(User user, bool selected)
+        public async void BindData(User user, bool selected)
         {
-            _tvFullName.Text = user.Fullname;
-            _tvUserName.Text = "@" + user.Username;
+            if (_avatarBitmap != null)
+                _avatarBitmap.Dispose();
+            _fullNameTextView.Text = user.Fullname;
+            _userNameTextView.Text = "@" + user.Username;
             _card.Checked = selected;
+            await _cacheProvider.FetchIfRequired(user.ProfilePhotoUrl);
+            _avatarBitmap = await _cacheProvider.ReadBitmapFromCache(user.ProfilePhotoUrl);
+            _avatarImageView.SetImageBitmap(_avatarBitmap);
         }
 
         private void Item_Click(object sender, EventArgs e)
@@ -91,17 +107,7 @@ namespace Madamin.Unfollow.ViewHolders
             }
         }
 
-        public void OnMenuModeChange(MenuBuilder builder)
-        {
-        }
-
-        private readonly MaterialTextView _tvFullName;
-        private readonly MaterialTextView _tvUserName;
-        private readonly MaterialCardView _card;
-
-        private readonly MenuPopupHelper _popup;
-
-        private readonly IUnfollowerItemClickListener _listener;
+        public void OnMenuModeChange(MenuBuilder builder) {}
     }
 
     internal interface IUnfollowerItemClickListener
