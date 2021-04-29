@@ -92,7 +92,7 @@
     <string name="desc_avatar">Avatar</string>
 
     <string name="title_tip">Tip</string>
-    <string name="msg_tip">Press on your account to see your unfollowers,\nPress and Hold to see other options.\nPress on "+" (Plus) button to add more accounts.</string>
+    <string name="msg_tip">Press on your account to see your unfollowers,\nPress and Hold to see other options.\nPress on "+" (Plus) button to add more accounts.\nUsing batch unfollow with a lot of accounts may ban your account.</string>
 
     <string name="title_2fa">Two Factor Authentication</string>
     <string name="msg_2fa_details">A message containing an OTP code has been sent to you.</string>

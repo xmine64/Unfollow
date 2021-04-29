@@ -30,10 +30,12 @@
         <SwitchPreference
             app:key="auto_update_check"
             app:title="@string/title_auto_update_check"
-            app:defaultValue="true"/>
+            app:defaultValue="true"
+            app:isPreferenceVisible="false" />
         <Preference
             app:key="update_check"
-            app:title="@string/title_update_check" />
+            app:title="@string/title_update_check"
+            app:isPreferenceVisible="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -43,7 +45,8 @@
             app:title="@string/title_terms" />
         <Preference
             app:key="donate"
-            app:title="@string/title_donate" />
+            app:title="@string/title_donate"
+            app:isPreferenceVisible="false"/>
         <Preference
             app:key="about"
             app:title="@string/title_about" />

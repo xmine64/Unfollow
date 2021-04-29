@@ -120,11 +120,6 @@
     <Compile Include="Main\IUpdateChecker.cs" />
     <Compile Include="Main\IVersionProvider.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="UpdateServer\ApiRequest.cs" />
-    <Compile Include="UpdateServer\ApiResponse.cs" />
-    <Compile Include="UpdateServer\Constants.cs" />
-    <Compile Include="UpdateServer\UpdateInformation.cs" />
-    <Compile Include="UpdateServer\UpdateServerApi.cs" />
     <Compile Include="ViewHolders\AccountViewHolder.cs" />
     <Compile Include="ViewHolders\FanViewHolder.cs" />
     <Compile Include="ViewHolders\UnfollowerViewHolder.cs" />

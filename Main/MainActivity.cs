@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using Java.Util;
 using Android.App;
@@ -137,19 +136,11 @@ namespace Madamin.Unfollow.Main
                 .BeginTransaction()
                 .Add(Resource.Id.main_container, _accountsFragment)
                 .Commit();
-
-            if (((IPreferenceContainer)this).GetBoolean(
-                SettingsFragment.PreferenceKeyAutoUpdate,
-                true))
-            {
-                ((IUpdateChecker)this).CheckForUpdate();
-            }
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            _updateServer.Dispose();
             _client.Dispose();
         }
 
