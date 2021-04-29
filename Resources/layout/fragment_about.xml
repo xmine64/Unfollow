@@ -99,6 +99,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_about_telegram"
+        android:visibility="gone"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -110,6 +111,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_about_instagram"
+        android:visibility="gone"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:cornerRadius="20dp"
@@ -120,6 +122,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_about_github"
+        android:visibility="gone"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:cornerRadius="20dp"
