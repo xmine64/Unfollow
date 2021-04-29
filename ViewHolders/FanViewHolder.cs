@@ -63,15 +63,15 @@ namespace Madamin.Unfollow.ViewHolders
 
         private void Item_Click(object sender, EventArgs e)
         {
-            if (!_listener.OnItemClick(AdapterPosition))
+            if (!_listener.OnItemClick(BindingAdapterPosition))
             {
-                _listener.OnItemOpen(AdapterPosition);
+                _listener.OnItemOpen(BindingAdapterPosition);
             }
         }
 
         private void Item_LongClick(object sender, View.LongClickEventArgs e)
         {
-            _listener.OnItemLongClick(AdapterPosition);
+            _listener.OnItemLongClick(BindingAdapterPosition);
         }
 
         private void More_Click(object sender, EventArgs e)
@@ -84,16 +84,16 @@ namespace Madamin.Unfollow.ViewHolders
             switch (item.ItemId)
             {
                 case Resource.Id.popup_fan_item_open:
-                    _listener.OnItemOpen(AdapterPosition);
+                    _listener.OnItemOpen(BindingAdapterPosition);
                     return true;
                 case Resource.Id.popup_fan_item_select:
-                    _listener.OnItemSelect(AdapterPosition);
+                    _listener.OnItemSelect(BindingAdapterPosition);
                     return true;
                 case Resource.Id.popup_fan_item_follow:
-                    _listener.OnItemFollow(AdapterPosition);
+                    _listener.OnItemFollow(BindingAdapterPosition);
                     return true;
                 case Resource.Id.popup_fan_item_add_whitelist:
-                    _listener.OnItemAddToWhitelist(AdapterPosition);
+                    _listener.OnItemAddToWhitelist(BindingAdapterPosition);
                     return true;
                 default:
                     return false;

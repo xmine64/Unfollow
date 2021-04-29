@@ -62,7 +62,7 @@ namespace Madamin.Unfollow.ViewHolders
 
         private void Item_Click(object sender, EventArgs e)
         {
-            _listener.OnItemOpenUnfollowers(AdapterPosition);
+            _listener.OnItemOpenUnfollowers(BindingAdapterPosition);
         }
 
         private void Item_LongClick(object sender, EventArgs e)
@@ -75,19 +75,19 @@ namespace Madamin.Unfollow.ViewHolders
             switch (item.ItemId)
             {
                 case Resource.Id.popup_account_item_unfollowers:
-                    _listener.OnItemOpenUnfollowers(AdapterPosition);
+                    _listener.OnItemOpenUnfollowers(BindingAdapterPosition);
                     return true;
                 case Resource.Id.popup_account_item_fans:
-                    _listener.OnItemOpenFans(AdapterPosition);
+                    _listener.OnItemOpenFans(BindingAdapterPosition);
                     return true;
                 case Resource.Id.popup_account_item_open:
-                    _listener.OnItemOpenInstagram(AdapterPosition);
+                    _listener.OnItemOpenInstagram(BindingAdapterPosition);
                     return true;
                 case Resource.Id.popup_account_item_logout:
-                    _listener.OnItemLogout(AdapterPosition);
+                    _listener.OnItemLogout(BindingAdapterPosition);
                     return true;
                 case Resource.Id.popup_account_item_refresh:
-                    _listener.OnItemRefresh(AdapterPosition);
+                    _listener.OnItemRefresh(BindingAdapterPosition);
                     return true;
                 default:
                     return false;
